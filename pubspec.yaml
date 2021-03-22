@@ -18,13 +18,15 @@ dependencies:
   mobx: ^1.2.1+4
   flutter_mobx: ^1.1.0+2
   flutter_modular: ^3.0.1
-  http: ^0.13.0
+  http: ^0.13.1
+  hive: ^2.0.0
+  hive_flutter: ^1.0.0
+  path_provider: ^2.0.1
   connectivity: ^3.0.2
   shared_preferences: ^2.0.4
 
-  pull_to_refresh: ^1.6.4
-
 dev_dependencies:
+  hive_generator:
   mobx_codegen:
   build_runner:
   flutter_test:
