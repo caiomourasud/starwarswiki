@@ -1,6 +1,6 @@
-String filmsBox = 'filmsBox';
-String peopleBox = 'peopleBox';
-String planetsBox = 'planetsBox';
-String speciesBox = 'speciesBox';
-String starshipsBox = 'starshipsBox';
-String vehiclesBox = 'vehiclesBox';
+const String filmsBox = 'filmsBox';
+const String peopleBox = 'peopleBox';
+const String planetsBox = 'planetsBox';
+const String speciesBox = 'speciesBox';
+const String starshipsBox = 'starshipsBox';
+const String vehiclesBox = 'vehiclesBox';

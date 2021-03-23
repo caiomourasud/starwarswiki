@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:starwarswiki/app/pages/films/film_details/film_details_page.dart';
 import 'package:starwarswiki/code/config.dart';
 import 'package:starwarswiki/db/film_table.dart';
 
@@ -17,10 +18,14 @@ class FilmsPage extends StatefulWidget {
 
 class _FilmsPageState extends State<FilmsPage> {
   @override
-  Widget build(BuildContext context) {
-    listFilmes.clear();
+  void initState() {
+    // listFilmes.clear();
     getFilms();
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(CupertinoIcons.person_add_solid),
@@ -28,28 +33,34 @@ class _FilmsPageState extends State<FilmsPage> {
           // listFilmes.clear();
         }),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: listFilmes.values
-              .map((film) => ListTile(
-                  title: Text(film.title),
-                  subtitle: Text('${film.id}'),
-                  onTap: () {}))
-              .toList(),
+      body: Scrollbar(
+        child: SingleChildScrollView(
+          child: Column(
+            children: listFilmes.values
+                .map((film) => ListTile(
+                    title: Text(film.title),
+                    subtitle: Text('${film.id}'),
+                    onTap: () => Navigator.push(context,
+                            CupertinoPageRoute(builder: (context) {
+                          return new FilmDetailsPage(film: film);
+                        }))))
+                .toList(),
+          ),
         ),
       ),
     );
   }
-}
 
-void getFilms() async {
-  String _url = 'https://swapi.dev/api/films/';
-  var resposta = await http.get(Uri.parse(_url));
-  var jsonData = jsonDecode(resposta.body);
-  Iterable films = jsonData['results'];
-  if (listFilmes.values.isEmpty) {
-    films.map((film) {
-      listFilmes.add(FilmTable.fromJson(film));
-    }).toList();
+  void getFilms() async {
+    String _url = 'https://swapi.dev/api/films/';
+    var resposta = await http.get(Uri.parse(_url));
+    var jsonData = jsonDecode(resposta.body);
+    Iterable films = jsonData['results'];
+    if (listFilmes.values.isEmpty) {
+      films.map((film) {
+        listFilmes.add(FilmTable.fromJson(film));
+      }).toList();
+    }
+    setState(() {});
   }
 }

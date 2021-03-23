@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starwarswiki/app/pages/characters/characters_page.dart';
 import 'package:starwarswiki/app/pages/films/films_page.dart';
 
@@ -19,41 +20,41 @@ List<Destination> allDestinations = <Destination>[
         page: FilmsPage(),
         actionList: [],
       ),
-      icon: Icons.home,
+      icon: CupertinoIcons.film,
       tooltip: 'Films'),
   Destination(
       pagina: DefaultView(
         page: CharactersPage(),
         actionList: [],
       ),
-      icon: Icons.person,
+      icon: CupertinoIcons.rectangle_stack_person_crop_fill,
       tooltip: 'Characters'),
   Destination(
       pagina: DefaultView(
         page: FilmsPage(),
         actionList: [],
       ),
-      icon: Icons.today,
+      icon: CupertinoIcons.globe,
       tooltip: 'Planets'),
   Destination(
       pagina: DefaultView(
         page: FilmsPage(),
         actionList: [],
       ),
-      icon: Icons.forum,
+      icon: FontAwesomeIcons.dna,
       tooltip: 'Species'),
   Destination(
       pagina: DefaultView(
         page: FilmsPage(),
         actionList: [],
       ),
-      icon: Icons.all_inbox_rounded,
+      icon: CupertinoIcons.rocket_fill,
       tooltip: 'Starships'),
   Destination(
       pagina: DefaultView(
         page: FilmsPage(),
         actionList: [],
       ),
-      icon: Icons.settings,
+      icon: FontAwesomeIcons.motorcycle,
       tooltip: 'Vehicles')
 ];

@@ -14,46 +14,43 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: LayoutBuilder(builder: (context, dimens) {
-              return Scaffold(
-                bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight
-                    ? BottomNavigationBar(
-                        showSelectedLabels: false,
-                        showUnselectedLabels: false,
-                        type: BottomNavigationBarType.fixed,
-                        currentIndex: indexSelected,
-                        onTap: (int index) {
-                          FocusScope.of(context).unfocus();
-                          setState(() {
-                            indexSelected = index;
-                          });
-                        },
-                        items: allDestinations.map((destination) {
-                          return BottomNavigationBarItem(
-                              tooltip: destination.tooltip,
-                              icon: Stack(
-                                children: <Widget>[
-                                  Icon(destination.icon),
-                                ],
-                              ),
-                              label: '');
-                        }).toList(),
-                      )
-                    : null,
-                body: Row(
-                  children: [
-                    _leftMenu(dimens),
-                    VerticalDivider(
-                      width: 0.1,
-                    ),
-                    Expanded(child: _buildBody()),
-                  ],
+    return GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: LayoutBuilder(builder: (context, dimens) {
+          return Scaffold(
+            bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight
+                ? BottomNavigationBar(
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: indexSelected,
+                    onTap: (int index) {
+                      FocusScope.of(context).unfocus();
+                      _onTap(index);
+                    },
+                    items: allDestinations.map((destination) {
+                      return BottomNavigationBarItem(
+                          tooltip: destination.tooltip,
+                          icon: Stack(
+                            children: <Widget>[
+                              Icon(destination.icon),
+                            ],
+                          ),
+                          label: '');
+                    }).toList(),
+                  )
+                : null,
+            body: Row(
+              children: [
+                _leftMenu(dimens),
+                VerticalDivider(
+                  width: 0.1,
                 ),
-              );
-            })));
+                Expanded(child: _buildBody()),
+              ],
+            ),
+          );
+        }));
   }
 
   void _onTap(int index) {
@@ -62,6 +59,28 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         indexSelected = index;
       });
+
+    // switch (index) {
+    //   case 0:
+    //     Modular.to.pushNamed('/films');
+    //     break;
+    //   case 1:
+    //     Modular.to.pushNamed('/characters');
+    //     break;
+    //   case 2:
+    //     Modular.to.pushNamed('/planets');
+    //     break;
+    //   case 3:
+    //     Modular.to.pushNamed('/species');
+    //     break;
+    //   case 4:
+    //     Modular.to.pushNamed('/starships');
+    //     break;
+    //   case 5:
+    //     Modular.to.pushNamed('/vahicles');
+    //     break;
+    //   default:
+    // }
   }
 
   _buildBody() {
@@ -94,6 +113,9 @@ class _HomePageState extends State<HomePage> {
           child: IntrinsicHeight(
             child: Material(
               child: NavigationRail(
+                  unselectedIconTheme: Theme.of(context).iconTheme,
+                  selectedIconTheme:
+                      IconThemeData(color: Theme.of(context).accentColor),
                   backgroundColor: Colors.transparent,
                   labelType: NavigationRailLabelType.none,
                   // unselectedIconTheme: IconThemeData(color: Colors.grey[800]),
