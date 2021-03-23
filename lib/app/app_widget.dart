@@ -5,9 +5,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/utils/preferences.dart';
+
+import 'pages/characters/characters_controller.dart';
+
+final _charactersController = Modular.get<CharactersController>();
 
 final Connectivity _connectivity = Connectivity();
 late StreamSubscription<ConnectivityResult> connectivitySubscription;
+
+StorageUtil prefs = StorageUtil();
 
 class AppWidget extends StatefulWidget {
   @override
@@ -66,6 +73,17 @@ class _AppWidgetState extends State<AppWidget> {
       case ConnectivityResult.mobile:
       case ConnectivityResult.none:
         print(result.toString());
+        _charactersController.peopleFromDB();
+        if (_charactersController.people.isEmpty) {
+          _charactersController.getPeople();
+        } else {
+          prefs.getString('next').then((data) {
+            if (data != '') {
+              _charactersController.getMorePeople(data);
+            }
+          });
+        }
+
         break;
       default:
         print(result.toString());

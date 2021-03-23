@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'starship_table.g.dart';
+part 'starship.g.dart';
 
 @HiveType(typeId: 4)
-class StarshipTable extends HiveObject {
+class Starship extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -44,7 +44,7 @@ class StarshipTable extends HiveObject {
   @HiveField(18)
   String url = '';
 
-  StarshipTable(
+  Starship(
       {required this.id,
       required this.name,
       required this.model,
@@ -65,7 +65,7 @@ class StarshipTable extends HiveObject {
       required this.edited,
       required this.url});
 
-  StarshipTable.fromJson(Map<String, dynamic> json) {
+  Starship.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'starships');
     name = json['name'];
     model = json['model'];

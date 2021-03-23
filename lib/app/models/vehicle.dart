@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'vehicle_table.g.dart';
+part 'vehicle.g.dart';
 
 @HiveType(typeId: 5)
-class VehicleTable extends HiveObject {
+class Vehicle extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -40,7 +40,7 @@ class VehicleTable extends HiveObject {
   @HiveField(16)
   String url = '';
 
-  VehicleTable(
+  Vehicle(
       {required this.id,
       required this.name,
       required this.model,
@@ -59,7 +59,7 @@ class VehicleTable extends HiveObject {
       required this.edited,
       required this.url});
 
-  VehicleTable.fromJson(Map<String, dynamic> json) {
+  Vehicle.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'vehicles');
     name = json['name'];
     model = json['model'];

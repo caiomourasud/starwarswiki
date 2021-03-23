@@ -8,12 +8,12 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
-import 'db/film_table.dart';
-import 'db/people_table.dart';
-import 'db/planet_table.dart';
-import 'db/specie_table.dart';
-import 'db/starship_table.dart';
-import 'db/vehicle_table.dart';
+import 'app/models/film.dart';
+import 'app/models/people.dart';
+import 'app/models/planet.dart';
+import 'app/models/specie.dart';
+import 'app/models/starship.dart';
+import 'app/models/vehicle.dart';
 
 import 'code/config.dart';
 
@@ -34,18 +34,18 @@ void main() async {
   }
 
   Hive
-    ..registerAdapter(FilmTableAdapter())
-    ..registerAdapter(PeopleTableAdapter())
-    ..registerAdapter(PlanetTableAdapter())
-    ..registerAdapter(SpecieTableAdapter())
-    ..registerAdapter(StarshipTableAdapter())
-    ..registerAdapter(VehicleTableAdapter());
-  await Hive.openBox<FilmTable>(filmsBox);
-  await Hive.openBox<PeopleTable>(peopleBox);
-  await Hive.openBox<PlanetTable>(planetsBox);
-  await Hive.openBox<SpecieTable>(speciesBox);
-  await Hive.openBox<StarshipTable>(starshipsBox);
-  await Hive.openBox<VehicleTable>(vehiclesBox);
+    ..registerAdapter(FilmAdapter())
+    ..registerAdapter(PeopleAdapter())
+    ..registerAdapter(PlanetAdapter())
+    ..registerAdapter(SpecieAdapter())
+    ..registerAdapter(StarshipAdapter())
+    ..registerAdapter(VehicleAdapter());
+  await Hive.openBox<Film>(filmsBox);
+  await Hive.openBox<People>(peopleBox);
+  await Hive.openBox<Planet>(planetsBox);
+  await Hive.openBox<Specie>(speciesBox);
+  await Hive.openBox<Starship>(starshipsBox);
+  await Hive.openBox<Vehicle>(vehiclesBox);
 
   runApp(ModularApp(module: AppModule(), child: AppWidget()));
 }

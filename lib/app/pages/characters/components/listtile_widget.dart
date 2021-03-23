@@ -2,22 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/utils/conversores.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
-import 'package:starwarswiki/db/people_table.dart';
+import 'package:starwarswiki/app/models/people.dart';
 
 Conversores conversores = Conversores();
 
 class ListTileWidget extends StatelessWidget {
-  final PeopleTable personSelected;
-  final PeopleTable person;
+  final People personSelected;
+  final People person;
   final BoxConstraints dimens;
-  final Function(PeopleTable) onTap;
+  final Function(People) onTap;
+  final Function(int) onFavoriteTap;
 
   const ListTileWidget(
       {Key? key,
       required this.personSelected,
       required this.person,
       required this.dimens,
-      required this.onTap})
+      required this.onTap,
+      required this.onFavoriteTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,7 @@ class ListTileWidget extends StatelessWidget {
                             ? CupertinoIcons.suit_heart_fill
                             : CupertinoIcons.suit_heart,
                         color: Colors.red[600]),
-                    onPressed: () {},
+                    onPressed: () => onFavoriteTap(person.id),
                   ),
                 ),
               )

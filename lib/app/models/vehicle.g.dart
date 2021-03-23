@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'starship_table.dart';
+part of 'vehicle.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StarshipTableAdapter extends TypeAdapter<StarshipTable> {
+class VehicleAdapter extends TypeAdapter<Vehicle> {
   @override
-  final int typeId = 4;
+  final int typeId = 5;
 
   @override
-  StarshipTable read(BinaryReader reader) {
+  Vehicle read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return StarshipTable(
+    return Vehicle(
       id: fields[0] as int,
       name: fields[1] as String,
       model: fields[2] as String,
@@ -28,21 +28,19 @@ class StarshipTableAdapter extends TypeAdapter<StarshipTable> {
       passengers: fields[8] as String,
       cargoCapacity: fields[9] as String,
       consumables: fields[10] as String,
-      hyperdriveRating: fields[11] as String,
-      mGLT: fields[12] as String,
-      starshipClass: fields[13] as String,
-      pilots: (fields[14] as List).cast<String>(),
-      films: (fields[15] as List).cast<String>(),
-      created: fields[16] as String,
-      edited: fields[17] as String,
-      url: fields[18] as String,
+      vehicleClass: fields[11] as String,
+      pilots: (fields[12] as List).cast<String>(),
+      films: (fields[13] as List).cast<String>(),
+      created: fields[14] as String,
+      edited: fields[15] as String,
+      url: fields[16] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, StarshipTable obj) {
+  void write(BinaryWriter writer, Vehicle obj) {
     writer
-      ..writeByte(19)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -66,20 +64,16 @@ class StarshipTableAdapter extends TypeAdapter<StarshipTable> {
       ..writeByte(10)
       ..write(obj.consumables)
       ..writeByte(11)
-      ..write(obj.hyperdriveRating)
+      ..write(obj.vehicleClass)
       ..writeByte(12)
-      ..write(obj.mGLT)
-      ..writeByte(13)
-      ..write(obj.starshipClass)
-      ..writeByte(14)
       ..write(obj.pilots)
-      ..writeByte(15)
+      ..writeByte(13)
       ..write(obj.films)
-      ..writeByte(16)
+      ..writeByte(14)
       ..write(obj.created)
-      ..writeByte(17)
+      ..writeByte(15)
       ..write(obj.edited)
-      ..writeByte(18)
+      ..writeByte(16)
       ..write(obj.url);
   }
 
@@ -89,7 +83,7 @@ class StarshipTableAdapter extends TypeAdapter<StarshipTable> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StarshipTableAdapter &&
+      other is VehicleAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

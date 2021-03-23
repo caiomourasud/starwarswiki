@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'people_table.g.dart';
+part 'people.g.dart';
 
 @HiveType(typeId: 1)
-class PeopleTable extends HiveObject {
+class People extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -42,7 +42,7 @@ class PeopleTable extends HiveObject {
   @HiveField(17)
   bool isFavorite = false;
 
-  PeopleTable(
+  People(
       {required this.id,
       required this.name,
       required this.height,
@@ -62,7 +62,7 @@ class PeopleTable extends HiveObject {
       required this.url,
       this.isFavorite = false});
 
-  PeopleTable.fromJson(Map<String, dynamic> json) {
+  People.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'people');
     name = json['name'];
     height = json['height'];

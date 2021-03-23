@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/pages/films/film_details/film_details_page.dart';
 import 'package:starwarswiki/code/config.dart';
-import 'package:starwarswiki/db/film_table.dart';
+import 'package:starwarswiki/app/models/film.dart';
 
 import 'package:http/http.dart' as http;
 
-Box<FilmTable> listFilmes = Hive.box<FilmTable>(filmsBox);
+Box<Film> listFilmes = Hive.box<Film>(filmsBox);
 
 class FilmsPage extends StatefulWidget {
   @override
@@ -58,7 +58,7 @@ class _FilmsPageState extends State<FilmsPage> {
     Iterable films = jsonData['results'];
     if (listFilmes.values.isEmpty) {
       films.map((film) {
-        listFilmes.add(FilmTable.fromJson(film));
+        listFilmes.add(Film.fromJson(film));
       }).toList();
     }
     setState(() {});

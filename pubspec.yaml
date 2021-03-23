@@ -20,8 +20,6 @@ dependencies:
   flutter_modular: ^3.0.1
   http: ^0.13.1
   hive: ^2.0.0
-  crypto: ^3.0.0
-  analyzer: ^1.2.0
   hive_flutter: ^1.0.0
   path_provider: ^2.0.1
   connectivity: ^3.0.2
@@ -30,9 +28,9 @@ dependencies:
   pull_to_refresh: ^1.6.4
 
 dev_dependencies:
-  hive_generator: ^1.0.0
-  # mobx_codegen: 2.0.0-nullsafety.1
-  build_runner:
+  # hive_generator:
+  mobx_codegen:
+  build_runner: 
   flutter_test:
     sdk: flutter
 

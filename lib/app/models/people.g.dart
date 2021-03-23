@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'people_table.dart';
+part of 'people.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PeopleTableAdapter extends TypeAdapter<PeopleTable> {
+class PeopleAdapter extends TypeAdapter<People> {
   @override
   final int typeId = 1;
 
   @override
-  PeopleTable read(BinaryReader reader) {
+  People read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PeopleTable(
+    return People(
       id: fields[0] as int,
       name: fields[1] as String,
       height: fields[2] as String,
@@ -39,7 +39,7 @@ class PeopleTableAdapter extends TypeAdapter<PeopleTable> {
   }
 
   @override
-  void write(BinaryWriter writer, PeopleTable obj) {
+  void write(BinaryWriter writer, People obj) {
     writer
       ..writeByte(18)
       ..writeByte(0)
@@ -86,7 +86,7 @@ class PeopleTableAdapter extends TypeAdapter<PeopleTable> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PeopleTableAdapter &&
+      other is PeopleAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

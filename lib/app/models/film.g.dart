@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'film_table.dart';
+part of 'film.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class FilmTableAdapter extends TypeAdapter<FilmTable> {
+class FilmAdapter extends TypeAdapter<Film> {
   @override
   final int typeId = 0;
 
   @override
-  FilmTable read(BinaryReader reader) {
+  Film read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FilmTable(
+    return Film(
       id: fields[0] as int,
       title: fields[1] as String,
       episodeId: fields[2] as int,
@@ -36,7 +36,7 @@ class FilmTableAdapter extends TypeAdapter<FilmTable> {
   }
 
   @override
-  void write(BinaryWriter writer, FilmTable obj) {
+  void write(BinaryWriter writer, Film obj) {
     writer
       ..writeByte(15)
       ..writeByte(0)
@@ -77,7 +77,7 @@ class FilmTableAdapter extends TypeAdapter<FilmTable> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FilmTableAdapter &&
+      other is FilmAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

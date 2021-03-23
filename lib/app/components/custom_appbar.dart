@@ -76,7 +76,9 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
           ],
         ),
       ),
-      border: Border.all(color: Colors.transparent),
+      border: position > 142.0 + MediaQuery.of(context).viewPadding.top
+          ? Border(bottom: BorderSide(width: 0, color: Colors.black26))
+          : Border.all(color: Colors.transparent),
     );
   }
 }

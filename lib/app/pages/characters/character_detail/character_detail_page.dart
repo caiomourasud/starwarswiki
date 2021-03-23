@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/db/people_table.dart';
+import 'package:starwarswiki/app/models/people.dart';
 
 class CharacterDetailPage extends StatefulWidget {
-  final PeopleTable character;
+  final People character;
 
   const CharacterDetailPage({Key? key, required this.character})
       : super(key: key);
@@ -14,8 +14,8 @@ class CharacterDetailPage extends StatefulWidget {
 class _CharacterDetailPageState extends State<CharacterDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+    return Scaffold(
+      appBar: CupertinoNavigationBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
@@ -26,7 +26,7 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
                   : Theme.of(context).colorScheme.onPrimary),
         ),
       ),
-      child: Container(),
+      body: Container(),
     );
   }
 }

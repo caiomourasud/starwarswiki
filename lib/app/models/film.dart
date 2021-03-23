@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'film_table.g.dart';
+part 'film.g.dart';
 
 @HiveType(typeId: 0)
-class FilmTable extends HiveObject {
+class Film extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -36,7 +36,7 @@ class FilmTable extends HiveObject {
   @HiveField(14)
   String url = '';
 
-  FilmTable(
+  Film(
       {required this.id,
       required this.title,
       required this.episodeId,
@@ -53,7 +53,7 @@ class FilmTable extends HiveObject {
       required this.edited,
       required this.url});
 
-  FilmTable.fromJson(Map<String, dynamic> json) {
+  Film.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'films');
     title = json['title'];
     episodeId = json['episode_id'];

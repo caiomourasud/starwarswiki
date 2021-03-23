@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'planet_table.g.dart';
+part 'planet.g.dart';
 
 @HiveType(typeId: 2)
-class PlanetTable extends HiveObject {
+class Planet extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -36,7 +36,7 @@ class PlanetTable extends HiveObject {
   @HiveField(14)
   String url = '';
 
-  PlanetTable(
+  Planet(
       {required this.id,
       required this.name,
       required this.rotationPeriod,
@@ -53,7 +53,7 @@ class PlanetTable extends HiveObject {
       required this.edited,
       required this.url});
 
-  PlanetTable.fromJson(Map<String, dynamic> json) {
+  Planet.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'planets');
     name = json['name'];
     rotationPeriod = json['rotation_period'];

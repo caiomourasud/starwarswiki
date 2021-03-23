@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/db/film_table.dart';
+import 'package:starwarswiki/app/models/film.dart';
 
 class FilmDetailsPage extends StatefulWidget {
-  final FilmTable film;
+  final Film film;
 
   const FilmDetailsPage({Key? key, required this.film}) : super(key: key);
   @override

@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'specie_table.dart';
+part of 'specie.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SpecieTableAdapter extends TypeAdapter<SpecieTable> {
+class SpecieAdapter extends TypeAdapter<Specie> {
   @override
   final int typeId = 3;
 
   @override
-  SpecieTable read(BinaryReader reader) {
+  Specie read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SpecieTable(
+    return Specie(
       id: fields[0] as int,
       name: fields[1] as String,
       classification: fields[2] as String,
@@ -37,7 +37,7 @@ class SpecieTableAdapter extends TypeAdapter<SpecieTable> {
   }
 
   @override
-  void write(BinaryWriter writer, SpecieTable obj) {
+  void write(BinaryWriter writer, Specie obj) {
     writer
       ..writeByte(16)
       ..writeByte(0)
@@ -80,7 +80,7 @@ class SpecieTableAdapter extends TypeAdapter<SpecieTable> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SpecieTableAdapter &&
+      other is SpecieAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

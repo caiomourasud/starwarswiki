@@ -8,7 +8,6 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
   final focus;
   final onChange;
   final Function() cancelar;
-  final Function() apagar;
   final texto;
   final fullDimens;
   SearchBarWidget(
@@ -17,7 +16,6 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
       this.focus,
       this.onChange,
       required this.cancelar,
-      required this.apagar,
       this.texto = 'Buscar',
       this.fullDimens});
 

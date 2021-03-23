@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/utils/id_generator.dart';
 
-part 'specie_table.g.dart';
+part 'specie.g.dart';
 
 @HiveType(typeId: 3)
-class SpecieTable extends HiveObject {
+class Specie extends HiveObject {
   @HiveField(0)
   int id = 0;
   @HiveField(1)
@@ -38,7 +38,7 @@ class SpecieTable extends HiveObject {
   @HiveField(15)
   String url = '';
 
-  SpecieTable(
+  Specie(
       {required this.id,
       required this.name,
       required this.classification,
@@ -56,7 +56,7 @@ class SpecieTable extends HiveObject {
       required this.edited,
       required this.url});
 
-  SpecieTable.fromJson(Map<String, dynamic> json) {
+  Specie.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'species');
     name = json['name'];
     classification = json['classification'];

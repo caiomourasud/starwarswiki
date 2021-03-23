@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,14 +6,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
+import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/pages/characters/character_detail/character_detail_page.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
 import 'package:starwarswiki/app/utils/conversores.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
-import 'package:starwarswiki/db/people_table.dart';
 import 'components/listtile_widget.dart';
-
-import 'package:http/http.dart' as http;
 
 final _charactersController = Modular.get<CharactersController>();
 
@@ -35,7 +31,9 @@ class CharactersPage extends StatefulWidget {
 class _CharactersPageState extends State<CharactersPage> {
   @override
   void initState() {
-    _charactersController.clearListPeople();
+    // _charactersController.clearPeopleBox();
+    // _charactersController.clearListPeople();
+    // _charactersController.getPeople();
     _focus.addListener(_onFocusChange);
     scrollController.addListener(scrolllistener);
     super.initState();
@@ -45,24 +43,42 @@ class _CharactersPageState extends State<CharactersPage> {
     _charactersController.setPosition(scrollController.position.pixels);
   }
 
+  void _onFocusChange() {
+    setState(() {
+      if (_focus.hasFocus == true || _buscar.text.isNotEmpty) {
+        _charactersController.setSearchSize(78.0);
+      } else {
+        _charactersController.setSearchSize(0.0);
+      }
+    });
+  }
+
+  cancelar() {
+    _buscar.clear();
+    _charactersController.setSearchText('');
+    _charactersController.setSearchSize(0.0);
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('setState');
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: CupertinoPageScaffold(
-        child: LayoutBuilder(
+      child: Scaffold(
+        body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints dimens) {
-          return Observer(builder: (_) {
-            return Row(
-              children: [
-                Container(
-                  height: double.infinity,
-                  width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
-                  child: NestedScrollView(
-                      controller: scrollController,
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      body: Scrollbar(
+          return Row(
+            children: [
+              Container(
+                height: double.infinity,
+                width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
+                child: NestedScrollView(
+                    controller: scrollController,
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    body: Observer(builder: (_) {
+                      return Scrollbar(
                         child: CustomScrollView(
                           slivers: [
                             CupertinoSliverRefreshControl(
@@ -71,115 +87,31 @@ class _CharactersPageState extends State<CharactersPage> {
                               onRefresh: () async {
                                 await Future<void>.delayed(
                                     const Duration(milliseconds: 1000));
-                                setState(() {
-                                  getPeople();
-                                });
+                                if (_charactersController.people.isEmpty) {
+                                  _charactersController.getPeople();
+                                } else {
+                                  prefs.getString('next').then((data) {
+                                    if (data != '') {
+                                      _charactersController.getMorePeople(data);
+                                    }
+                                  });
+                                }
                               },
                             ),
-                            if (_charactersController.listPeople.isNotEmpty)
-                              SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                    PeopleTable person = _charactersController
-                                        .listPeople
-                                        .toList()[index];
-                                    return ListTileWidget(
-                                      personSelected:
-                                          _charactersController.personSelected,
-                                      person: person,
-                                      dimens: dimens,
-                                      onTap: (character) {
-                                        _charactersController
-                                            .setPersonSelected(character);
-                                        if (dimens.maxWidth <= md)
-                                          Navigator.push(context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) {
-                                            return CharacterDetailPage(
-                                                character: person);
-                                          }));
-                                      },
-                                    );
-                                  },
-                                  childCount: _charactersController.listPeople
-                                      .toList()
-                                      .length,
-                                ),
-                              ),
+                            _sliverBody(
+                                _charactersController.filterCharacters, dimens),
                           ],
                         ),
-                      ),
-                      headerSliverBuilder:
-                          (BuildContext context, bool innerBoxIsScrolled) {
-                        return <Widget>[
-                          if (!_focus.hasFocus || dimens.maxWidth > md)
-                            Observer(builder: (_) {
-                              return CupertinoSliverAppBarWidget(
-                                context: context,
-                                title: 'Characters',
-                                leading: CupertinoButton(
-                                    minSize: 34,
-                                    padding: EdgeInsets.zero,
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    color: Colors.transparent,
-                                    child: Icon(
-                                        CupertinoIcons.person_crop_circle_fill,
-                                        size: 26,
-                                        color: Colors.red[600]),
-                                    onPressed: () {}),
-                                position: _charactersController.position,
-                                titleActions: [
-                                  listaFavortos(
-                                      paddingTop: 4.0,
-                                      paddingRight: 16.0,
-                                      disable: false)
-                                ],
-                                actions: [
-                                  listaFavortos(
-                                      paddingTop: 4.0,
-                                      paddingRight: 0.0,
-                                      disable: false)
-                                ],
-                              );
-                            }),
-                          if (_focus.hasFocus && dimens.maxWidth <= md)
-                            Observer(builder: (_) {
-                              return SliverPersistentHeader(
-                                  pinned: true,
-                                  floating: false,
-                                  delegate: CupertinoAppBarWidget(
-                                    context: context,
-                                    title: 'Characters',
-                                    leading: CupertinoButton(
-                                        minSize: 34,
-                                        padding: EdgeInsets.zero,
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        color: Colors.transparent,
-                                        child: Icon(
-                                            CupertinoIcons
-                                                .person_crop_circle_fill,
-                                            size: 26,
-                                            color: Colors.red[600]),
-                                        onPressed: () {}),
-                                    actions: [
-                                      listaFavortos(
-                                          paddingTop: 4.0,
-                                          paddingRight: 0.0,
-                                          disable: false)
-                                    ],
-                                  ));
-                            }),
-                          CupertinoSliverRefreshControl(
-                            refreshTriggerPullDistance: 100.0,
-                            refreshIndicatorExtent: 60.0,
-                            onRefresh: () async {
-                              await Future<void>.delayed(
-                                  const Duration(milliseconds: 1000));
-                              getPeople();
-                            },
-                          ),
-                          SliverPersistentHeader(
+                      );
+                    }),
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        if (!_focus.hasFocus || dimens.maxWidth > md)
+                          _sliverAppBar(),
+                        if (_focus.hasFocus && dimens.maxWidth <= md) _appBar(),
+                        Observer(builder: (_) {
+                          return SliverPersistentHeader(
                               pinned: true,
                               floating: false,
                               delegate: SearchBarWidget(
@@ -187,48 +119,149 @@ class _CharactersPageState extends State<CharactersPage> {
                                   buscar: _buscar,
                                   focus: _focus,
                                   onChange: (text) {
-                                    setState(() {});
+                                    _charactersController.setSearchText(text);
                                   },
                                   cancelar: cancelar,
-                                  apagar: apagar,
                                   texto: 'Search...',
-                                  fullDimens: dimens)),
-                        ];
-                      }),
+                                  fullDimens: dimens));
+                        }),
+                      ];
+                    }),
+              ),
+              if (dimens.maxWidth > md)
+                VerticalDivider(
+                  width: 0.1,
                 ),
-                if (dimens.maxWidth > md)
-                  VerticalDivider(
-                    width: 0.1,
+              if (dimens.maxWidth > md)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Container(
+                    height: double.infinity,
+                    width: 0.08,
+                    color: Colors.grey,
                   ),
-                if (dimens.maxWidth > md)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    child: Container(
-                      height: double.infinity,
-                      width: 0.08,
-                      color: Colors.grey,
-                    ),
-                  ),
-                _charactersController.personSelected.id == 0
-                    ? Expanded(
-                        child: Scaffold(
-                            body: Center(child: Text('No character selected'))),
-                      )
-                    : Expanded(
-                        child: ClipRect(
-                          child: CharacterDetailPage(
-                              character: _charactersController.personSelected),
-                        ),
-                      )
-              ],
-            );
-          });
+                ),
+              Observer(
+                builder: (_) {
+                  return _charactersController.personSelected.id == 0
+                      ? Expanded(
+                          child: Scaffold(
+                              body:
+                                  Center(child: Text('No character selected'))),
+                        )
+                      : Expanded(
+                          child: ClipRect(
+                            child: CharacterDetailPage(
+                                character:
+                                    _charactersController.personSelected),
+                          ),
+                        );
+                },
+              ),
+            ],
+          );
         }),
       ),
     );
   }
 
-  listaFavortos(
+  _sliverAppBar() {
+    return Observer(builder: (_) {
+      return CupertinoSliverAppBarWidget(
+        context: context,
+        title: 'Characters',
+        leading: CupertinoButton(
+            minSize: 34,
+            padding: EdgeInsets.zero,
+            borderRadius: BorderRadius.circular(50.0),
+            color: Colors.transparent,
+            child: Icon(CupertinoIcons.person_crop_circle_fill,
+                size: 26, color: Colors.red[600]),
+            onPressed: () {
+              setState(() {
+                _charactersController.clearListPeople();
+                _charactersController.clearPeopleBox();
+              });
+            }),
+        position: _charactersController.position,
+        titleActions: [
+          _listFavorites(paddingTop: 4.0, paddingRight: 16.0, disable: false)
+        ],
+        actions: [
+          _listFavorites(paddingTop: 4.0, paddingRight: 0.0, disable: false)
+        ],
+      );
+    });
+  }
+
+  _appBar() {
+    return Observer(builder: (_) {
+      return SliverPersistentHeader(
+          pinned: true,
+          floating: false,
+          delegate: CupertinoAppBarWidget(
+            context: context,
+            title: 'Characters',
+            leading: CupertinoButton(
+              minSize: 34,
+              padding: EdgeInsets.zero,
+              borderRadius: BorderRadius.circular(50.0),
+              color: Colors.transparent,
+              child: Icon(CupertinoIcons.person_crop_circle_fill,
+                  size: 26, color: Colors.red[600]),
+              onPressed: () {
+                setState(() {
+                  _charactersController.clearListPeople();
+                  _charactersController.clearPeopleBox();
+                });
+              },
+            ),
+            actions: [
+              _listFavorites(paddingTop: 4.0, paddingRight: 0.0, disable: false)
+            ],
+          ));
+    });
+  }
+
+  _sliverBody(List<People> people, BoxConstraints dimens) {
+    return _charactersController.res || _charactersController.people.isNotEmpty
+        ? SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+              return ListTileWidget(
+                personSelected: _charactersController.personSelected,
+                person: people[index],
+                dimens: dimens,
+                onTap: (character) {
+                  if (dimens.maxWidth <= md) {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) {
+                      return CharacterDetailPage(character: character);
+                    }));
+                  }
+                  setState(() {
+                    _charactersController.setPersonSelected(character);
+                  });
+                },
+                onFavoriteTap: (id) {
+                  setState(() {
+                    _charactersController.setFavorito(id);
+                  });
+                },
+              );
+            }, childCount: people.length),
+          )
+        : SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(top: dimens.maxHeight / 3),
+              child: Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
+          );
+  }
+
+  _listFavorites(
       {required double paddingTop,
       required double paddingRight,
       required bool disable}) {
@@ -260,68 +293,10 @@ class _CharactersPageState extends State<CharactersPage> {
                             : CupertinoIcons.square_favorites_alt,
                         size: 28,
                         color: Colors.red[600]),
-                    onPressed: () => _charactersController.setFavorites(null),
+                    onPressed: () =>
+                        _charactersController.setShowFavorites(null),
                     // setState(() => showFavorites = !showFavorites),
                   )),
         ));
-  }
-
-  void getPeople() async {
-    _charactersController.clearListPeople();
-    _charactersController.res = false;
-    String _url = 'https://swapi.dev/api/people/';
-    var resposta = await http.get(Uri.parse(_url));
-    var jsonData = jsonDecode(resposta.body);
-    _charactersController.next = jsonData['next'].replaceAll('http', 'https');
-    Iterable films = jsonData['results'];
-    films.map((person) {
-      _charactersController.addListPeople(PeopleTable.fromJson(person));
-    }).toList();
-    print(_charactersController.next);
-    _charactersController.res = true;
-    if (_charactersController.res) getMorePeople(_charactersController.next);
-    setState(() {});
-  }
-
-  void getMorePeople(String link) async {
-    _charactersController.res = false;
-    var resposta = await http.get(Uri.parse(link));
-    var jsonData = jsonDecode(resposta.body);
-    Iterable people = jsonData['results'];
-    people.map((person) {
-      _charactersController.addListPeople(PeopleTable.fromJson(person));
-    }).toList();
-    _charactersController.res = true;
-    if (jsonData['next'] != null) {
-      _charactersController.next = jsonData['next'].replaceAll('http', 'https');
-    } else {
-      _charactersController.next = '';
-    }
-    print(_charactersController.next);
-    if (_charactersController.next != '' && _charactersController.res)
-      getMorePeople(_charactersController.next);
-    setState(() {});
-  }
-
-  void _onFocusChange() {
-    setState(() {
-      if (_focus.hasFocus == true || _buscar.text.isNotEmpty) {
-        _charactersController.setSearchSize(78.0);
-      } else {
-        _charactersController.setSearchSize(0.0);
-      }
-    });
-  }
-
-  cancelar() {
-    _buscar.clear();
-    _charactersController.setSearchSize(0.0);
-    FocusScope.of(context).unfocus();
-  }
-
-  apagar() {
-    setState(() {
-      _buscar.clear();
-    });
   }
 }

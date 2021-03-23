@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'planet_table.dart';
+part of 'planet.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PlanetTableAdapter extends TypeAdapter<PlanetTable> {
+class PlanetAdapter extends TypeAdapter<Planet> {
   @override
   final int typeId = 2;
 
   @override
-  PlanetTable read(BinaryReader reader) {
+  Planet read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PlanetTable(
+    return Planet(
       id: fields[0] as int,
       name: fields[1] as String,
       rotationPeriod: fields[2] as String,
@@ -36,7 +36,7 @@ class PlanetTableAdapter extends TypeAdapter<PlanetTable> {
   }
 
   @override
-  void write(BinaryWriter writer, PlanetTable obj) {
+  void write(BinaryWriter writer, Planet obj) {
     writer
       ..writeByte(15)
       ..writeByte(0)
@@ -77,7 +77,7 @@ class PlanetTableAdapter extends TypeAdapter<PlanetTable> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PlanetTableAdapter &&
+      other is PlanetAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
