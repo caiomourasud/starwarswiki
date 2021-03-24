@@ -15,8 +15,6 @@ import 'components/listtile_widget.dart';
 
 final _charactersController = Modular.get<CharactersController>();
 
-late ScrollController scrollController = ScrollController();
-
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
 Conversores conversores = Conversores();
@@ -31,16 +29,14 @@ class CharactersPage extends StatefulWidget {
 class _CharactersPageState extends State<CharactersPage> {
   @override
   void initState() {
-    // _charactersController.clearPeopleBox();
-    // _charactersController.clearListPeople();
-    // _charactersController.getPeople();
     _focus.addListener(_onFocusChange);
-    scrollController.addListener(scrolllistener);
+    _charactersController.scrollController.addListener(scrolllistener);
     super.initState();
   }
 
   scrolllistener() {
-    _charactersController.setPosition(scrollController.position.pixels);
+    _charactersController
+        .setPosition(_charactersController.scrollController.position.pixels);
   }
 
   void _onFocusChange() {
@@ -62,7 +58,6 @@ class _CharactersPageState extends State<CharactersPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('setState');
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -74,7 +69,7 @@ class _CharactersPageState extends State<CharactersPage> {
                 height: double.infinity,
                 width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
                 child: NestedScrollView(
-                    controller: scrollController,
+                    controller: _charactersController.scrollController,
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     body: Observer(builder: (_) {

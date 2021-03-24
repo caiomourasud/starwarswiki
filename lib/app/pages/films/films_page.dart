@@ -20,7 +20,7 @@ class _FilmsPageState extends State<FilmsPage> {
   @override
   void initState() {
     // listFilmes.clear();
-    getFilms();
+    // getFilms();
     super.initState();
   }
 

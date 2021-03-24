@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
@@ -17,6 +18,9 @@ class CharactersController = _CharactersControllerBase
     with _$CharactersController;
 
 abstract class _CharactersControllerBase with Store {
+  @observable
+  late ScrollController scrollController = ScrollController();
+
   @observable
   Box<People> _peopleBox = Hive.box<People>(peopleBox);
 

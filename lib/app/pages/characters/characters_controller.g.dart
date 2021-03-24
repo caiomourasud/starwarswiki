@@ -17,6 +17,22 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
               name: '_CharactersControllerBase.filterCharacters'))
       .value;
 
+  final _$scrollControllerAtom =
+      Atom(name: '_CharactersControllerBase.scrollController');
+
+  @override
+  ScrollController get scrollController {
+    _$scrollControllerAtom.reportRead();
+    return super.scrollController;
+  }
+
+  @override
+  set scrollController(ScrollController value) {
+    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
+      super.scrollController = value;
+    });
+  }
+
   final _$_peopleBoxAtom = Atom(name: '_CharactersControllerBase._peopleBox');
 
   @override
@@ -174,6 +190,17 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
       ActionController(name: '_CharactersControllerBase');
 
   @override
+  dynamic peopleFromDB() {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.peopleFromDB');
+    try {
+      return super.peopleFromDB();
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic addListPeople(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.addListPeople');
@@ -273,6 +300,17 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
+  dynamic setFavorito(int id) {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.setFavorito');
+    try {
+      return super.setFavorito(id);
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setSearchSize(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setSearchSize');
@@ -297,6 +335,7 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   @override
   String toString() {
     return '''
+scrollController: ${scrollController},
 people: ${people},
 res: ${res},
 searchText: ${searchText},

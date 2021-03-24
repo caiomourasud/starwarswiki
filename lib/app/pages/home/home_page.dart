@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/app_controller.dart';
+import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 import 'destination.dart';
+
+final _appController = Modular.get<AppController>();
+final _charactersController = Modular.get<CharactersController>();
 
 int indexSelected = 0;
 bool isMenuOpen = false;
@@ -13,33 +20,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    _appController.setContext(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: LayoutBuilder(builder: (context, dimens) {
           return Scaffold(
-            bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight
-                ? BottomNavigationBar(
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    type: BottomNavigationBarType.fixed,
-                    currentIndex: indexSelected,
-                    onTap: (int index) {
-                      FocusScope.of(context).unfocus();
-                      _onTap(index);
-                    },
-                    items: allDestinations.map((destination) {
-                      return BottomNavigationBarItem(
-                          tooltip: destination.tooltip,
-                          icon: Stack(
-                            children: <Widget>[
-                              Icon(destination.icon),
-                            ],
-                          ),
-                          label: '');
-                    }).toList(),
-                  )
-                : null,
+            bottomNavigationBar:
+                dimens.maxWidth <= dimens.maxHeight || dimens.maxWidth <= md
+                    ? BottomNavigationBar(
+                        showSelectedLabels: false,
+                        showUnselectedLabels: false,
+                        type: BottomNavigationBarType.fixed,
+                        currentIndex: indexSelected,
+                        onTap: (int index) {
+                          FocusScope.of(context).unfocus();
+                          _onTap(index);
+                        },
+                        items: allDestinations.map((destination) {
+                          return BottomNavigationBarItem(
+                              tooltip: destination.tooltip,
+                              icon: Stack(
+                                children: <Widget>[
+                                  Icon(destination.icon),
+                                ],
+                              ),
+                              label: '');
+                        }).toList(),
+                      )
+                    : null,
             body: Row(
               children: [
                 _leftMenu(dimens),
@@ -60,27 +74,29 @@ class _HomePageState extends State<HomePage> {
         indexSelected = index;
       });
 
-    // switch (index) {
-    //   case 0:
-    //     Modular.to.pushNamed('/films');
-    //     break;
-    //   case 1:
-    //     Modular.to.pushNamed('/characters');
-    //     break;
-    //   case 2:
-    //     Modular.to.pushNamed('/planets');
-    //     break;
-    //   case 3:
-    //     Modular.to.pushNamed('/species');
-    //     break;
-    //   case 4:
-    //     Modular.to.pushNamed('/starships');
-    //     break;
-    //   case 5:
-    //     Modular.to.pushNamed('/vahicles');
-    //     break;
-    //   default:
-    // }
+    switch (index) {
+      case 0:
+        // Modular.to.pushNamed('/films');
+        break;
+      case 1:
+        _charactersController.scrollController.animateTo(0.0,
+            duration: Duration(milliseconds: 300), curve: Curves.linear);
+        // Modular.to.pushNamed('/characters');
+        break;
+      case 2:
+        // Modular.to.pushNamed('/planets');
+        break;
+      case 3:
+        // Modular.to.pushNamed('/species');
+        break;
+      case 4:
+        // Modular.to.pushNamed('/starships');
+        break;
+      case 5:
+        // Modular.to.pushNamed('/vahicles');
+        break;
+      default:
+    }
   }
 
   _buildBody() {
@@ -98,7 +114,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _leftMenu(BoxConstraints dimens) {
-    if (dimens.maxWidth > dimens.maxHeight) {
+    if (dimens.maxWidth > dimens.maxHeight && dimens.maxWidth > md) {
       return _navigationRail(context, dimens, _onTap);
     } else {
       return SizedBox();
