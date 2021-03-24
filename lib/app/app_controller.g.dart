@@ -9,13 +9,28 @@ part of 'app_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AppController on _AppControllerBase, Store {
-  Computed<bool>? _$semInternetComputed;
+  Computed<bool>? _$noInternetComputed;
 
   @override
-  bool get semInternet =>
-      (_$semInternetComputed ??= Computed<bool>(() => super.semInternet,
-              name: '_AppControllerBase.semInternet'))
+  bool get noInternet =>
+      (_$noInternetComputed ??= Computed<bool>(() => super.noInternet,
+              name: '_AppControllerBase.noInternet'))
           .value;
+
+  final _$contextAtom = Atom(name: '_AppControllerBase.context');
+
+  @override
+  BuildContext? get context {
+    _$contextAtom.reportRead();
+    return super.context;
+  }
+
+  @override
+  set context(BuildContext? value) {
+    _$contextAtom.reportWrite(value, super.context, () {
+      super.context = value;
+    });
+  }
 
   final _$connectionStatusAtom =
       Atom(name: '_AppControllerBase.connectionStatus');
@@ -37,6 +52,17 @@ mixin _$AppController on _AppControllerBase, Store {
       ActionController(name: '_AppControllerBase');
 
   @override
+  dynamic setContext(dynamic currentContext) {
+    final _$actionInfo = _$_AppControllerBaseActionController.startAction(
+        name: '_AppControllerBase.setContext');
+    try {
+      return super.setContext(currentContext);
+    } finally {
+      _$_AppControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setConnectionStatus(String newValue) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
         name: '_AppControllerBase.setConnectionStatus');
@@ -50,8 +76,9 @@ mixin _$AppController on _AppControllerBase, Store {
   @override
   String toString() {
     return '''
+context: ${context},
 connectionStatus: ${connectionStatus},
-semInternet: ${semInternet}
+noInternet: ${noInternet}
     ''';
   }
 }

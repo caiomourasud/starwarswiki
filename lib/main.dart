@@ -40,6 +40,7 @@ void main() async {
     ..registerAdapter(SpecieAdapter())
     ..registerAdapter(StarshipAdapter())
     ..registerAdapter(VehicleAdapter());
+
   await Hive.openBox<Film>(filmsBox);
   await Hive.openBox<People>(peopleBox);
   await Hive.openBox<Planet>(planetsBox);

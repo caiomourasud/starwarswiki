@@ -3,14 +3,23 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:starwarswiki/app/components/snack_bar_widget.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
+import 'package:starwarswiki/app/pages/films/films_controller.dart';
+import 'package:starwarswiki/app/pages/planets/planets_controller.dart';
+import 'package:starwarswiki/app/pages/species/species_controller.dart';
+import 'package:starwarswiki/app/pages/starships/starships_controller.dart';
+import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 
 import '../app_controller.dart';
 
 final _appController = Modular.get<AppController>();
+final _filmsController = Modular.get<FilmsController>();
 final _charactersController = Modular.get<CharactersController>();
+final _planetsController = Modular.get<PlanetsController>();
+final _speciesController = Modular.get<SpeciesController>();
+final _starshipsController = Modular.get<StarshipsController>();
+final _vehiclesController = Modular.get<VehiclesController>();
 
 final Connectivity _connectivity = Connectivity();
 StorageUtil prefs = StorageUtil();
@@ -36,26 +45,78 @@ class ConnectivityStatus {
       case ConnectivityResult.none:
         print(result.toString());
         _appController.setConnectionStatus(result.toString());
-        _charactersController.peopleFromDB();
 
-        if (_appController.semInternet) {
-          Timer(Duration(milliseconds: 300), () {
-            SnackBarWidget().show(_appController.context!, 'Sem internet.');
-          });
+        _charactersController.peopleFromDB();
+        _filmsController.filmsFromDB();
+        _planetsController.planetsFromDB();
+        _speciesController.speciesFromDB();
+        _starshipsController.starshipsFromDB();
+        _vehiclesController.vehiclesFromDB();
+
+        // Films
+        if (_filmsController.films.isEmpty) {
+          _filmsController.getFilms();
         } else {
-          if (_charactersController.people.isEmpty) {
-            if (!_appController.semInternet) {
-              _charactersController.getPeople();
+          prefs.getString('next_films').then((data) {
+            if (data != '') {
+              _filmsController.getMoreFilms(data);
             }
-          } else {
-            prefs.getString('next').then((data) {
-              if (data != '') {
-                if (!_appController.semInternet) {
-                  _charactersController.getMorePeople(data);
-                }
-              }
-            });
-          }
+          });
+        }
+
+        // Characters
+        if (_charactersController.people.isEmpty) {
+          _charactersController.getPeople();
+        } else {
+          prefs.getString('next_people').then((data) {
+            if (data != '') {
+              _charactersController.getMorePeople(data);
+            }
+          });
+        }
+
+        // Planets
+        if (_planetsController.planets.isEmpty) {
+          _planetsController.getPlanets();
+        } else {
+          prefs.getString('next_planets').then((data) {
+            if (data != '') {
+              _planetsController.getMorePlanets(data);
+            }
+          });
+        }
+
+        // Species
+        if (_speciesController.species.isEmpty) {
+          _speciesController.getSpecies();
+        } else {
+          prefs.getString('next_species').then((data) {
+            if (data != '') {
+              _speciesController.getMoreSpecies(data);
+            }
+          });
+        }
+
+        // Starships
+        if (_starshipsController.starships.isEmpty) {
+          _starshipsController.getStarships();
+        } else {
+          prefs.getString('next_starships').then((data) {
+            if (data != '') {
+              _starshipsController.getMoreStarships(data);
+            }
+          });
+        }
+
+        // Vehicles
+        if (_vehiclesController.vehicles.isEmpty) {
+          _vehiclesController.getVehicles();
+        } else {
+          prefs.getString('next_vehicles').then((data) {
+            if (data != '') {
+              _vehiclesController.getMoreVehicles(data);
+            }
+          });
         }
 
         break;

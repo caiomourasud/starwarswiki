@@ -21,7 +21,7 @@ abstract class _AppControllerBase with Store {
   }
 
   @computed
-  bool get semInternet =>
+  bool get noInternet =>
       connectionStatus == 'ConnectivityResult.none' ||
       connectionStatus == 'Unknown';
 }
