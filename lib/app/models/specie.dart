@@ -66,7 +66,7 @@ class Specie extends HiveObject {
     hairColors = json['hair_colors'];
     eyeColors = json['eye_colors'];
     averageLifespan = json['average_lifespan'];
-    homeworld = json['homeworld'];
+    homeworld = json['homeworld'] ?? '';
     language = json['language'];
     people = json['people'].cast<String>();
     films = json['films'].cast<String>();

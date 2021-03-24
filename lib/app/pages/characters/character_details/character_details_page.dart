@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/models/people.dart';
 
-class CharacterDetailPage extends StatefulWidget {
+class CharacterDetailsPage extends StatefulWidget {
   final People character;
 
-  const CharacterDetailPage({Key? key, required this.character})
+  const CharacterDetailsPage({Key? key, required this.character})
       : super(key: key);
   @override
-  _CharacterDetailPageState createState() => _CharacterDetailPageState();
+  _CharacterDetailsPageState createState() => _CharacterDetailsPageState();
 }
 
-class _CharacterDetailPageState extends State<CharacterDetailPage> {
+class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

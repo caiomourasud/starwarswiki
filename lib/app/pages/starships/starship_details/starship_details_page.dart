@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/models/starship.dart';
 
-class FilmDetailsPage extends StatefulWidget {
-  final Film film;
+class StarshipDetailsPage extends StatefulWidget {
+  final Starship starship;
 
-  const FilmDetailsPage({Key? key, required this.film}) : super(key: key);
+  const StarshipDetailsPage({Key? key, required this.starship})
+      : super(key: key);
   @override
-  _FilmDetailsPageState createState() => _FilmDetailsPageState();
+  _StarshipDetailsPageState createState() => _StarshipDetailsPageState();
 }
 
-class _FilmDetailsPageState extends State<FilmDetailsPage> {
+class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +19,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.film.title,
+          widget.starship.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87

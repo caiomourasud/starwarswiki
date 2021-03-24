@@ -5,49 +5,47 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/app_controller.dart';
+import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/utils/api.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
-import 'package:starwarswiki/app/models/people.dart';
-
-part 'characters_controller.g.dart';
+part 'planets_controller.g.dart';
 
 StorageUtil _prefs = StorageUtil();
 
 final _appController = Modular.get<AppController>();
 
-class CharactersController = _CharactersControllerBase
-    with _$CharactersController;
+class PlanetsController = _PlanetsControllerBase with _$PlanetsController;
 
-abstract class _CharactersControllerBase with Store {
+abstract class _PlanetsControllerBase with Store {
   @observable
   ScrollController scrollController = ScrollController();
 
   @observable
-  Box<People> _peopleBox = Hive.box<People>(peopleBox);
+  Box<Planet> _planetsBox = Hive.box<Planet>(planetsBox);
 
   @observable
-  List<People> people = [];
+  List<Planet> planets = [];
 
   @action
-  peopleFromDB() {
-    people = _peopleBox.values.toList();
+  planetsFromDB() {
+    planets = _planetsBox.values.toList();
   }
 
   @action
-  addListPeople(newValue) => people.add(newValue);
+  addListPlanets(newValue) => planets.add(newValue);
 
   @action
-  addPeopleBox(newValue) => _peopleBox.add(newValue);
+  addPlanetsBox(newValue) => _planetsBox.add(newValue);
 
   @action
-  clearListPeople() => people.clear();
+  clearListPlanets() => planets.clear();
 
   @action
-  clearPeopleBox() => _peopleBox.clear();
+  clearPlanetsBox() => _planetsBox.clear();
 
   @action
-  deletePeopleBox() => _peopleBox.deleteFromDisk();
+  deletePlanetsBox() => _planetsBox.deleteFromDisk();
 
   @observable
   bool res = true;
@@ -87,9 +85,9 @@ abstract class _CharactersControllerBase with Store {
 
   @action
   setFavorito(int id) {
-    var foundIndex = people.indexWhere((person) => person.id == id);
-    people[foundIndex].isFavorite = !people[foundIndex].isFavorite;
-    _peopleBox.putAt(foundIndex, people[foundIndex]);
+    var foundIndex = planets.indexWhere((planet) => planet.id == id);
+    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
+    _planetsBox.putAt(foundIndex, planets[foundIndex]);
   }
 
   @observable
@@ -99,47 +97,43 @@ abstract class _CharactersControllerBase with Store {
   setSearchSize(newValue) => searchSize = newValue;
 
   @observable
-  People personSelected = People(
+  Planet planetSelected = Planet(
+      climate: '',
+      created: '',
+      diameter: '',
+      edited: '',
+      films: [],
+      gravity: '',
       id: 0,
       name: '',
-      height: '',
-      mass: '',
-      hairColor: '',
-      skinColor: '',
-      eyeColor: '',
-      birthYear: '',
-      gender: '',
-      homeworld: '',
-      films: [],
-      species: [],
-      vehicles: [],
-      starships: [],
-      created: '',
-      edited: '',
+      orbitalPeriod: '',
+      population: '',
+      residents: [],
+      rotationPeriod: '',
+      surfaceWater: '',
+      terrain: '',
       url: '');
 
   @action
-  setPersonSelected(newValue) {
+  setPlanetSelected(newValue) {
     if (newValue != null) {
-      personSelected = newValue;
+      planetSelected = newValue;
     } else {
-      personSelected = People(
+      planetSelected = Planet(
+          climate: '',
+          created: '',
+          diameter: '',
+          edited: '',
+          films: [],
+          gravity: '',
           id: 0,
           name: '',
-          height: '',
-          mass: '',
-          hairColor: '',
-          skinColor: '',
-          eyeColor: '',
-          birthYear: '',
-          gender: '',
-          homeworld: '',
-          films: [],
-          species: [],
-          vehicles: [],
-          starships: [],
-          created: '',
-          edited: '',
+          orbitalPeriod: '',
+          population: '',
+          residents: [],
+          rotationPeriod: '',
+          surfaceWater: '',
+          terrain: '',
           url: '');
     }
   }
@@ -147,60 +141,62 @@ abstract class _CharactersControllerBase with Store {
   API? api;
 
   @action
-  getPeople() async {
-    clearPeopleBox();
-    clearListPeople();
-    setPersonSelected(null);
+  getPlanets() async {
+    clearPlanetsBox();
+    clearListPlanets();
+    setPlanetSelected(null);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi('https://swapi.dev/api/people/', successGetPeople, error,
+    api!.getApi('https://swapi.dev/api/planets/', successGetPlanets, error,
         _appController.context!);
   }
 
   @action
-  getMorePeople(String link) async {
+  getMorePlanets(String link) async {
     setRes(false);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi(link, successGetMorePeople, error, _appController.context!);
+    api!.getApi(link, successGetMorePlanets, error, _appController.context!);
   }
 
-  successGetPeople(jsonData) async {
+  successGetPlanets(jsonData) async {
     if (jsonData != null) {
-      next = jsonData['next'].replaceAll('http', 'https');
-      _prefs.setString('next_people', next);
-      Iterable peple = jsonData['results'];
-      peple.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      if (jsonData['next'] != null) {
+        next = jsonData['next'].replaceAll('http', 'https');
+        _prefs.setString('next_planets', next);
+      }
+      Iterable planets = jsonData['results'];
+      planets.map((planet) {
+        addListPlanets(Planet.fromJson(planet));
+        addPlanetsBox(Planet.fromJson(planet));
       }).toList();
       print(next);
       setRes(true);
-      if (res) {
+      if (res && jsonData['next'] != null) {
         Timer(Duration(milliseconds: 200), () {
-          if (res) getMorePeople(next);
+          if (res) getMorePlanets(next);
         });
       }
     }
   }
 
-  successGetMorePeople(jsonData) async {
+  successGetMorePlanets(jsonData) async {
     if (jsonData != null) {
-      Iterable people = jsonData['results'];
-      people.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      Iterable planets = jsonData['results'];
+      planets.map((planet) {
+        addListPlanets(Planet.fromJson(planet));
+        addPlanetsBox(Planet.fromJson(planet));
       }).toList();
       setRes(true);
       if (jsonData['next'] != null) {
         next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_people', next);
+        _prefs.setString('next_planets', next);
       } else {
-        _prefs.setString('next_people', '');
+        _prefs.setString('next_planets', '');
         next = '';
       }
       print(next);
-      if (next != '' && res) getMorePeople(next);
+      if (next != '' && res) getMorePlanets(next);
     }
   }
 
@@ -218,15 +214,15 @@ abstract class _CharactersControllerBase with Store {
   }
 
   @computed
-  List<People> get filterCharacters {
+  List<Planet> get filterPlanets {
     if (showFavorites) {
-      var favorites =
-          people.where((personagem) => personagem.isFavorite).toList();
+      var favorites = planets;
+      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {
         return favorites
-            .where((character) => character.name
+            .where((planet) => planet.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')
@@ -252,10 +248,10 @@ abstract class _CharactersControllerBase with Store {
       }
     } else {
       if (searchText == '') {
-        return people;
+        return planets;
       } else {
-        return people
-            .where((character) => character.name
+        return planets
+            .where((planet) => planet.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')

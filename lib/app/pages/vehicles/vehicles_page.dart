@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
-import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/components/searchbar_widget.dart';
+import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
 import 'package:starwarswiki/app/utils/conversores.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import 'film_details/film_details_page.dart';
-import 'films_controller.dart';
+import 'vehicle_details/vehicle_details_page.dart';
 
-final _filmsController = Modular.get<FilmsController>();
+final _vahiclesController = Modular.get<VehiclesController>();
 
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
@@ -23,38 +22,38 @@ Conversores conversores = Conversores();
 
 bool selectable = false;
 
-class FilmsPage extends StatefulWidget {
+class VehiclesPage extends StatefulWidget {
   @override
-  _FilmsPageState createState() => _FilmsPageState();
+  _VehiclesPageState createState() => _VehiclesPageState();
 }
 
-class _FilmsPageState extends State<FilmsPage> {
+class _VehiclesPageState extends State<VehiclesPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _filmsController.scrollController.addListener(_scrollListener);
+    _vahiclesController.scrollController.addListener(_scrollListener);
     super.initState();
   }
 
   _scrollListener() {
-    _filmsController
-        .setScrollPosition(_filmsController.scrollController.position.pixels);
+    _vahiclesController.setScrollPosition(
+        _vahiclesController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
     setState(() {
       if (_focus.hasFocus == true || _buscar.text.isNotEmpty) {
-        _filmsController.setSearchSize(78.0);
+        _vahiclesController.setSearchSize(78.0);
       } else {
-        _filmsController.setSearchSize(0.0);
+        _vahiclesController.setSearchSize(0.0);
       }
     });
   }
 
   _cancelar() {
     _buscar.clear();
-    _filmsController.setSearchText('');
-    _filmsController.setSearchSize(0.0);
+    _vahiclesController.setSearchText('');
+    _vahiclesController.setSearchSize(0.0);
     FocusScope.of(context).unfocus();
   }
 
@@ -71,7 +70,7 @@ class _FilmsPageState extends State<FilmsPage> {
                 height: double.infinity,
                 width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
                 child: NestedScrollView(
-                    controller: _filmsController.scrollController,
+                    controller: _vahiclesController.scrollController,
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     body: Observer(builder: (_) {
@@ -84,18 +83,21 @@ class _FilmsPageState extends State<FilmsPage> {
                               onRefresh: () async {
                                 await Future<void>.delayed(
                                     const Duration(milliseconds: 1000));
-                                if (_filmsController.films.isEmpty) {
-                                  _filmsController.getFilms();
+                                if (_vahiclesController.vehicles.isEmpty) {
+                                  _vahiclesController.getVehicles();
                                 } else {
-                                  _prefs.getString('next_people').then((data) {
+                                  _prefs
+                                      .getString('next_vehicles')
+                                      .then((data) {
                                     if (data != '') {
-                                      _filmsController.getMoreFilms(data);
+                                      _vahiclesController.getMoreVehicles(data);
                                     }
                                   });
                                 }
                               },
                             ),
-                            _sliverBody(_filmsController.filterFilms, dimens),
+                            _sliverBody(
+                                _vahiclesController.filterVehicles, dimens),
                           ],
                         ),
                       );
@@ -111,11 +113,11 @@ class _FilmsPageState extends State<FilmsPage> {
                               pinned: true,
                               floating: false,
                               delegate: SearchBarWidget(
-                                  size: _filmsController.searchSize,
+                                  size: _vahiclesController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
                                   onChange: (text) {
-                                    _filmsController.setSearchText(text);
+                                    _vahiclesController.setSearchText(text);
                                   },
                                   cancelar: _cancelar,
                                   texto: 'Search...',
@@ -139,15 +141,15 @@ class _FilmsPageState extends State<FilmsPage> {
                 ),
               Observer(
                 builder: (_) {
-                  return _filmsController.filmSelected.id == 0
+                  return _vahiclesController.vehicleSelected.id == 0
                       ? Expanded(
                           child: Scaffold(
-                              body: Center(child: Text('No film selected'))),
+                              body: Center(child: Text('No specie selected'))),
                         )
                       : Expanded(
                           child: ClipRect(
-                            child: FilmDetailsPage(
-                                film: _filmsController.filmSelected),
+                            child: VehicleDetailsPage(
+                                vehicle: _vahiclesController.vehicleSelected),
                           ),
                         );
                 },
@@ -163,7 +165,7 @@ class _FilmsPageState extends State<FilmsPage> {
     return Observer(builder: (_) {
       return CupertinoSliverAppBarWidget(
         context: context,
-        title: 'Films',
+        title: 'Vehicles',
         leading: CupertinoButton(
             minSize: 34,
             padding: EdgeInsets.zero,
@@ -173,25 +175,25 @@ class _FilmsPageState extends State<FilmsPage> {
                 size: 26, color: Colors.red[600]),
             onPressed: () {
               setState(() {
-                _filmsController.clearListFilms();
-                _filmsController.clearFilmsBox();
-                _prefs.delete('next_films');
+                _vahiclesController.clearListVehicles();
+                _vahiclesController.clearVehiclesBox();
+                _prefs.delete('next_vehicles');
               });
             }),
-        position: _filmsController.scrollPosition,
+        position: _vahiclesController.scrollPosition,
         titleActions: [
           _listFavorites(
               paddingTop: 4.0,
               paddingRight: 16.0,
               disable: false,
-              onTap: () => _filmsController.setShowFavorites(null))
+              onTap: () => _vahiclesController.setShowFavorites(null))
         ],
         actions: [
           _listFavorites(
               paddingTop: 4.0,
               paddingRight: 0.0,
-              disable: _filmsController.scrollPosition <= 35.0,
-              onTap: () => _filmsController.setShowFavorites(null))
+              disable: _vahiclesController.scrollPosition <= 35.0,
+              onTap: () => _vahiclesController.setShowFavorites(null))
         ],
       );
     });
@@ -204,7 +206,7 @@ class _FilmsPageState extends State<FilmsPage> {
           floating: false,
           delegate: CupertinoAppBarWidget(
             context: context,
-            title: 'Films',
+            title: 'Vehicles',
             leading: CupertinoButton(
               minSize: 34,
               padding: EdgeInsets.zero,
@@ -214,9 +216,9 @@ class _FilmsPageState extends State<FilmsPage> {
                   size: 26, color: Colors.red[600]),
               onPressed: () {
                 setState(() {
-                  _filmsController.clearListFilms();
-                  _filmsController.clearFilmsBox();
-                  _prefs.delete('next_films');
+                  _vahiclesController.clearListVehicles();
+                  _vahiclesController.clearVehiclesBox();
+                  _prefs.delete('next_vehicles');
                 });
               },
             ),
@@ -225,30 +227,30 @@ class _FilmsPageState extends State<FilmsPage> {
                   paddingTop: 4.0,
                   paddingRight: 0.0,
                   disable: false,
-                  onTap: () => _filmsController.setShowFavorites(null))
+                  onTap: () => _vahiclesController.setShowFavorites(null))
             ],
           ));
     });
   }
 
-  _sliverBody(List<Film> films, BoxConstraints dimens) {
-    return _filmsController.res || _filmsController.films.isNotEmpty
+  _sliverBody(List<Vehicle> vehicles, BoxConstraints dimens) {
+    return _vahiclesController.res || _vahiclesController.vehicles.isNotEmpty
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return ListTile(
-                title: Text(_filmsController.films[index].title),
+                title: Text(_vahiclesController.vehicles[index].name),
                 onTap: () {
                   if (dimens.maxWidth <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                      return FilmDetailsPage(
-                          film: _filmsController.films[index]);
+                      return VehicleDetailsPage(
+                          vehicle: _vahiclesController.vehicles[index]);
                     }));
                   }
                   setState(() {
-                    _filmsController
-                        .setFilmSelected(_filmsController.films[index]);
+                    _vahiclesController.setVehicleSelected(
+                        _vahiclesController.vehicles[index]);
                   });
                 },
               );
@@ -273,7 +275,7 @@ class _FilmsPageState extends State<FilmsPage> {
               //     });
               //   },
               // );
-            }, childCount: films.length),
+            }, childCount: vehicles.length),
           )
         : SliverToBoxAdapter(
             child: Padding(
@@ -307,7 +309,7 @@ class _FilmsPageState extends State<FilmsPage> {
                       onPressed: null),
                 )
               : Tooltip(
-                  message: _filmsController.showFavorites
+                  message: _vahiclesController.showFavorites
                       ? 'Listar todos'
                       : 'Listar favoritos',
                   child: CupertinoButton(
@@ -316,7 +318,7 @@ class _FilmsPageState extends State<FilmsPage> {
                       borderRadius: BorderRadius.circular(50.0),
                       color: Colors.transparent,
                       child: Icon(
-                          _filmsController.showFavorites
+                          _vahiclesController.showFavorites
                               ? CupertinoIcons.square_favorites_alt_fill
                               : CupertinoIcons.square_favorites_alt,
                           size: 28,

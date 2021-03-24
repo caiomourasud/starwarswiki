@@ -5,49 +5,48 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/app_controller.dart';
+import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/utils/api.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
-import 'package:starwarswiki/app/models/people.dart';
 
-part 'characters_controller.g.dart';
+part 'vehicles_controller.g.dart';
 
 StorageUtil _prefs = StorageUtil();
 
 final _appController = Modular.get<AppController>();
 
-class CharactersController = _CharactersControllerBase
-    with _$CharactersController;
+class VehiclesController = _VehiclesControllerBase with _$VehiclesController;
 
-abstract class _CharactersControllerBase with Store {
+abstract class _VehiclesControllerBase with Store {
   @observable
   ScrollController scrollController = ScrollController();
 
   @observable
-  Box<People> _peopleBox = Hive.box<People>(peopleBox);
+  Box<Vehicle> _vehiclesBox = Hive.box<Vehicle>(vehiclesBox);
 
   @observable
-  List<People> people = [];
+  List<Vehicle> vehicles = [];
 
   @action
-  peopleFromDB() {
-    people = _peopleBox.values.toList();
+  vehiclesFromDB() {
+    vehicles = _vehiclesBox.values.toList();
   }
 
   @action
-  addListPeople(newValue) => people.add(newValue);
+  addListVehicles(newValue) => vehicles.add(newValue);
 
   @action
-  addPeopleBox(newValue) => _peopleBox.add(newValue);
+  addVehiclesBox(newValue) => _vehiclesBox.add(newValue);
 
   @action
-  clearListPeople() => people.clear();
+  clearListVehicles() => vehicles.clear();
 
   @action
-  clearPeopleBox() => _peopleBox.clear();
+  clearVehiclesBox() => _vehiclesBox.clear();
 
   @action
-  deletePeopleBox() => _peopleBox.deleteFromDisk();
+  deleteVehiclesBox() => _vehiclesBox.deleteFromDisk();
 
   @observable
   bool res = true;
@@ -87,9 +86,9 @@ abstract class _CharactersControllerBase with Store {
 
   @action
   setFavorito(int id) {
-    var foundIndex = people.indexWhere((person) => person.id == id);
-    people[foundIndex].isFavorite = !people[foundIndex].isFavorite;
-    _peopleBox.putAt(foundIndex, people[foundIndex]);
+    var foundIndex = vehicles.indexWhere((vehicle) => vehicle.id == id);
+    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
+    _vehiclesBox.putAt(foundIndex, vehicles[foundIndex]);
   }
 
   @observable
@@ -99,108 +98,110 @@ abstract class _CharactersControllerBase with Store {
   setSearchSize(newValue) => searchSize = newValue;
 
   @observable
-  People personSelected = People(
-      id: 0,
-      name: '',
-      height: '',
-      mass: '',
-      hairColor: '',
-      skinColor: '',
-      eyeColor: '',
-      birthYear: '',
-      gender: '',
-      homeworld: '',
-      films: [],
-      species: [],
-      vehicles: [],
-      starships: [],
+  Vehicle vehicleSelected = Vehicle(
+      cargoCapacity: '',
+      consumables: '',
+      costInCredits: '',
       created: '',
+      crew: '',
       edited: '',
-      url: '');
+      films: [],
+      id: 0,
+      length: '',
+      manufacturer: '',
+      maxAtmospheringSpeed: '',
+      model: '',
+      name: '',
+      passengers: '',
+      pilots: [],
+      url: '',
+      vehicleClass: '');
 
   @action
-  setPersonSelected(newValue) {
+  setVehicleSelected(newValue) {
     if (newValue != null) {
-      personSelected = newValue;
+      vehicleSelected = newValue;
     } else {
-      personSelected = People(
-          id: 0,
-          name: '',
-          height: '',
-          mass: '',
-          hairColor: '',
-          skinColor: '',
-          eyeColor: '',
-          birthYear: '',
-          gender: '',
-          homeworld: '',
-          films: [],
-          species: [],
-          vehicles: [],
-          starships: [],
+      vehicleSelected = Vehicle(
+          cargoCapacity: '',
+          consumables: '',
+          costInCredits: '',
           created: '',
+          crew: '',
           edited: '',
-          url: '');
+          films: [],
+          id: 0,
+          length: '',
+          manufacturer: '',
+          maxAtmospheringSpeed: '',
+          model: '',
+          name: '',
+          passengers: '',
+          pilots: [],
+          url: '',
+          vehicleClass: '');
     }
   }
 
   API? api;
 
   @action
-  getPeople() async {
-    clearPeopleBox();
-    clearListPeople();
-    setPersonSelected(null);
+  getVehicles() async {
+    clearVehiclesBox();
+    clearListVehicles();
+    setVehicleSelected(null);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi('https://swapi.dev/api/people/', successGetPeople, error,
+    api!.getApi('https://swapi.dev/api/vehicles/', successGetVehicles, error,
         _appController.context!);
   }
 
   @action
-  getMorePeople(String link) async {
+  getMoreVehicles(String link) async {
     setRes(false);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi(link, successGetMorePeople, error, _appController.context!);
+    api!.getApi(link, successGetMoreVehicles, error, _appController.context!);
   }
 
-  successGetPeople(jsonData) async {
+  successGetVehicles(jsonData) async {
     if (jsonData != null) {
-      next = jsonData['next'].replaceAll('http', 'https');
-      _prefs.setString('next_people', next);
-      Iterable peple = jsonData['results'];
-      peple.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      if (jsonData['next'] != null) {
+        next = jsonData['next'].replaceAll('http', 'https');
+        _prefs.setString('next_vehicles', next);
+      }
+      Iterable vehicles = jsonData['results'];
+      vehicles.map((vehicle) {
+        addListVehicles(Vehicle.fromJson(vehicle));
+        addVehiclesBox(Vehicle.fromJson(vehicle));
       }).toList();
       print(next);
       setRes(true);
-      if (res) {
+      if (res && jsonData['next'] != null) {
         Timer(Duration(milliseconds: 200), () {
-          if (res) getMorePeople(next);
+          if (res) getMoreVehicles(next);
         });
       }
     }
   }
 
-  successGetMorePeople(jsonData) async {
+  successGetMoreVehicles(jsonData) async {
     if (jsonData != null) {
-      Iterable people = jsonData['results'];
-      people.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      Iterable vehicles = jsonData['results'];
+      vehicles.map((vehicle) {
+        addListVehicles(Vehicle.fromJson(vehicle));
+        addVehiclesBox(Vehicle.fromJson(vehicle));
       }).toList();
       setRes(true);
       if (jsonData['next'] != null) {
         next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_people', next);
+        _prefs.setString('next_vehicles', next);
       } else {
-        _prefs.setString('next_people', '');
+        _prefs.setString('next_vehicles', '');
         next = '';
       }
       print(next);
-      if (next != '' && res) getMorePeople(next);
+      if (next != '' && res) getMoreVehicles(next);
     }
   }
 
@@ -218,15 +219,15 @@ abstract class _CharactersControllerBase with Store {
   }
 
   @computed
-  List<People> get filterCharacters {
+  List<Vehicle> get filterVehicles {
     if (showFavorites) {
-      var favorites =
-          people.where((personagem) => personagem.isFavorite).toList();
+      var favorites = vehicles;
+      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {
         return favorites
-            .where((character) => character.name
+            .where((vehicle) => vehicle.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')
@@ -252,10 +253,10 @@ abstract class _CharactersControllerBase with Store {
       }
     } else {
       if (searchText == '') {
-        return people;
+        return vehicles;
       } else {
-        return people
-            .where((character) => character.name
+        return vehicles
+            .where((vehicle) => vehicle.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')

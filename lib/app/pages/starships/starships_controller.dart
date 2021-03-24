@@ -5,49 +5,48 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/app_controller.dart';
+import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/app/utils/api.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
-import 'package:starwarswiki/app/models/people.dart';
 
-part 'characters_controller.g.dart';
+part 'starships_controller.g.dart';
 
 StorageUtil _prefs = StorageUtil();
 
 final _appController = Modular.get<AppController>();
 
-class CharactersController = _CharactersControllerBase
-    with _$CharactersController;
+class StarshipsController = _StarshipsControllerBase with _$StarshipsController;
 
-abstract class _CharactersControllerBase with Store {
+abstract class _StarshipsControllerBase with Store {
   @observable
   ScrollController scrollController = ScrollController();
 
   @observable
-  Box<People> _peopleBox = Hive.box<People>(peopleBox);
+  Box<Starship> _starshipsBox = Hive.box<Starship>(starshipsBox);
 
   @observable
-  List<People> people = [];
+  List<Starship> starships = [];
 
   @action
-  peopleFromDB() {
-    people = _peopleBox.values.toList();
+  starshipsFromDB() {
+    starships = _starshipsBox.values.toList();
   }
 
   @action
-  addListPeople(newValue) => people.add(newValue);
+  addListStarships(newValue) => starships.add(newValue);
 
   @action
-  addPeopleBox(newValue) => _peopleBox.add(newValue);
+  addStarshipsBox(newValue) => _starshipsBox.add(newValue);
 
   @action
-  clearListPeople() => people.clear();
+  clearListStarships() => starships.clear();
 
   @action
-  clearPeopleBox() => _peopleBox.clear();
+  clearStarshipsBox() => _starshipsBox.clear();
 
   @action
-  deletePeopleBox() => _peopleBox.deleteFromDisk();
+  deleteStarshipsBox() => _starshipsBox.deleteFromDisk();
 
   @observable
   bool res = true;
@@ -87,9 +86,9 @@ abstract class _CharactersControllerBase with Store {
 
   @action
   setFavorito(int id) {
-    var foundIndex = people.indexWhere((person) => person.id == id);
-    people[foundIndex].isFavorite = !people[foundIndex].isFavorite;
-    _peopleBox.putAt(foundIndex, people[foundIndex]);
+    var foundIndex = starships.indexWhere((starship) => starship.id == id);
+    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
+    _starshipsBox.putAt(foundIndex, starships[foundIndex]);
   }
 
   @observable
@@ -99,47 +98,51 @@ abstract class _CharactersControllerBase with Store {
   setSearchSize(newValue) => searchSize = newValue;
 
   @observable
-  People personSelected = People(
-      id: 0,
-      name: '',
-      height: '',
-      mass: '',
-      hairColor: '',
-      skinColor: '',
-      eyeColor: '',
-      birthYear: '',
-      gender: '',
-      homeworld: '',
-      films: [],
-      species: [],
-      vehicles: [],
-      starships: [],
+  Starship starshipSelected = Starship(
+      cargoCapacity: '',
+      consumables: '',
+      costInCredits: '',
       created: '',
+      crew: '',
       edited: '',
+      hyperdriveRating: '',
+      films: [],
+      id: 0,
+      length: '',
+      manufacturer: '',
+      mGLT: '',
+      maxAtmospheringSpeed: '',
+      model: '',
+      name: '',
+      passengers: '',
+      pilots: [],
+      starshipClass: '',
       url: '');
 
   @action
-  setPersonSelected(newValue) {
+  setStarshipSelected(newValue) {
     if (newValue != null) {
-      personSelected = newValue;
+      starshipSelected = newValue;
     } else {
-      personSelected = People(
-          id: 0,
-          name: '',
-          height: '',
-          mass: '',
-          hairColor: '',
-          skinColor: '',
-          eyeColor: '',
-          birthYear: '',
-          gender: '',
-          homeworld: '',
-          films: [],
-          species: [],
-          vehicles: [],
-          starships: [],
+      starshipSelected = Starship(
+          cargoCapacity: '',
+          consumables: '',
+          costInCredits: '',
           created: '',
+          crew: '',
           edited: '',
+          hyperdriveRating: '',
+          films: [],
+          id: 0,
+          length: '',
+          manufacturer: '',
+          mGLT: '',
+          maxAtmospheringSpeed: '',
+          model: '',
+          name: '',
+          passengers: '',
+          pilots: [],
+          starshipClass: '',
           url: '');
     }
   }
@@ -147,60 +150,62 @@ abstract class _CharactersControllerBase with Store {
   API? api;
 
   @action
-  getPeople() async {
-    clearPeopleBox();
-    clearListPeople();
-    setPersonSelected(null);
+  getStarships() async {
+    clearStarshipsBox();
+    clearListStarships();
+    setStarshipSelected(null);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi('https://swapi.dev/api/people/', successGetPeople, error,
+    api!.getApi('https://swapi.dev/api/starships/', successGetStarships, error,
         _appController.context!);
   }
 
   @action
-  getMorePeople(String link) async {
+  getMoreStarships(String link) async {
     setRes(false);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi(link, successGetMorePeople, error, _appController.context!);
+    api!.getApi(link, successGetMoreStarships, error, _appController.context!);
   }
 
-  successGetPeople(jsonData) async {
+  successGetStarships(jsonData) async {
     if (jsonData != null) {
-      next = jsonData['next'].replaceAll('http', 'https');
-      _prefs.setString('next_people', next);
-      Iterable peple = jsonData['results'];
-      peple.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      if (jsonData['next'] != null) {
+        next = jsonData['next'].replaceAll('http', 'https');
+        _prefs.setString('next_starships', next);
+      }
+      Iterable starships = jsonData['results'];
+      starships.map((starship) {
+        addListStarships(Starship.fromJson(starship));
+        addStarshipsBox(Starship.fromJson(starship));
       }).toList();
       print(next);
       setRes(true);
-      if (res) {
+      if (res && jsonData['next'] != null) {
         Timer(Duration(milliseconds: 200), () {
-          if (res) getMorePeople(next);
+          if (res) getMoreStarships(next);
         });
       }
     }
   }
 
-  successGetMorePeople(jsonData) async {
+  successGetMoreStarships(jsonData) async {
     if (jsonData != null) {
-      Iterable people = jsonData['results'];
-      people.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      Iterable starships = jsonData['results'];
+      starships.map((starship) {
+        addListStarships(Starship.fromJson(starship));
+        addStarshipsBox(Starship.fromJson(starship));
       }).toList();
       setRes(true);
       if (jsonData['next'] != null) {
         next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_people', next);
+        _prefs.setString('next_starships', next);
       } else {
-        _prefs.setString('next_people', '');
+        _prefs.setString('next_starships', '');
         next = '';
       }
       print(next);
-      if (next != '' && res) getMorePeople(next);
+      if (next != '' && res) getMoreStarships(next);
     }
   }
 
@@ -218,15 +223,15 @@ abstract class _CharactersControllerBase with Store {
   }
 
   @computed
-  List<People> get filterCharacters {
+  List<Starship> get filterStarships {
     if (showFavorites) {
-      var favorites =
-          people.where((personagem) => personagem.isFavorite).toList();
+      var favorites = starships;
+      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {
         return favorites
-            .where((character) => character.name
+            .where((starship) => starship.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')
@@ -252,10 +257,10 @@ abstract class _CharactersControllerBase with Store {
       }
     } else {
       if (searchText == '') {
-        return people;
+        return starships;
       } else {
-        return people
-            .where((character) => character.name
+        return starships
+            .where((starship) => starship.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')

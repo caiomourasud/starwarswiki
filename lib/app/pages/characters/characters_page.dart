@@ -7,14 +7,16 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/models/people.dart';
-import 'package:starwarswiki/app/pages/characters/character_detail/character_detail_page.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
 import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
+import 'character_details/character_details_page.dart';
 import 'components/listtile_widget.dart';
 
 final _charactersController = Modular.get<CharactersController>();
 
+StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
 Conversores conversores = Conversores();
@@ -30,16 +32,16 @@ class _CharactersPageState extends State<CharactersPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _charactersController.scrollController.addListener(scrolllistener);
+    _charactersController.scrollController.addListener(_scrollListener);
     super.initState();
   }
 
-  scrolllistener() {
-    _charactersController
-        .setPosition(_charactersController.scrollController.position.pixels);
+  _scrollListener() {
+    _charactersController.setScrollPosition(
+        _charactersController.scrollController.position.pixels);
   }
 
-  void _onFocusChange() {
+  _onFocusChange() {
     setState(() {
       if (_focus.hasFocus == true || _buscar.text.isNotEmpty) {
         _charactersController.setSearchSize(78.0);
@@ -49,7 +51,7 @@ class _CharactersPageState extends State<CharactersPage> {
     });
   }
 
-  cancelar() {
+  _cancelar() {
     _buscar.clear();
     _charactersController.setSearchText('');
     _charactersController.setSearchSize(0.0);
@@ -85,7 +87,7 @@ class _CharactersPageState extends State<CharactersPage> {
                                 if (_charactersController.people.isEmpty) {
                                   _charactersController.getPeople();
                                 } else {
-                                  prefs.getString('next').then((data) {
+                                  _prefs.getString('next_people').then((data) {
                                     if (data != '') {
                                       _charactersController.getMorePeople(data);
                                     }
@@ -116,7 +118,7 @@ class _CharactersPageState extends State<CharactersPage> {
                                   onChange: (text) {
                                     _charactersController.setSearchText(text);
                                   },
-                                  cancelar: cancelar,
+                                  cancelar: _cancelar,
                                   texto: 'Search...',
                                   fullDimens: dimens));
                         }),
@@ -146,7 +148,7 @@ class _CharactersPageState extends State<CharactersPage> {
                         )
                       : Expanded(
                           child: ClipRect(
-                            child: CharacterDetailPage(
+                            child: CharacterDetailsPage(
                                 character:
                                     _charactersController.personSelected),
                           ),
@@ -178,12 +180,20 @@ class _CharactersPageState extends State<CharactersPage> {
                 _charactersController.clearPeopleBox();
               });
             }),
-        position: _charactersController.position,
+        position: _charactersController.scrollPosition,
         titleActions: [
-          _listFavorites(paddingTop: 4.0, paddingRight: 16.0, disable: false)
+          _listFavorites(
+              paddingTop: 4.0,
+              paddingRight: 16.0,
+              disable: false,
+              onTap: () => _charactersController.setShowFavorites(null))
         ],
         actions: [
-          _listFavorites(paddingTop: 4.0, paddingRight: 0.0, disable: false)
+          _listFavorites(
+              paddingTop: 4.0,
+              paddingRight: 0.0,
+              disable: _charactersController.scrollPosition <= 35.0,
+              onTap: () => _charactersController.setShowFavorites(null))
         ],
       );
     });
@@ -212,7 +222,11 @@ class _CharactersPageState extends State<CharactersPage> {
               },
             ),
             actions: [
-              _listFavorites(paddingTop: 4.0, paddingRight: 0.0, disable: false)
+              _listFavorites(
+                  paddingTop: 4.0,
+                  paddingRight: 0.0,
+                  disable: false,
+                  onTap: () => _charactersController.setShowFavorites(null))
             ],
           ));
     });
@@ -231,7 +245,7 @@ class _CharactersPageState extends State<CharactersPage> {
                   if (dimens.maxWidth <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                      return CharacterDetailPage(character: character);
+                      return CharacterDetailsPage(character: character);
                     }));
                   }
                   setState(() {
@@ -259,39 +273,40 @@ class _CharactersPageState extends State<CharactersPage> {
   _listFavorites(
       {required double paddingTop,
       required double paddingRight,
-      required bool disable}) {
+      required bool disable,
+      required Function() onTap}) {
     return MouseRegion(
         cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
         child: Padding(
           padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
           child: disable
-              ? CupertinoButton(
-                  minSize: 34,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.transparent,
-                  child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                      size: 28, color: Colors.red[600]),
-                  onPressed: () {})
+              ? Opacity(
+                  opacity: 0,
+                  child: CupertinoButton(
+                      minSize: 34,
+                      padding: EdgeInsets.zero,
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.transparent,
+                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
+                          size: 28, color: Colors.red[600]),
+                      onPressed: null),
+                )
               : Tooltip(
                   message: _charactersController.showFavorites
                       ? 'Listar todos'
                       : 'Listar favoritos',
                   child: CupertinoButton(
-                    minSize: 34,
-                    padding: EdgeInsets.zero,
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.transparent,
-                    child: Icon(
-                        _charactersController.showFavorites
-                            ? CupertinoIcons.square_favorites_alt_fill
-                            : CupertinoIcons.square_favorites_alt,
-                        size: 28,
-                        color: Colors.red[600]),
-                    onPressed: () =>
-                        _charactersController.setShowFavorites(null),
-                    // setState(() => showFavorites = !showFavorites),
-                  )),
+                      minSize: 34,
+                      padding: EdgeInsets.zero,
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.transparent,
+                      child: Icon(
+                          _charactersController.showFavorites
+                              ? CupertinoIcons.square_favorites_alt_fill
+                              : CupertinoIcons.square_favorites_alt,
+                          size: 28,
+                          color: Colors.red[600]),
+                      onPressed: () => onTap())),
         ));
   }
 }

@@ -108,18 +108,19 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
     });
   }
 
-  final _$positionAtom = Atom(name: '_CharactersControllerBase.position');
+  final _$scrollPositionAtom =
+      Atom(name: '_CharactersControllerBase.scrollPosition');
 
   @override
-  double get position {
-    _$positionAtom.reportRead();
-    return super.position;
+  double get scrollPosition {
+    _$scrollPositionAtom.reportRead();
+    return super.scrollPosition;
   }
 
   @override
-  set position(double value) {
-    _$positionAtom.reportWrite(value, super.position, () {
-      super.position = value;
+  set scrollPosition(double value) {
+    _$scrollPositionAtom.reportWrite(value, super.scrollPosition, () {
+      super.scrollPosition = value;
     });
   }
 
@@ -245,6 +246,17 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
+  dynamic deletePeopleBox() {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.deletePeopleBox');
+    try {
+      return super.deletePeopleBox();
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setRes(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setRes');
@@ -278,11 +290,11 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
-  dynamic setPosition(dynamic newValue) {
+  dynamic setScrollPosition(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setPosition');
+        .startAction(name: '_CharactersControllerBase.setScrollPosition');
     try {
-      return super.setPosition(newValue);
+      return super.setScrollPosition(newValue);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -340,7 +352,7 @@ people: ${people},
 res: ${res},
 searchText: ${searchText},
 next: ${next},
-position: ${position},
+scrollPosition: ${scrollPosition},
 showFavorites: ${showFavorites},
 searchSize: ${searchSize},
 personSelected: ${personSelected},

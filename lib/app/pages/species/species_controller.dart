@@ -5,49 +5,47 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/app_controller.dart';
+import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/utils/api.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
-import 'package:starwarswiki/app/models/people.dart';
-
-part 'characters_controller.g.dart';
+part 'species_controller.g.dart';
 
 StorageUtil _prefs = StorageUtil();
 
 final _appController = Modular.get<AppController>();
 
-class CharactersController = _CharactersControllerBase
-    with _$CharactersController;
+class SpeciesController = _SpeciesControllerBase with _$SpeciesController;
 
-abstract class _CharactersControllerBase with Store {
+abstract class _SpeciesControllerBase with Store {
   @observable
   ScrollController scrollController = ScrollController();
 
   @observable
-  Box<People> _peopleBox = Hive.box<People>(peopleBox);
+  Box<Specie> _speciesBox = Hive.box<Specie>(speciesBox);
 
   @observable
-  List<People> people = [];
+  List<Specie> species = [];
 
   @action
-  peopleFromDB() {
-    people = _peopleBox.values.toList();
+  speciesFromDB() {
+    species = _speciesBox.values.toList();
   }
 
   @action
-  addListPeople(newValue) => people.add(newValue);
+  addListSpecies(newValue) => species.add(newValue);
 
   @action
-  addPeopleBox(newValue) => _peopleBox.add(newValue);
+  addSpeciesBox(newValue) => _speciesBox.add(newValue);
 
   @action
-  clearListPeople() => people.clear();
+  clearListSpecies() => species.clear();
 
   @action
-  clearPeopleBox() => _peopleBox.clear();
+  clearSpeciesBox() => _speciesBox.clear();
 
   @action
-  deletePeopleBox() => _peopleBox.deleteFromDisk();
+  deleteSpeciesBox() => _speciesBox.deleteFromDisk();
 
   @observable
   bool res = true;
@@ -87,9 +85,9 @@ abstract class _CharactersControllerBase with Store {
 
   @action
   setFavorito(int id) {
-    var foundIndex = people.indexWhere((person) => person.id == id);
-    people[foundIndex].isFavorite = !people[foundIndex].isFavorite;
-    _peopleBox.putAt(foundIndex, people[foundIndex]);
+    var foundIndex = species.indexWhere((specie) => specie.id == id);
+    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
+    _speciesBox.putAt(foundIndex, species[foundIndex]);
   }
 
   @observable
@@ -99,47 +97,45 @@ abstract class _CharactersControllerBase with Store {
   setSearchSize(newValue) => searchSize = newValue;
 
   @observable
-  People personSelected = People(
-      id: 0,
-      name: '',
-      height: '',
-      mass: '',
-      hairColor: '',
-      skinColor: '',
-      eyeColor: '',
-      birthYear: '',
-      gender: '',
-      homeworld: '',
-      films: [],
-      species: [],
-      vehicles: [],
-      starships: [],
+  Specie specieSelected = Specie(
+      averageHeight: '',
+      averageLifespan: '',
+      classification: '',
       created: '',
+      designation: '',
       edited: '',
+      eyeColors: '',
+      films: [],
+      hairColors: '',
+      id: 0,
+      homeworld: '',
+      language: '',
+      name: '',
+      people: [],
+      skinColors: '',
       url: '');
 
   @action
-  setPersonSelected(newValue) {
+  setSpecieSelected(newValue) {
     if (newValue != null) {
-      personSelected = newValue;
+      specieSelected = newValue;
     } else {
-      personSelected = People(
-          id: 0,
-          name: '',
-          height: '',
-          mass: '',
-          hairColor: '',
-          skinColor: '',
-          eyeColor: '',
-          birthYear: '',
-          gender: '',
-          homeworld: '',
-          films: [],
-          species: [],
-          vehicles: [],
-          starships: [],
+      specieSelected = Specie(
+          averageHeight: '',
+          averageLifespan: '',
+          classification: '',
           created: '',
+          designation: '',
           edited: '',
+          eyeColors: '',
+          films: [],
+          hairColors: '',
+          id: 0,
+          homeworld: '',
+          language: '',
+          name: '',
+          people: [],
+          skinColors: '',
           url: '');
     }
   }
@@ -147,60 +143,62 @@ abstract class _CharactersControllerBase with Store {
   API? api;
 
   @action
-  getPeople() async {
-    clearPeopleBox();
-    clearListPeople();
-    setPersonSelected(null);
+  getSpecies() async {
+    clearSpeciesBox();
+    clearListSpecies();
+    setSpecieSelected(null);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi('https://swapi.dev/api/people/', successGetPeople, error,
+    api!.getApi('https://swapi.dev/api/species/', successGetSpecies, error,
         _appController.context!);
   }
 
   @action
-  getMorePeople(String link) async {
+  getMoreSpecies(String link) async {
     setRes(false);
     if (api != null) api!.cancel();
     api = API();
-    api!.getApi(link, successGetMorePeople, error, _appController.context!);
+    api!.getApi(link, successGetMoreSpecies, error, _appController.context!);
   }
 
-  successGetPeople(jsonData) async {
+  successGetSpecies(jsonData) async {
     if (jsonData != null) {
-      next = jsonData['next'].replaceAll('http', 'https');
-      _prefs.setString('next_people', next);
-      Iterable peple = jsonData['results'];
-      peple.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      if (jsonData['next'] != null) {
+        next = jsonData['next'].replaceAll('http', 'https');
+        _prefs.setString('next_species', next);
+      }
+      Iterable species = jsonData['results'];
+      species.map((specie) {
+        addListSpecies(Specie.fromJson(specie));
+        addSpeciesBox(Specie.fromJson(specie));
       }).toList();
       print(next);
       setRes(true);
-      if (res) {
+      if (res && jsonData['next'] != null) {
         Timer(Duration(milliseconds: 200), () {
-          if (res) getMorePeople(next);
+          if (res) getMoreSpecies(next);
         });
       }
     }
   }
 
-  successGetMorePeople(jsonData) async {
+  successGetMoreSpecies(jsonData) async {
     if (jsonData != null) {
-      Iterable people = jsonData['results'];
-      people.map((person) {
-        addListPeople(People.fromJson(person));
-        addPeopleBox(People.fromJson(person));
+      Iterable species = jsonData['results'];
+      species.map((specie) {
+        addListSpecies(Specie.fromJson(specie));
+        addSpeciesBox(Specie.fromJson(specie));
       }).toList();
       setRes(true);
       if (jsonData['next'] != null) {
         next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_people', next);
+        _prefs.setString('next_species', next);
       } else {
-        _prefs.setString('next_people', '');
+        _prefs.setString('next_species', '');
         next = '';
       }
       print(next);
-      if (next != '' && res) getMorePeople(next);
+      if (next != '' && res) getMoreSpecies(next);
     }
   }
 
@@ -218,15 +216,15 @@ abstract class _CharactersControllerBase with Store {
   }
 
   @computed
-  List<People> get filterCharacters {
+  List<Specie> get filterSpecies {
     if (showFavorites) {
-      var favorites =
-          people.where((personagem) => personagem.isFavorite).toList();
+      var favorites = species;
+      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {
         return favorites
-            .where((character) => character.name
+            .where((specie) => specie.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')
@@ -252,10 +250,10 @@ abstract class _CharactersControllerBase with Store {
       }
     } else {
       if (searchText == '') {
-        return people;
+        return species;
       } else {
-        return people
-            .where((character) => character.name
+        return species
+            .where((specie) => specie.name
                 .toLowerCase()
                 .replaceAll('á', 'a')
                 .replaceAll('é', 'e')
