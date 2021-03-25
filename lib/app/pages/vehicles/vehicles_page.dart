@@ -68,7 +68,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
             children: [
               Container(
                 height: double.infinity,
-                width: MediaQuery.of(context).size.width >= md
+                width: MediaQuery.of(context).size.width > md
                     ? 380.0
                     : dimens.maxWidth,
                 child: NestedScrollView(
@@ -131,11 +131,11 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       ];
                     }),
               ),
-              if (MediaQuery.of(context).size.width >= md)
+              if (MediaQuery.of(context).size.width > md)
                 VerticalDivider(
                   width: 0.1,
                 ),
-              if (MediaQuery.of(context).size.width >= md)
+              if (MediaQuery.of(context).size.width > md)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: Container(
@@ -175,9 +175,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
             minSize: 34,
             padding: EdgeInsets.zero,
             borderRadius: BorderRadius.circular(50.0),
-            color: Colors.transparent,
-            child: Icon(CupertinoIcons.person_crop_circle_fill,
-                size: 26, color: Colors.red[600]),
+            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
             onPressed: () {
               setState(() {
                 _vahiclesController.clearListVehicles();
@@ -216,9 +214,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
               minSize: 34,
               padding: EdgeInsets.zero,
               borderRadius: BorderRadius.circular(50.0),
-              color: Colors.transparent,
-              child: Icon(CupertinoIcons.person_crop_circle_fill,
-                  size: 26, color: Colors.red[600]),
+              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
               onPressed: () {
                 setState(() {
                   _vahiclesController.clearListVehicles();
@@ -308,9 +304,8 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28, color: Colors.red[600]),
+                          size: 28),
                       onPressed: null),
                 )
               : Tooltip(
@@ -321,13 +316,11 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(
                           _vahiclesController.showFavorites
                               ? CupertinoIcons.square_favorites_alt_fill
                               : CupertinoIcons.square_favorites_alt,
-                          size: 28,
-                          color: Colors.red[600]),
+                          size: 28),
                       onPressed: () => onTap())),
         ));
   }

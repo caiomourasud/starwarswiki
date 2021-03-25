@@ -176,9 +176,7 @@ class _CharactersPageState extends State<CharactersPage> {
             minSize: 34,
             padding: EdgeInsets.zero,
             borderRadius: BorderRadius.circular(50.0),
-            color: Colors.transparent,
-            child: Icon(CupertinoIcons.person_crop_circle_fill,
-                size: 26, color: Colors.red[600]),
+            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
             onPressed: () {
               setState(() {
                 _charactersController.clearListPeople();
@@ -216,9 +214,7 @@ class _CharactersPageState extends State<CharactersPage> {
               minSize: 34,
               padding: EdgeInsets.zero,
               borderRadius: BorderRadius.circular(50.0),
-              color: Colors.transparent,
-              child: Icon(CupertinoIcons.person_crop_circle_fill,
-                  size: 26, color: Colors.red[600]),
+              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
               onPressed: () {
                 setState(() {
                   _charactersController.clearListPeople();
@@ -290,9 +286,8 @@ class _CharactersPageState extends State<CharactersPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28, color: Colors.red[600]),
+                          size: 28),
                       onPressed: null),
                 )
               : Tooltip(
@@ -303,13 +298,11 @@ class _CharactersPageState extends State<CharactersPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(
                           _charactersController.showFavorites
                               ? CupertinoIcons.square_favorites_alt_fill
                               : CupertinoIcons.square_favorites_alt,
-                          size: 28,
-                          color: Colors.red[600]),
+                          size: 28),
                       onPressed: () => onTap())),
         ));
   }

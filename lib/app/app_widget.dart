@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,8 +43,16 @@ class _AppWidgetState extends State<AppWidget> {
     return MaterialApp(
       title: 'StarWars Wiki',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(
+          brightness: Brightness.light,
+          scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
+          cupertinoOverrideTheme:
+              CupertinoThemeData(primaryColor: Colors.red[700])),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
+          cupertinoOverrideTheme:
+              CupertinoThemeData(primaryColor: Colors.red[600])),
       themeMode: ThemeMode.system,
       initialRoute: '/',
     ).modular();

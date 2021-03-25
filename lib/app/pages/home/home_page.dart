@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/app_controller.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
@@ -10,6 +11,7 @@ import 'package:starwarswiki/app/pages/starships/starships_controller.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/custom_navigation_rail.dart';
 import 'destination.dart';
 
 final _appController = Modular.get<AppController>();
@@ -43,27 +45,25 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
                     MediaQuery.of(context).size.width <= md
-                ? BottomNavigationBar(
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    type: BottomNavigationBarType.fixed,
+                ? CupertinoTabBar(
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors.black38
+                            : Colors.white38,
                     currentIndex: indexSelected,
-                    onTap: (int index) {
+                    onTap: (index) {
                       FocusScope.of(context).unfocus();
                       _onTap(index);
                     },
+                    // border: Border(bottom: BorderSide(color: Colors.transparent)),
                     items: allDestinations.map((destination) {
                       return BottomNavigationBarItem(
-                          tooltip: destination.tooltip,
-                          icon: Stack(
-                            children: <Widget>[
-                              Icon(destination.icon),
-                            ],
-                          ),
-                          label: '');
+                        icon: Icon(destination.icon, size: 24),
+                        tooltip: destination.tooltip,
+                      );
                     }).toList(),
                   )
-                : null,
+                : SizedBox(),
             body: Row(
               children: [
                 _leftMenu(dimens),
@@ -79,50 +79,36 @@ class _HomePageState extends State<HomePage> {
 
   void _onTap(int index) {
     FocusScope.of(context).unfocus();
-
     switch (index) {
       case 0:
         if (indexSelected == 0) {
-          _filmsController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_filmsController.scrollController);
         }
-
-        // Modular.to.pushNamed('/films');
         break;
       case 1:
         if (indexSelected == 1) {
-          _charactersController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_charactersController.scrollController);
         }
-        // Modular.to.pushNamed('/characters');
         break;
       case 2:
         if (indexSelected == 2) {
-          _planetsController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_planetsController.scrollController);
         }
-        // Modular.to.pushNamed('/planets');
         break;
       case 3:
         if (indexSelected == 3) {
-          _speciesController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_speciesController.scrollController);
         }
-        // Modular.to.pushNamed('/species');
         break;
       case 4:
         if (indexSelected == 4) {
-          _starshipsController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_starshipsController.scrollController);
         }
-        // Modular.to.pushNamed('/starships');
         break;
       case 5:
         if (indexSelected == 5) {
-          _vehiclesController.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
+          _animateToTop(_vehiclesController.scrollController);
         }
-        // Modular.to.pushNamed('/vahicles');
         break;
       default:
     }
@@ -148,38 +134,19 @@ class _HomePageState extends State<HomePage> {
 
   _leftMenu(BoxConstraints dimens) {
     if (dimens.maxWidth > dimens.maxHeight &&
-        MediaQuery.of(context).size.width >= md) {
-      return _navigationRail(context, dimens, _onTap);
+        MediaQuery.of(context).size.width > md) {
+      return CustomNavigationRail(
+          dimens: dimens,
+          indexSelected: indexSelected,
+          itens: allDestinations,
+          onTap: (index) => _onTap(index));
     } else {
       return SizedBox();
     }
   }
 
-  _navigationRail(context, dimens, onTap) {
-    return Scrollbar(
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: dimens.maxHeight - 56.0),
-          child: IntrinsicHeight(
-            child: Material(
-              child: NavigationRail(
-                  unselectedIconTheme: Theme.of(context).iconTheme,
-                  selectedIconTheme:
-                      IconThemeData(color: Theme.of(context).accentColor),
-                  backgroundColor: Colors.transparent,
-                  labelType: NavigationRailLabelType.none,
-                  // unselectedIconTheme: IconThemeData(color: Colors.grey[800]),
-                  selectedIndex: indexSelected,
-                  onDestinationSelected: onTap,
-                  destinations: allDestinations.map((destination) {
-                    return NavigationRailDestination(
-                        label: Text(destination.tooltip),
-                        icon: Icon(destination.icon));
-                  }).toList()),
-            ),
-          ),
-        ),
-      ),
-    );
+  _animateToTop(ScrollController controller) {
+    controller.animateTo(0.0,
+        duration: Duration(milliseconds: 400), curve: Curves.linear);
   }
 }

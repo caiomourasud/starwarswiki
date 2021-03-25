@@ -22,6 +22,7 @@ class ListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       child: Theme(
         data: ThemeData(splashColor: Colors.transparent),
         child: ListTile(

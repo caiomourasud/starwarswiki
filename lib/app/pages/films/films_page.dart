@@ -129,11 +129,11 @@ class _FilmsPageState extends State<FilmsPage> {
                       ];
                     }),
               ),
-              if (MediaQuery.of(context).size.width >= md)
+              if (MediaQuery.of(context).size.width > md)
                 VerticalDivider(
                   width: 0.1,
                 ),
-              if (MediaQuery.of(context).size.width >= md)
+              if (MediaQuery.of(context).size.width > md)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: Container(
@@ -173,9 +173,7 @@ class _FilmsPageState extends State<FilmsPage> {
             minSize: 34,
             padding: EdgeInsets.zero,
             borderRadius: BorderRadius.circular(50.0),
-            color: Colors.transparent,
-            child: Icon(CupertinoIcons.person_crop_circle_fill,
-                size: 26, color: Colors.red[600]),
+            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
             onPressed: () {
               setState(() {
                 _filmsController.clearListFilms();
@@ -214,9 +212,7 @@ class _FilmsPageState extends State<FilmsPage> {
               minSize: 34,
               padding: EdgeInsets.zero,
               borderRadius: BorderRadius.circular(50.0),
-              color: Colors.transparent,
-              child: Icon(CupertinoIcons.person_crop_circle_fill,
-                  size: 26, color: Colors.red[600]),
+              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
               onPressed: () {
                 setState(() {
                   _filmsController.clearListFilms();
@@ -306,9 +302,8 @@ class _FilmsPageState extends State<FilmsPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28, color: Colors.red[600]),
+                          size: 28),
                       onPressed: null),
                 )
               : Tooltip(
@@ -319,13 +314,11 @@ class _FilmsPageState extends State<FilmsPage> {
                       minSize: 34,
                       padding: EdgeInsets.zero,
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.transparent,
                       child: Icon(
                           _filmsController.showFavorites
                               ? CupertinoIcons.square_favorites_alt_fill
                               : CupertinoIcons.square_favorites_alt,
-                          size: 28,
-                          color: Colors.red[600]),
+                          size: 28),
                       onPressed: () => onTap())),
         ));
   }
