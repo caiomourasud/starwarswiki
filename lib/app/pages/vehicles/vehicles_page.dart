@@ -68,7 +68,9 @@ class _VehiclesPageState extends State<VehiclesPage> {
             children: [
               Container(
                 height: double.infinity,
-                width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
+                width: MediaQuery.of(context).size.width >= md
+                    ? 380.0
+                    : dimens.maxWidth,
                 child: NestedScrollView(
                     controller: _vahiclesController.scrollController,
                     physics: const BouncingScrollPhysics(
@@ -105,9 +107,12 @@ class _VehiclesPageState extends State<VehiclesPage> {
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
-                        if (!_focus.hasFocus || dimens.maxWidth > md)
+                        if (!_focus.hasFocus ||
+                            MediaQuery.of(context).size.width > md)
                           _sliverAppBar(),
-                        if (_focus.hasFocus && dimens.maxWidth <= md) _appBar(),
+                        if (_focus.hasFocus &&
+                            MediaQuery.of(context).size.width <= md)
+                          _appBar(),
                         Observer(builder: (_) {
                           return SliverPersistentHeader(
                               pinned: true,
@@ -126,11 +131,11 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       ];
                     }),
               ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width >= md)
                 VerticalDivider(
                   width: 0.1,
                 ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width >= md)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: Container(
@@ -144,7 +149,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
                   return _vahiclesController.vehicleSelected.id == 0
                       ? Expanded(
                           child: Scaffold(
-                              body: Center(child: Text('No specie selected'))),
+                              body: Center(child: Text('No vehicle selected'))),
                         )
                       : Expanded(
                           child: ClipRect(
@@ -241,7 +246,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
               return ListTile(
                 title: Text(_vahiclesController.vehicles[index].name),
                 onTap: () {
-                  if (dimens.maxWidth <= md) {
+                  if (MediaQuery.of(context).size.width <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return VehicleDetailsPage(
@@ -259,7 +264,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
               //   person: people[index],
               //   dimens: dimens,
               //   onTap: (character) {
-              //     if (dimens.maxWidth <= md) {
+              //     if (MediaQuery.of(context).size.width <= md) {
               //       Navigator.push(context,
               //           CupertinoPageRoute(builder: (context) {
               //         return CharacterDetailPage(character: character);

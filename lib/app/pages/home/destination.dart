@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starwarswiki/app/pages/characters/characters_page.dart';
 import 'package:starwarswiki/app/pages/films/films_page.dart';
 import 'package:starwarswiki/app/pages/planets/planets_page.dart';
@@ -38,14 +37,14 @@ List<Destination> allDestinations = <Destination>[
         page: PlanetsPage(),
         actionList: [],
       ),
-      icon: CupertinoIcons.globe,
+      icon: CupertinoIcons.circle_grid_hex_fill,
       tooltip: 'Planets'),
   Destination(
       pagina: DefaultView(
         page: SpeciesPage(),
         actionList: [],
       ),
-      icon: FontAwesomeIcons.dna,
+      icon: Icons.biotech_rounded,
       tooltip: 'Species'),
   Destination(
       pagina: DefaultView(
@@ -59,6 +58,6 @@ List<Destination> allDestinations = <Destination>[
         page: VehiclesPage(),
         actionList: [],
       ),
-      icon: FontAwesomeIcons.motorcycle,
+      icon: CupertinoIcons.square_stack_3d_down_right_fill,
       tooltip: 'Vehicles')
 ];

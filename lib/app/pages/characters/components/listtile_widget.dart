@@ -9,7 +9,6 @@ Conversores conversores = Conversores();
 class ListTileWidget extends StatelessWidget {
   final People personSelected;
   final People person;
-  final BoxConstraints dimens;
   final Function(People) onTap;
   final Function(int) onFavoriteTap;
 
@@ -17,7 +16,6 @@ class ListTileWidget extends StatelessWidget {
       {Key? key,
       required this.personSelected,
       required this.person,
-      required this.dimens,
       required this.onTap,
       required this.onFavoriteTap})
       : super(key: key);
@@ -27,7 +25,8 @@ class ListTileWidget extends StatelessWidget {
       child: Theme(
         data: ThemeData(splashColor: Colors.transparent),
         child: ListTile(
-          selected: personSelected == person && dimens.maxWidth > md,
+          selected: personSelected == person &&
+              MediaQuery.of(context).size.width > md,
           selectedTileColor: Theme.of(context).focusColor,
           contentPadding: EdgeInsets.fromLTRB(4.0, 8.0, 13.0, 8.0),
           onTap: () {

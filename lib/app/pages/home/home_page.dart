@@ -41,29 +41,29 @@ class _HomePageState extends State<HomePage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: LayoutBuilder(builder: (context, dimens) {
           return Scaffold(
-            bottomNavigationBar:
-                dimens.maxWidth <= dimens.maxHeight || dimens.maxWidth <= md
-                    ? BottomNavigationBar(
-                        showSelectedLabels: false,
-                        showUnselectedLabels: false,
-                        type: BottomNavigationBarType.fixed,
-                        currentIndex: indexSelected,
-                        onTap: (int index) {
-                          FocusScope.of(context).unfocus();
-                          _onTap(index);
-                        },
-                        items: allDestinations.map((destination) {
-                          return BottomNavigationBarItem(
-                              tooltip: destination.tooltip,
-                              icon: Stack(
-                                children: <Widget>[
-                                  Icon(destination.icon),
-                                ],
-                              ),
-                              label: '');
-                        }).toList(),
-                      )
-                    : null,
+            bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
+                    MediaQuery.of(context).size.width <= md
+                ? BottomNavigationBar(
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: indexSelected,
+                    onTap: (int index) {
+                      FocusScope.of(context).unfocus();
+                      _onTap(index);
+                    },
+                    items: allDestinations.map((destination) {
+                      return BottomNavigationBarItem(
+                          tooltip: destination.tooltip,
+                          icon: Stack(
+                            children: <Widget>[
+                              Icon(destination.icon),
+                            ],
+                          ),
+                          label: '');
+                    }).toList(),
+                  )
+                : null,
             body: Row(
               children: [
                 _leftMenu(dimens),
@@ -147,7 +147,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _leftMenu(BoxConstraints dimens) {
-    if (dimens.maxWidth > dimens.maxHeight && dimens.maxWidth > md) {
+    if (dimens.maxWidth > dimens.maxHeight &&
+        MediaQuery.of(context).size.width >= md) {
       return _navigationRail(context, dimens, _onTap);
     } else {
       return SizedBox();

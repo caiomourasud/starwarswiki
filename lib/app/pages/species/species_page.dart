@@ -68,7 +68,9 @@ class _SpeciesPageState extends State<SpeciesPage> {
             children: [
               Container(
                 height: double.infinity,
-                width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
+                width: MediaQuery.of(context).size.width >= md
+                    ? 380.0
+                    : dimens.maxWidth,
                 child: NestedScrollView(
                     controller: _speciesController.scrollController,
                     physics: const BouncingScrollPhysics(
@@ -103,9 +105,12 @@ class _SpeciesPageState extends State<SpeciesPage> {
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
-                        if (!_focus.hasFocus || dimens.maxWidth > md)
+                        if (!_focus.hasFocus ||
+                            MediaQuery.of(context).size.width > md)
                           _sliverAppBar(),
-                        if (_focus.hasFocus && dimens.maxWidth <= md) _appBar(),
+                        if (_focus.hasFocus &&
+                            MediaQuery.of(context).size.width <= md)
+                          _appBar(),
                         Observer(builder: (_) {
                           return SliverPersistentHeader(
                               pinned: true,
@@ -124,11 +129,11 @@ class _SpeciesPageState extends State<SpeciesPage> {
                       ];
                     }),
               ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width >= md)
                 VerticalDivider(
                   width: 0.1,
                 ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width >= md)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: Container(
@@ -239,7 +244,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
               return ListTile(
                 title: Text(_speciesController.species[index].name),
                 onTap: () {
-                  if (dimens.maxWidth <= md) {
+                  if (MediaQuery.of(context).size.width <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return SpecieDetailsPage(
@@ -257,7 +262,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
               //   person: people[index],
               //   dimens: dimens,
               //   onTap: (character) {
-              //     if (dimens.maxWidth <= md) {
+              //     if (MediaQuery.of(context).size.width <= md) {
               //       Navigator.push(context,
               //           CupertinoPageRoute(builder: (context) {
               //         return CharacterDetailPage(character: character);

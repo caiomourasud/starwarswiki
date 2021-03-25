@@ -69,7 +69,9 @@ class _CharactersPageState extends State<CharactersPage> {
             children: [
               Container(
                 height: double.infinity,
-                width: dimens.maxWidth > md ? 380.0 : dimens.maxWidth,
+                width: MediaQuery.of(context).size.width > md
+                    ? 380.0
+                    : dimens.maxWidth,
                 child: NestedScrollView(
                     controller: _charactersController.scrollController,
                     physics: const BouncingScrollPhysics(
@@ -104,9 +106,12 @@ class _CharactersPageState extends State<CharactersPage> {
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
-                        if (!_focus.hasFocus || dimens.maxWidth > md)
+                        if (!_focus.hasFocus ||
+                            MediaQuery.of(context).size.width > md)
                           _sliverAppBar(),
-                        if (_focus.hasFocus && dimens.maxWidth <= md) _appBar(),
+                        if (_focus.hasFocus &&
+                            MediaQuery.of(context).size.width <= md)
+                          _appBar(),
                         Observer(builder: (_) {
                           return SliverPersistentHeader(
                               pinned: true,
@@ -125,11 +130,11 @@ class _CharactersPageState extends State<CharactersPage> {
                       ];
                     }),
               ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width > md)
                 VerticalDivider(
                   width: 0.1,
                 ),
-              if (dimens.maxWidth > md)
+              if (MediaQuery.of(context).size.width > md)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: Container(
@@ -240,9 +245,8 @@ class _CharactersPageState extends State<CharactersPage> {
               return ListTileWidget(
                 personSelected: _charactersController.personSelected,
                 person: people[index],
-                dimens: dimens,
                 onTap: (character) {
-                  if (dimens.maxWidth <= md) {
+                  if (MediaQuery.of(context).size.width <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return CharacterDetailsPage(character: character);
