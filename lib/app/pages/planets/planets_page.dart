@@ -6,7 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/models/planet.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -18,7 +18,7 @@ final _planetsController = Modular.get<PlanetsController>();
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 bool selectable = false;
 
@@ -169,18 +169,6 @@ class _PlanetsPageState extends State<PlanetsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Planets',
-        leading: CupertinoButton(
-            minSize: 34,
-            padding: EdgeInsets.zero,
-            borderRadius: BorderRadius.circular(50.0),
-            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-            onPressed: () {
-              setState(() {
-                _planetsController.clearListPlanets();
-                _planetsController.clearPlanetsBox();
-                _prefs.delete('next_planets');
-              });
-            }),
         position: _planetsController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -208,19 +196,6 @@ class _PlanetsPageState extends State<PlanetsPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Films',
-            leading: CupertinoButton(
-              minSize: 34,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(50.0),
-              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-              onPressed: () {
-                setState(() {
-                  _planetsController.clearListPlanets();
-                  _planetsController.clearPlanetsBox();
-                  _prefs.delete('next_planets');
-                });
-              },
-            ),
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -270,7 +245,7 @@ class _PlanetsPageState extends State<PlanetsPage> {
               //   },
               //   onFavoriteTap: (id) {
               //     setState(() {
-              //       _charactersController.setFavorito(id);
+              //       _charactersController.setFavorite(id);
               //     });
               //   },
               // );

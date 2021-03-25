@@ -85,7 +85,7 @@ abstract class _VehiclesControllerBase with Store {
   }
 
   @action
-  setFavorito(int id) {
+  setFavorite(int id) {
     var foundIndex = vehicles.indexWhere((vehicle) => vehicle.id == id);
     // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
     _vehiclesBox.putAt(foundIndex, vehicles[foundIndex]);

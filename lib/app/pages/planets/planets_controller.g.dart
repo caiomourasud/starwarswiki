@@ -312,11 +312,11 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
   }
 
   @override
-  dynamic setFavorito(int id) {
+  dynamic setFavorite(int id) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
-        name: '_PlanetsControllerBase.setFavorito');
+        name: '_PlanetsControllerBase.setFavorite');
     try {
-      return super.setFavorito(id);
+      return super.setFavorite(id);
     } finally {
       _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
     }

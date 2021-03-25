@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-class StarshipDetailsPage extends StatefulWidget {
-  final Starship starship;
-
-  const StarshipDetailsPage({Key? key, required this.starship})
-      : super(key: key);
+class SettingDetailsPage extends StatefulWidget {
   @override
-  _StarshipDetailsPageState createState() => _StarshipDetailsPageState();
+  _SettingDetailsPageState createState() => _SettingDetailsPageState();
 }
 
-class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
+class _SettingDetailsPageState extends State<SettingDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +16,7 @@ class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.starship.name,
+          'Test',
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87

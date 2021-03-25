@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +10,7 @@ import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 import 'character_details/character_details_page.dart';
@@ -19,7 +21,7 @@ final _charactersController = Modular.get<CharactersController>();
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 bool selectable = false;
 
@@ -172,17 +174,6 @@ class _CharactersPageState extends State<CharactersPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Characters',
-        leading: CupertinoButton(
-            minSize: 34,
-            padding: EdgeInsets.zero,
-            borderRadius: BorderRadius.circular(50.0),
-            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-            onPressed: () {
-              setState(() {
-                _charactersController.clearListPeople();
-                _charactersController.clearPeopleBox();
-              });
-            }),
         position: _charactersController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -210,18 +201,6 @@ class _CharactersPageState extends State<CharactersPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Characters',
-            leading: CupertinoButton(
-              minSize: 34,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(50.0),
-              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-              onPressed: () {
-                setState(() {
-                  _charactersController.clearListPeople();
-                  _charactersController.clearPeopleBox();
-                });
-              },
-            ),
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -254,7 +233,7 @@ class _CharactersPageState extends State<CharactersPage> {
                 },
                 onFavoriteTap: (id) {
                   setState(() {
-                    _charactersController.setFavorito(id);
+                    _charactersController.setFavorite(id);
                   });
                 },
               );

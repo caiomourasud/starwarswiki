@@ -7,7 +7,7 @@ import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -18,7 +18,7 @@ final _vahiclesController = Modular.get<VehiclesController>();
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 bool selectable = false;
 
@@ -171,18 +171,6 @@ class _VehiclesPageState extends State<VehiclesPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Vehicles',
-        leading: CupertinoButton(
-            minSize: 34,
-            padding: EdgeInsets.zero,
-            borderRadius: BorderRadius.circular(50.0),
-            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-            onPressed: () {
-              setState(() {
-                _vahiclesController.clearListVehicles();
-                _vahiclesController.clearVehiclesBox();
-                _prefs.delete('next_vehicles');
-              });
-            }),
         position: _vahiclesController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -210,19 +198,6 @@ class _VehiclesPageState extends State<VehiclesPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Vehicles',
-            leading: CupertinoButton(
-              minSize: 34,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(50.0),
-              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-              onPressed: () {
-                setState(() {
-                  _vahiclesController.clearListVehicles();
-                  _vahiclesController.clearVehiclesBox();
-                  _prefs.delete('next_vehicles');
-                });
-              },
-            ),
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -255,27 +230,6 @@ class _VehiclesPageState extends State<VehiclesPage> {
                   });
                 },
               );
-              // return ListTileWidget(
-              //   personSelected: _charactersController.personSelected,
-              //   person: people[index],
-              //   dimens: dimens,
-              //   onTap: (character) {
-              //     if (MediaQuery.of(context).size.width <= md) {
-              //       Navigator.push(context,
-              //           CupertinoPageRoute(builder: (context) {
-              //         return CharacterDetailPage(character: character);
-              //       }));
-              //     }
-              //     setState(() {
-              //       _charactersController.setPersonSelected(character);
-              //     });
-              //   },
-              //   onFavoriteTap: (id) {
-              //     setState(() {
-              //       _charactersController.setFavorito(id);
-              //     });
-              //   },
-              // );
             }, childCount: vehicles.length),
           )
         : SliverToBoxAdapter(

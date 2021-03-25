@@ -86,7 +86,7 @@ abstract class _CharactersControllerBase with Store {
   }
 
   @action
-  setFavorito(int id) {
+  setFavorite(int id) {
     var foundIndex = people.indexWhere((person) => person.id == id);
     people[foundIndex].isFavorite = !people[foundIndex].isFavorite;
     _peopleBox.putAt(foundIndex, people[foundIndex]);

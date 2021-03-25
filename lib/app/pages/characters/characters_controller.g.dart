@@ -312,11 +312,11 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
-  dynamic setFavorito(int id) {
+  dynamic setFavorite(int id) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setFavorito');
+        .startAction(name: '_CharactersControllerBase.setFavorite');
     try {
-      return super.setFavorito(id);
+      return super.setFavorite(id);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }

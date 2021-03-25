@@ -84,7 +84,7 @@ abstract class _PlanetsControllerBase with Store {
   }
 
   @action
-  setFavorito(int id) {
+  setFavorite(int id) {
     var foundIndex = planets.indexWhere((planet) => planet.id == id);
     // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
     _planetsBox.putAt(foundIndex, planets[foundIndex]);

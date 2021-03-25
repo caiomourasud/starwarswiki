@@ -45,11 +45,13 @@ class _AppWidgetState extends State<AppWidget> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           brightness: Brightness.light,
+          accentColor: Colors.red[700],
           scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
           cupertinoOverrideTheme:
               CupertinoThemeData(primaryColor: Colors.red[700])),
       darkTheme: ThemeData(
           brightness: Brightness.dark,
+          accentColor: Colors.red[700],
           scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
           cupertinoOverrideTheme:
               CupertinoThemeData(primaryColor: Colors.red[600])),

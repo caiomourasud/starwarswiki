@@ -312,11 +312,11 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   }
 
   @override
-  dynamic setFavorito(int id) {
+  dynamic setFavorite(int id) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setFavorito');
+        name: '_VehiclesControllerBase.setFavorite');
     try {
-      return super.setFavorito(id);
+      return super.setFavorite(id);
     } finally {
       _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
     }

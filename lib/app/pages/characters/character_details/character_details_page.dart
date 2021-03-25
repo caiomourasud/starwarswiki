@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/models/people.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class CharacterDetailsPage extends StatefulWidget {
   final People character;
@@ -16,6 +17,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CupertinoNavigationBar(
+        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md,
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(

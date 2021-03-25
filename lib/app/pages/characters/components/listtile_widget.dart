@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 import 'package:starwarswiki/app/models/people.dart';
 
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 class ListTileWidget extends StatelessWidget {
   final People personSelected;

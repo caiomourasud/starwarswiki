@@ -7,7 +7,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -19,7 +19,7 @@ final _filmsController = Modular.get<FilmsController>();
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 bool selectable = false;
 
@@ -169,18 +169,6 @@ class _FilmsPageState extends State<FilmsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Films',
-        leading: CupertinoButton(
-            minSize: 34,
-            padding: EdgeInsets.zero,
-            borderRadius: BorderRadius.circular(50.0),
-            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-            onPressed: () {
-              setState(() {
-                _filmsController.clearListFilms();
-                _filmsController.clearFilmsBox();
-                _prefs.delete('next_films');
-              });
-            }),
         position: _filmsController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -208,19 +196,6 @@ class _FilmsPageState extends State<FilmsPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Films',
-            leading: CupertinoButton(
-              minSize: 34,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(50.0),
-              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-              onPressed: () {
-                setState(() {
-                  _filmsController.clearListFilms();
-                  _filmsController.clearFilmsBox();
-                  _prefs.delete('next_films');
-                });
-              },
-            ),
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -253,27 +228,6 @@ class _FilmsPageState extends State<FilmsPage> {
                   });
                 },
               );
-              // return ListTileWidget(
-              //   personSelected: _charactersController.personSelected,
-              //   person: people[index],
-              //   dimens: dimens,
-              //   onTap: (character) {
-              //     if (MediaQuery.of(context).size.width <= md) {
-              //       Navigator.push(context,
-              //           CupertinoPageRoute(builder: (context) {
-              //         return CharacterDetailPage(character: character);
-              //       }));
-              //     }
-              //     setState(() {
-              //       _charactersController.setPersonSelected(character);
-              //     });
-              //   },
-              //   onFavoriteTap: (id) {
-              //     setState(() {
-              //       _charactersController.setFavorito(id);
-              //     });
-              //   },
-              // );
             }, childCount: films.length),
           )
         : SliverToBoxAdapter(

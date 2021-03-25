@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class SpecieDetailsPage extends StatefulWidget {
   final Specie specie;
@@ -15,6 +16,7 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CupertinoNavigationBar(
+        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md,
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(

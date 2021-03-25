@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/models/planet.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class PlanetDetailsPage extends StatefulWidget {
   final Planet planet;
@@ -15,6 +16,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CupertinoNavigationBar(
+        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md,
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(

@@ -85,7 +85,7 @@ abstract class _StarshipsControllerBase with Store {
   }
 
   @action
-  setFavorito(int id) {
+  setFavorite(int id) {
     var foundIndex = starships.indexWhere((starship) => starship.id == id);
     // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
     _starshipsBox.putAt(foundIndex, starships[foundIndex]);

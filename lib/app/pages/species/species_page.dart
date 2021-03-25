@@ -6,7 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/custom_appbar.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/utils/conversores.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -18,7 +18,7 @@ final _speciesController = Modular.get<SpeciesController>();
 StorageUtil _prefs = StorageUtil();
 FocusNode _focus = FocusNode();
 TextEditingController _buscar = TextEditingController();
-Conversores conversores = Conversores();
+Converters conversores = Converters();
 
 bool selectable = false;
 
@@ -169,18 +169,6 @@ class _SpeciesPageState extends State<SpeciesPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Species',
-        leading: CupertinoButton(
-            minSize: 34,
-            padding: EdgeInsets.zero,
-            borderRadius: BorderRadius.circular(50.0),
-            child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-            onPressed: () {
-              setState(() {
-                _speciesController.clearListSpecies();
-                _speciesController.clearSpeciesBox();
-                _prefs.delete('next_species');
-              });
-            }),
         position: _speciesController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -208,19 +196,6 @@ class _SpeciesPageState extends State<SpeciesPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Species',
-            leading: CupertinoButton(
-              minSize: 34,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(50.0),
-              child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-              onPressed: () {
-                setState(() {
-                  _speciesController.clearListSpecies();
-                  _speciesController.clearSpeciesBox();
-                  _prefs.delete('next_species');
-                });
-              },
-            ),
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -270,7 +245,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
               //   },
               //   onFavoriteTap: (id) {
               //     setState(() {
-              //       _charactersController.setFavorito(id);
+              //       _charactersController.setFavorite(id);
               //     });
               //   },
               // );

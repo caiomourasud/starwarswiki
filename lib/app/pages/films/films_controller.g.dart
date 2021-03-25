@@ -309,11 +309,11 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
-  dynamic setFavorito(int id) {
+  dynamic setFavorite(int id) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setFavorito');
+        name: '_FilmsControllerBase.setFavorite');
     try {
-      return super.setFavorito(id);
+      return super.setFavorite(id);
     } finally {
       _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
     }

@@ -85,7 +85,7 @@ abstract class _FilmsControllerBase with Store {
   }
 
   @action
-  setFavorito(int id) {
+  setFavorite(int id) {
     var foundIndex = films.indexWhere((film) => film.id == id);
     // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
     _filmsBox.putAt(foundIndex, films[foundIndex]);
