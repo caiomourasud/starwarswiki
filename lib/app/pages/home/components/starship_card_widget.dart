@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 
-class FilmCardWidget extends StatelessWidget {
-  final Film film;
+class StarshipCardWidget extends StatelessWidget {
+  final Starship starship;
   final Function onTap;
-  // final Function(int) onIconPressed;
 
-  const FilmCardWidget({
+  const StarshipCardWidget({
     Key? key,
-    required this.film,
+    required this.starship,
     required this.onTap,
-    // required this.onIconPressed
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -28,28 +26,27 @@ class FilmCardWidget extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 168.0,
-                  width: 110.0,
+                  height: 80.0,
+                  width: 140.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,
                       image: DecorationImage(
                         image: NetworkImage(ImageGenerator.generateImage(
-                            id: film.id, type: 'films')),
+                            id: starship.id, type: 'starships')),
                         alignment: Alignment.topCenter,
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
-                            Colors.black.withOpacity(0.1), BlendMode.xor),
+                            Colors.black.withOpacity(0.4), BlendMode.xor),
                       )),
                 ),
-                // Container(
-                //   height: 168,
-                //   width: 110.0,
-                //   child: Image.network(
-                //     ImageGenerator.generateImage(id: film.id, type: 'films'),
-                //     alignment: Alignment.center,
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
+                Center(
+                  child: Text(starship.name,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .overline
+                          ?.copyWith(color: Colors.white)),
+                )
               ],
             )),
       ),

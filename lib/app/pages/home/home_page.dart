@@ -6,19 +6,28 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/pages/characters/character_details/character_details_page.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
 import 'package:starwarswiki/app/pages/characters/characters_page.dart';
+import 'package:starwarswiki/app/pages/films/film_details/film_details_page.dart';
 import 'package:starwarswiki/app/pages/films/films_controller.dart';
 import 'package:starwarswiki/app/pages/films/films_page.dart';
 import 'package:starwarswiki/app/pages/home/components/character_card_widget.dart';
+import 'package:starwarswiki/app/pages/planets/planet_details/planet_details_page.dart';
 import 'package:starwarswiki/app/pages/planets/planets_controller.dart';
 import 'package:starwarswiki/app/pages/planets/planets_page.dart';
+import 'package:starwarswiki/app/pages/species/specie_details/specie_details_page.dart';
 import 'package:starwarswiki/app/pages/species/species_controller.dart';
 import 'package:starwarswiki/app/pages/species/species_page.dart';
+import 'package:starwarswiki/app/pages/starships/starship_details/starship_details_page.dart';
 import 'package:starwarswiki/app/pages/starships/starships_controller.dart';
 import 'package:starwarswiki/app/pages/starships/starships_page.dart';
+import 'package:starwarswiki/app/pages/vehicles/vehicle_details/vehicle_details_page.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_page.dart';
 
 import 'components/film_card_widget.dart';
+import 'components/planet_card_widget.dart';
+import 'components/specie_card_widget.dart';
+import 'components/starship_card_widget.dart';
+import 'components/vehicle_card_widget.dart';
 import 'home_controller.dart';
 
 final _homeController = Modular.get<HomeController>();
@@ -66,24 +75,33 @@ class _HomePageState extends State<HomePage> {
                         body: Scrollbar(
                           child: CustomScrollView(
                             slivers: [
-                              SliverToBoxAdapter(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 4.0),
-                                  child: Text(
-                                      'The Star Wars API, or "swapi" (Swah-pee) is the world`s first quantified and programmatically-accessible data source for all the data from the Star Wars canon universe!'),
-                                ),
-                              ),
-                              SliverToBoxAdapter(child: SizedBox(height: 24.0)),
+                              // SliverToBoxAdapter(
+                              //   child: Padding(
+                              //     padding: EdgeInsets.symmetric(
+                              //         horizontal: 16.0, vertical: 4.0),
+                              //     child: Text(
+                              //         'The Star Wars API, or "swapi" (Swah-pee) is the world`s first quantified and programmatically-accessible data source for all the data from the Star Wars canon universe!'),
+                              //   ),
+                              // ),
+                              // SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Films',
-                                  height: 100.0,
-                                  width: 200.0,
+                                  height: 168.0,
+                                  width: 110.0,
                                   cards: _filmsController.films,
                                   card: (index) {
                                     return FilmCardWidget(
-                                        film: _filmsController.films[index],
-                                        onTap: () {});
+                                      film: _filmsController.films[index],
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return FilmDetailsPage(
+                                              film: _filmsController
+                                                  .films[index]);
+                                        }));
+                                      },
+                                    );
                                   },
                                   onTap: () {
                                     Navigator.push(
@@ -97,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Characters',
-                                  height: 200.0,
+                                  height: 160.0,
                                   width: 140.0,
                                   cards: _charactersController.people,
                                   card: (index) {
@@ -137,13 +155,17 @@ class _HomePageState extends State<HomePage> {
                                   width: 100.0,
                                   cards: _planetsController.planets,
                                   card: (index) {
-                                    return Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50.0)),
-                                      child: Center(
-                                          child: Text(_planetsController
-                                              .planets[index].name)),
+                                    return PlanetCardWidget(
+                                      planet: _planetsController.planets[index],
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return PlanetDetailsPage(
+                                              planet: _planetsController
+                                                  .planets[index]);
+                                        }));
+                                      },
                                     );
                                   },
                                   onTap: () {
@@ -162,10 +184,18 @@ class _HomePageState extends State<HomePage> {
                                   width: 140.0,
                                   cards: _speciesController.species,
                                   card: (index) {
-                                    return Card(
-                                        child: Center(
-                                            child: Text(_speciesController
-                                                .species[index].name)));
+                                    return SpecieCardWidget(
+                                      specie: _speciesController.species[index],
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return SpecieDetailsPage(
+                                              specie: _speciesController
+                                                  .species[index]);
+                                        }));
+                                      },
+                                    );
                                   },
                                   onTap: () {
                                     Navigator.push(
@@ -183,10 +213,19 @@ class _HomePageState extends State<HomePage> {
                                   width: 140.0,
                                   cards: _starshipsController.starships,
                                   card: (index) {
-                                    return Card(
-                                        child: Center(
-                                            child: Text(_starshipsController
-                                                .starships[index].name)));
+                                    return StarshipCardWidget(
+                                      starship:
+                                          _starshipsController.starships[index],
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return StarshipDetailsPage(
+                                              starship: _starshipsController
+                                                  .starships[index]);
+                                        }));
+                                      },
+                                    );
                                   },
                                   onTap: () {
                                     Navigator.push(
@@ -204,10 +243,19 @@ class _HomePageState extends State<HomePage> {
                                   width: 100.0,
                                   cards: _vehiclesController.vehicles,
                                   card: (index) {
-                                    return Card(
-                                        child: Center(
-                                            child: Text(_vehiclesController
-                                                .vehicles[index].name)));
+                                    return VehicleCardWidget(
+                                      vehicle:
+                                          _vehiclesController.vehicles[index],
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return VehicleDetailsPage(
+                                              vehicle: _vehiclesController
+                                                  .vehicles[index]);
+                                        }));
+                                      },
+                                    );
                                   },
                                   onTap: () {
                                     Navigator.push(

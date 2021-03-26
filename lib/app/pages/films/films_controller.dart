@@ -30,7 +30,9 @@ abstract class _FilmsControllerBase with Store {
 
   @action
   filmsFromDB() {
-    films = _filmsBox.values.toList();
+    films = _filmsBox.values.toList()
+      ..sort((a, b) => a.episodeId.compareTo(b.episodeId));
+    // someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
   }
 
   @action
