@@ -156,8 +156,9 @@ class _CharactersPageState extends State<CharactersPage> {
                       : Expanded(
                           child: ClipRect(
                             child: CharacterDetailsPage(
-                                character:
-                                    _charactersController.personSelected),
+                              character: _charactersController.personSelected,
+                              backButton: 0,
+                            ),
                           ),
                         );
                 },
@@ -224,7 +225,10 @@ class _CharactersPageState extends State<CharactersPage> {
                   if (MediaQuery.of(context).size.width <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                      return CharacterDetailsPage(character: character);
+                      return CharacterDetailsPage(
+                        character: character,
+                        backButton: 1,
+                      );
                     }));
                   }
                   setState(() {

@@ -154,7 +154,8 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       : Expanded(
                           child: ClipRect(
                             child: VehicleDetailsPage(
-                                vehicle: _vahiclesController.vehicleSelected),
+                                vehicle: _vahiclesController.vehicleSelected,
+                                backButton: 0),
                           ),
                         );
                 },
@@ -221,7 +222,8 @@ class _VehiclesPageState extends State<VehiclesPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return VehicleDetailsPage(
-                          vehicle: _vahiclesController.vehicles[index]);
+                          vehicle: _vahiclesController.vehicles[index],
+                          backButton: 1);
                     }));
                   }
                   setState(() {

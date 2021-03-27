@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'app_controller.dart';
 import 'pages/characters/characters_controller.dart';
-import 'pages/films/film_details/film_details_page.dart';
 import 'pages/films/films_controller.dart';
 import 'pages/home/home_controller.dart';
 import 'pages/main/main_page.dart';
@@ -29,9 +28,9 @@ class AppModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, __) => MainPage()),
-    ChildRoute(
-      '/filmdetails/:id',
-      child: (_, args) => FilmDetailsPage(film: args.data),
-    ),
+    // ChildRoute(
+    //   '/filmdetails/:id',
+    //   child: (_, args) => FilmDetailsPage(film: args.data),
+    // ),
   ];
 }

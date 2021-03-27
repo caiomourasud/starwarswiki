@@ -156,8 +156,8 @@ class _StarshipsPageState extends State<StarshipsPage> {
                       : Expanded(
                           child: ClipRect(
                             child: StarshipDetailsPage(
-                                starship:
-                                    _starshipsController.starshipSelected),
+                                starship: _starshipsController.starshipSelected,
+                                backButton: 0),
                           ),
                         );
                 },
@@ -224,7 +224,8 @@ class _StarshipsPageState extends State<StarshipsPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return StarshipDetailsPage(
-                          starship: _starshipsController.starships[index]);
+                          starship: _starshipsController.starships[index],
+                          backButton: 1);
                     }));
                   }
                   setState(() {

@@ -152,7 +152,8 @@ class _PlanetsPageState extends State<PlanetsPage> {
                       : Expanded(
                           child: ClipRect(
                             child: PlanetDetailsPage(
-                                planet: _planetsController.planetSelected),
+                                planet: _planetsController.planetSelected,
+                                backButton: 0),
                           ),
                         );
                 },
@@ -219,7 +220,8 @@ class _PlanetsPageState extends State<PlanetsPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return PlanetDetailsPage(
-                          planet: _planetsController.planets[index]);
+                          planet: _planetsController.planets[index],
+                          backButton: 1);
                     }));
                   }
                   setState(() {
@@ -228,27 +230,6 @@ class _PlanetsPageState extends State<PlanetsPage> {
                   });
                 },
               );
-              // return ListTileWidget(
-              //   personSelected: _charactersController.personSelected,
-              //   person: people[index],
-              //   dimens: dimens,
-              //   onTap: (character) {
-              //     if (MediaQuery.of(context).size.width <= md) {
-              //       Navigator.push(context,
-              //           CupertinoPageRoute(builder: (context) {
-              //         return CharacterDetailPage(character: character);
-              //       }));
-              //     }
-              //     setState(() {
-              //       _charactersController.setPersonSelected(character);
-              //     });
-              //   },
-              //   onFavoriteTap: (id) {
-              //     setState(() {
-              //       _charactersController.setFavorite(id);
-              //     });
-              //   },
-              // );
             }, childCount: planets.length),
           )
         : SliverToBoxAdapter(

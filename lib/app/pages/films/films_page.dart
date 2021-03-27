@@ -152,7 +152,8 @@ class _FilmsPageState extends State<FilmsPage> {
                       : Expanded(
                           child: ClipRect(
                             child: FilmDetailsPage(
-                                film: _filmsController.filmSelected),
+                                film: _filmsController.filmSelected,
+                                backButton: 0),
                           ),
                         );
                 },
@@ -219,7 +220,7 @@ class _FilmsPageState extends State<FilmsPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return FilmDetailsPage(
-                          film: _filmsController.films[index]);
+                          film: _filmsController.films[index], backButton: 1);
                     }));
                   }
                   setState(() {

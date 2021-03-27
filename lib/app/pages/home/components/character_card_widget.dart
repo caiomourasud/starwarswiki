@@ -29,17 +29,17 @@ class CharacterCardWidget extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 160.0,
+                  height: 180.0,
                   width: 140.0,
                   decoration: BoxDecoration(
-                      color: CupertinoColors.darkBackgroundGray,
+                      color: Colors.black87,
                       image: DecorationImage(
                         image: NetworkImage(ImageGenerator.generateImage(
                             id: character.id, type: 'characters')),
                         alignment: Alignment.topCenter,
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
-                            Colors.black.withOpacity(0.4), BlendMode.xor),
+                            Colors.black.withOpacity(0.2), BlendMode.xor),
                       )),
                 ),
                 Padding(

@@ -152,7 +152,8 @@ class _SpeciesPageState extends State<SpeciesPage> {
                       : Expanded(
                           child: ClipRect(
                             child: SpecieDetailsPage(
-                                specie: _speciesController.specieSelected),
+                                specie: _speciesController.specieSelected,
+                                backButton: 0),
                           ),
                         );
                 },
@@ -219,7 +220,8 @@ class _SpeciesPageState extends State<SpeciesPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return SpecieDetailsPage(
-                          specie: _speciesController.species[index]);
+                          specie: _speciesController.species[index],
+                          backButton: 1);
                     }));
                   }
                   setState(() {
@@ -228,27 +230,6 @@ class _SpeciesPageState extends State<SpeciesPage> {
                   });
                 },
               );
-              // return ListTileWidget(
-              //   personSelected: _charactersController.personSelected,
-              //   person: people[index],
-              //   dimens: dimens,
-              //   onTap: (character) {
-              //     if (MediaQuery.of(context).size.width <= md) {
-              //       Navigator.push(context,
-              //           CupertinoPageRoute(builder: (context) {
-              //         return CharacterDetailPage(character: character);
-              //       }));
-              //     }
-              //     setState(() {
-              //       _charactersController.setPersonSelected(character);
-              //     });
-              //   },
-              //   onFavoriteTap: (id) {
-              //     setState(() {
-              //       _charactersController.setFavorite(id);
-              //     });
-              //   },
-              // );
             }, childCount: species.length),
           )
         : SliverToBoxAdapter(

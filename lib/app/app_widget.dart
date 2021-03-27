@@ -52,7 +52,7 @@ class _AppWidgetState extends State<AppWidget> {
       darkTheme: ThemeData(
           brightness: Brightness.dark,
           accentColor: Colors.red[700],
-          scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
+          scaffoldBackgroundColor: CupertinoColors.black,
           cupertinoOverrideTheme:
               CupertinoThemeData(primaryColor: Colors.red[600])),
       themeMode: ThemeMode.system,

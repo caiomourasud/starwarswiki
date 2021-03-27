@@ -22,6 +22,7 @@ import 'package:starwarswiki/app/pages/starships/starships_page.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicle_details/vehicle_details_page.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
 import 'package:starwarswiki/app/pages/vehicles/vehicles_page.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 import 'components/film_card_widget.dart';
 import 'components/planet_card_widget.dart';
@@ -75,31 +76,31 @@ class _HomePageState extends State<HomePage> {
                         body: Scrollbar(
                           child: CustomScrollView(
                             slivers: [
-                              // SliverToBoxAdapter(
-                              //   child: Padding(
-                              //     padding: EdgeInsets.symmetric(
-                              //         horizontal: 16.0, vertical: 4.0),
-                              //     child: Text(
-                              //         'The Star Wars API, or "swapi" (Swah-pee) is the world`s first quantified and programmatically-accessible data source for all the data from the Star Wars canon universe!'),
-                              //   ),
-                              // ),
-                              // SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Films',
-                                  height: 168.0,
-                                  width: 110.0,
+                                  height: 280.0,
+                                  width: 170.0,
+                                  rows: 1,
                                   cards: _filmsController.films,
                                   card: (index) {
                                     return FilmCardWidget(
                                       film: _filmsController.films[index],
                                       onTap: () {
-                                        Navigator.push(context,
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return FilmDetailsPage(
-                                              film: _filmsController
-                                                  .films[index]);
-                                        }));
+                                        MediaQuery.of(context).size.width > md
+                                            ? _openCardDialog(
+                                                dimens: dimens,
+                                                item: FilmDetailsPage(
+                                                    film: _filmsController
+                                                        .films[index],
+                                                    backButton: 2))
+                                            : Navigator.push(context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) {
+                                                return FilmDetailsPage(
+                                                    film: _filmsController
+                                                        .films[index],
+                                                    backButton: 1);
+                                              }));
                                       },
                                     );
                                   },
@@ -115,29 +116,39 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Characters',
-                                  height: 160.0,
+                                  height: 180.0,
                                   width: 140.0,
+                                  rows: 1,
                                   cards: _charactersController.people,
                                   card: (index) {
-                                    return Observer(builder: (_) {
-                                      return CharacterCardWidget(
-                                        character:
-                                            _charactersController.people[index],
-                                        onIconPressed: (id) => setState(() =>
-                                            _charactersController.setFavorite(
-                                                _charactersController
-                                                    .people[index].id)),
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) {
-                                            return CharacterDetailsPage(
-                                                character: _charactersController
-                                                    .people[index]);
-                                          }));
-                                        },
-                                      );
-                                    });
+                                    return CharacterCardWidget(
+                                      character:
+                                          _charactersController.people[index],
+                                      onIconPressed: (id) => setState(() =>
+                                          _charactersController.setFavorite(
+                                              _charactersController
+                                                  .people[index].id)),
+                                      onTap: () {
+                                        MediaQuery.of(context).size.width > md
+                                            ? _openCardDialog(
+                                                dimens: dimens,
+                                                item: CharacterDetailsPage(
+                                                    character:
+                                                        _charactersController
+                                                            .people[index],
+                                                    backButton: 2),
+                                              )
+                                            : Navigator.push(context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) {
+                                                return CharacterDetailsPage(
+                                                    character:
+                                                        _charactersController
+                                                            .people[index],
+                                                    backButton: 1);
+                                              }));
+                                      },
+                                    );
                                   },
                                   onTap: () {
                                     Navigator.push(
@@ -151,22 +162,35 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Planets',
-                                  height: 100.0,
-                                  width: 100.0,
+                                  height: 100.0 * 2,
+                                  width: 100.0 * 2,
+                                  rows: 2,
                                   cards: _planetsController.planets,
                                   card: (index) {
-                                    return PlanetCardWidget(
-                                      planet: _planetsController.planets[index],
-                                      onTap: () {
-                                        Navigator.push(context,
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return PlanetDetailsPage(
-                                              planet: _planetsController
-                                                  .planets[index]);
-                                        }));
-                                      },
-                                    );
+                                    return Observer(builder: (_) {
+                                      return PlanetCardWidget(
+                                        planet:
+                                            _planetsController.planets[index],
+                                        onTap: () {
+                                          MediaQuery.of(context).size.width > md
+                                              ? _openCardDialog(
+                                                  dimens: dimens,
+                                                  item: PlanetDetailsPage(
+                                                      planet: _planetsController
+                                                          .planets[index],
+                                                      backButton: 2),
+                                                )
+                                              : Navigator.push(context,
+                                                  CupertinoPageRoute(
+                                                      builder: (context) {
+                                                  return PlanetDetailsPage(
+                                                      planet: _planetsController
+                                                          .planets[index],
+                                                      backButton: 1);
+                                                }));
+                                        },
+                                      );
+                                    });
                                   },
                                   onTap: () {
                                     Navigator.push(
@@ -180,20 +204,30 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Species',
-                                  height: 80.0,
-                                  width: 140.0,
+                                  height: 80.0 * 2,
+                                  width: 140.0 * 2,
+                                  rows: 2,
                                   cards: _speciesController.species,
                                   card: (index) {
                                     return SpecieCardWidget(
                                       specie: _speciesController.species[index],
                                       onTap: () {
-                                        Navigator.push(context,
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return SpecieDetailsPage(
-                                              specie: _speciesController
-                                                  .species[index]);
-                                        }));
+                                        MediaQuery.of(context).size.width > md
+                                            ? _openCardDialog(
+                                                dimens: dimens,
+                                                item: SpecieDetailsPage(
+                                                    specie: _speciesController
+                                                        .species[index],
+                                                    backButton: 2),
+                                              )
+                                            : Navigator.push(context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) {
+                                                return SpecieDetailsPage(
+                                                    specie: _speciesController
+                                                        .species[index],
+                                                    backButton: 1);
+                                              }));
                                       },
                                     );
                                   },
@@ -209,21 +243,33 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Starships',
-                                  height: 80.0,
-                                  width: 140.0,
+                                  height: 80.0 * 2,
+                                  width: 140.0 * 2,
+                                  rows: 2,
                                   cards: _starshipsController.starships,
                                   card: (index) {
                                     return StarshipCardWidget(
                                       starship:
                                           _starshipsController.starships[index],
                                       onTap: () {
-                                        Navigator.push(context,
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return StarshipDetailsPage(
-                                              starship: _starshipsController
-                                                  .starships[index]);
-                                        }));
+                                        MediaQuery.of(context).size.width > md
+                                            ? _openCardDialog(
+                                                dimens: dimens,
+                                                item: StarshipDetailsPage(
+                                                    starship:
+                                                        _starshipsController
+                                                            .starships[index],
+                                                    backButton: 2),
+                                              )
+                                            : Navigator.push(context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) {
+                                                return StarshipDetailsPage(
+                                                    starship:
+                                                        _starshipsController
+                                                            .starships[index],
+                                                    backButton: 1);
+                                              }));
                                       },
                                     );
                                   },
@@ -239,21 +285,31 @@ class _HomePageState extends State<HomePage> {
                               SliverToBoxAdapter(child: SizedBox(height: 24.0)),
                               _sliverHorizontalList(
                                   title: 'Vehicles',
-                                  height: 100.0,
-                                  width: 100.0,
+                                  height: 100.0 * 3,
+                                  width: 100.0 * 3,
+                                  rows: 3,
                                   cards: _vehiclesController.vehicles,
                                   card: (index) {
                                     return VehicleCardWidget(
                                       vehicle:
                                           _vehiclesController.vehicles[index],
                                       onTap: () {
-                                        Navigator.push(context,
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return VehicleDetailsPage(
-                                              vehicle: _vehiclesController
-                                                  .vehicles[index]);
-                                        }));
+                                        MediaQuery.of(context).size.width > md
+                                            ? _openCardDialog(
+                                                dimens: dimens,
+                                                item: VehicleDetailsPage(
+                                                    vehicle: _vehiclesController
+                                                        .vehicles[index],
+                                                    backButton: 2),
+                                              )
+                                            : Navigator.push(context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) {
+                                                return VehicleDetailsPage(
+                                                    vehicle: _vehiclesController
+                                                        .vehicles[index],
+                                                    backButton: 1);
+                                              }));
                                       },
                                     );
                                   },
@@ -286,12 +342,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  _openCardDialog({required BoxConstraints dimens, required Widget item}) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(6.0)),
+            backgroundColor: Theme.of(context).bottomAppBarColor,
+            content: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: dimens.maxWidth / 1.5),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6.0),
+                child: item,
+              ),
+            ));
+      },
+    );
+  }
+
   _sliverHorizontalList(
       {required String title,
       required double height,
       required double width,
       required List cards,
       required Function(int) card,
+      required int rows,
       required Function onTap}) {
     return SliverToBoxAdapter(
       child: Column(
@@ -320,17 +397,36 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Container(
-            height: height,
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 14.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: cards.length,
-              itemBuilder: (context, index) {
-                return Container(width: width, child: card(index));
-              },
+          if (rows > 1)
+            Container(
+                height: height,
+                child: GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 14.0),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(width: width, child: card(index));
+                  },
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    childAspectRatio: rows / 4,
+                    maxCrossAxisExtent: height / rows,
+                    mainAxisExtent: (width / rows) - 0.10,
+                    crossAxisSpacing: 0.0,
+                    mainAxisSpacing: 0.0,
+                  ),
+                  itemCount: cards.length,
+                )),
+          if (rows == 1)
+            Container(
+              height: height,
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                scrollDirection: Axis.horizontal,
+                itemCount: cards.length,
+                itemBuilder: (context, index) {
+                  return Container(width: width, child: card(index));
+                },
+              ),
             ),
-          ),
         ],
       ),
     );

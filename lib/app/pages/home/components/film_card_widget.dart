@@ -7,13 +7,11 @@ import 'package:starwarswiki/app/utils/image_generator.dart';
 class FilmCardWidget extends StatelessWidget {
   final Film film;
   final Function onTap;
-  // final Function(int) onIconPressed;
 
   const FilmCardWidget({
     Key? key,
     required this.film,
     required this.onTap,
-    // required this.onIconPressed
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -28,8 +26,8 @@ class FilmCardWidget extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 168.0,
-                  width: 110.0,
+                  height: 280.0,
+                  width: 170.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,
                       image: DecorationImage(
@@ -41,15 +39,6 @@ class FilmCardWidget extends StatelessWidget {
                             Colors.black.withOpacity(0.1), BlendMode.xor),
                       )),
                 ),
-                // Container(
-                //   height: 168,
-                //   width: 110.0,
-                //   child: Image.network(
-                //     ImageGenerator.generateImage(id: film.id, type: 'films'),
-                //     alignment: Alignment.center,
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
               ],
             )),
       ),
