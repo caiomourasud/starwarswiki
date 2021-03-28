@@ -24,6 +24,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class FilmsPage extends StatefulWidget {
+  final int backButton;
+
+  const FilmsPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _FilmsPageState createState() => _FilmsPageState();
 }
@@ -119,6 +122,7 @@ class _FilmsPageState extends State<FilmsPage> {
                                   size: _filmsController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: widget.backButton,
                                   onChange: (text) {
                                     _filmsController.setSearchText(text);
                                   },
@@ -170,6 +174,7 @@ class _FilmsPageState extends State<FilmsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Films',
+        backButton: widget.backButton,
         position: _filmsController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -197,6 +202,7 @@ class _FilmsPageState extends State<FilmsPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Films',
+            backButton: widget.backButton,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -220,7 +226,8 @@ class _FilmsPageState extends State<FilmsPage> {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return FilmDetailsPage(
-                          film: _filmsController.films[index], backButton: 1);
+                          film: _filmsController.films[index],
+                          backButton: widget.backButton);
                     }));
                   }
                   setState(() {

@@ -8,6 +8,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
   final List<Widget> titleActions;
   final List<Widget> actions;
   final double position;
+  final int backButton;
 
   const CupertinoSliverAppBarWidget({
     Key? key,
@@ -16,6 +17,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
     required this.titleActions,
     required this.actions,
     required this.position,
+    required this.backButton,
   }) : super(key: key);
 
   @override
@@ -70,10 +72,14 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
 class CupertinoAppBarWidget extends SliverPersistentHeaderDelegate {
   final BuildContext context;
   final String title;
+  final int backButton;
   final List<Widget> actions;
 
   const CupertinoAppBarWidget(
-      {required this.context, required this.title, required this.actions});
+      {required this.context,
+      required this.title,
+      required this.actions,
+      required this.backButton});
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) {

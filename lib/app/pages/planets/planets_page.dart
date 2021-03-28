@@ -119,6 +119,7 @@ class _PlanetsPageState extends State<PlanetsPage> {
                                   size: _planetsController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: 2,
                                   onChange: (text) {
                                     _planetsController.setSearchText(text);
                                   },
@@ -170,6 +171,7 @@ class _PlanetsPageState extends State<PlanetsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Planets',
+        backButton: 2,
         position: _planetsController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -197,6 +199,7 @@ class _PlanetsPageState extends State<PlanetsPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Films',
+            backButton: 2,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,

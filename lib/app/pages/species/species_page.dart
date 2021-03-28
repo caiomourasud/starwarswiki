@@ -119,6 +119,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
                                   size: _speciesController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: 2,
                                   onChange: (text) {
                                     _speciesController.setSearchText(text);
                                   },
@@ -170,6 +171,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Species',
+        backButton: 2,
         position: _speciesController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -197,6 +199,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Species',
+            backButton: 2,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,

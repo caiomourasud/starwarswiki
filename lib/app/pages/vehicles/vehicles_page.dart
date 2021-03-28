@@ -121,6 +121,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
                                   size: _vahiclesController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: 2,
                                   onChange: (text) {
                                     _vahiclesController.setSearchText(text);
                                   },
@@ -172,6 +173,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Vehicles',
+        backButton: 2,
         position: _vahiclesController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -199,6 +201,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Vehicles',
+            backButton: 2,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,

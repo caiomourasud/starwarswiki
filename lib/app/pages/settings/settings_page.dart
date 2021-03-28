@@ -122,6 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Settings',
+        backButton: 2,
         position: _settingsController.scrollPosition,
         titleActions: [
           // _listFavorites(

@@ -1,7 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/components/card_list.dart';
+import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
+import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/planet.dart';
+import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
+import 'package:starwarswiki/app/pages/films/films_controller.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
+
+final _charactersController = Modular.get<CharactersController>();
+final _filmsController = Modular.get<FilmsController>();
+
+List<People> characters = [];
+List<Film> films = [];
 
 class PlanetDetailsPage extends StatefulWidget {
   final Planet planet;
@@ -14,26 +27,29 @@ class PlanetDetailsPage extends StatefulWidget {
   _PlanetDetailsPageState createState() => _PlanetDetailsPageState();
 }
 
+setList(widget) {
+  characters.clear();
+  films.clear();
+
+  for (var person in widget.planet.residents) {
+    characters.addAll(_charactersController.people
+        .where((character) => person == character.url));
+  }
+  for (var film in widget.planet.films) {
+    films.addAll(_filmsController.films.where((pl) => film == pl.url));
+  }
+}
+
 class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    setList(widget);
     return Scaffold(
-      backgroundColor: widget.backButton == 2 ? Colors.transparent : null,
       appBar: CupertinoNavigationBar(
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= md ||
-            widget.backButton == 1 ||
-            widget.backButton == 2,
+            (MediaQuery.of(context).size.width > md && widget.backButton == 2),
         brightness: Theme.of(context).brightness,
-        backgroundColor: widget.backButton == 2
-            ? Theme.of(context).bottomAppBarColor
-            : Theme.of(context).scaffoldBackgroundColor,
-        leading: widget.backButton == 2
-            ? CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.maybePop(context),
-                child: Icon(CupertinoIcons.clear),
-              )
-            : null,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
           widget.planet.name,
           style: TextStyle(
@@ -42,7 +58,42 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                   : Theme.of(context).colorScheme.onPrimary),
         ),
       ),
-      body: Container(),
+      body: LayoutBuilder(builder: (context, dimens) {
+        return Scrollbar(
+          child: ListView(
+            padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
+            children: [
+              SizedBox(height: 24.0),
+              Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: CustomCardList()
+                      .cardList(
+                          charactersBackButton: 1,
+                          characters: characters.isNotEmpty ? characters : null,
+                          charactersTitle: 'Residents',
+                          filmsBackButton: 1,
+                          planetsBackButton: 1,
+                          films: films.isNotEmpty ? films : null,
+                          speciesBackButton: 1,
+                          starshipsBackButton: 1,
+                          vehiclesBackButton: 1)
+                      .map((item) => CustomHorizontalList().list(
+                          context: context,
+                          title: item.title,
+                          height: item.height *
+                              (item.list.length > 12 ? item.rows : 1),
+                          width: item.width *
+                              (item.list.length > 12 ? item.rows : 1),
+                          rows: item.list.length > 12 ? item.rows : 1,
+                          cards: item.list,
+                          card: (index) => item.card(context, dimens, index),
+                          seeAll: false,
+                          onTap: () => item.onSeeAllTap(context)))
+                      .toList()),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

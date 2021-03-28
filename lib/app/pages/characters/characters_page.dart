@@ -26,6 +26,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class CharactersPage extends StatefulWidget {
+  final int backButton;
+
+  const CharactersPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _CharactersPageState createState() => _CharactersPageState();
 }
@@ -122,6 +125,7 @@ class _CharactersPageState extends State<CharactersPage> {
                                   size: _charactersController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: widget.backButton,
                                   onChange: (text) {
                                     _charactersController.setSearchText(text);
                                   },
@@ -157,7 +161,7 @@ class _CharactersPageState extends State<CharactersPage> {
                           child: ClipRect(
                             child: CharacterDetailsPage(
                               character: _charactersController.personSelected,
-                              backButton: 0,
+                              backButton: widget.backButton,
                             ),
                           ),
                         );
@@ -175,6 +179,7 @@ class _CharactersPageState extends State<CharactersPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Characters',
+        backButton: widget.backButton,
         position: _charactersController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -202,6 +207,7 @@ class _CharactersPageState extends State<CharactersPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Characters',
+            backButton: widget.backButton,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,
@@ -227,7 +233,7 @@ class _CharactersPageState extends State<CharactersPage> {
                         CupertinoPageRoute(builder: (context) {
                       return CharacterDetailsPage(
                         character: character,
-                        backButton: 1,
+                        backButton: widget.backButton,
                       );
                     }));
                   }

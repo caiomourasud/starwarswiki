@@ -5,7 +5,7 @@ import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 
-class CharacterCardWidget extends StatelessWidget {
+class CharacterCardWidget extends StatefulWidget {
   final People character;
   final Function onTap;
   final Function(int) onIconPressed;
@@ -16,13 +16,19 @@ class CharacterCardWidget extends StatelessWidget {
       required this.onTap,
       required this.onIconPressed})
       : super(key: key);
+
+  @override
+  _CharacterCardWidgetState createState() => _CharacterCardWidgetState();
+}
+
+class _CharacterCardWidgetState extends State<CharacterCardWidget> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
         padding: EdgeInsets.zero,
-        onPressed: () => onTap(),
+        onPressed: () => widget.onTap(),
         child: Card(
             semanticContainer: true,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -35,7 +41,7 @@ class CharacterCardWidget extends StatelessWidget {
                       color: Colors.black87,
                       image: DecorationImage(
                         image: NetworkImage(ImageGenerator.generateImage(
-                            id: character.id, type: 'characters')),
+                            id: widget.character.id, type: 'characters')),
                         alignment: Alignment.topCenter,
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
@@ -53,17 +59,17 @@ class CharacterCardWidget extends StatelessWidget {
                         children: [
                           Flexible(
                               child: Text(
-                            character.name,
+                            widget.character.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
                                 ?.copyWith(color: Colors.white),
                           )),
                           SizedBox(width: 4.0),
-                          Converters().setGender(character.gender, 12.0)
+                          Converters().setGender(widget.character.gender, 12.0)
                         ],
                       ),
-                      Text(Converters().setSpecie(character.species),
+                      Text(Converters().setSpecie(widget.character.species),
                           style: Theme.of(context)
                               .textTheme
                               .caption
@@ -89,9 +95,9 @@ class CharacterCardWidget extends StatelessWidget {
                                           ?.copyWith(color: Colors.white)),
                                   Text(
                                       Converters()
-                                          .toDouble(character.height, 1),
+                                          .toDouble(widget.character.height, 1),
                                       style: Converters().toDouble(
-                                                  character.height, 1) ==
+                                                  widget.character.height, 1) ==
                                               'unknown'
                                           ? Theme.of(context)
                                               .textTheme
@@ -112,9 +118,10 @@ class CharacterCardWidget extends StatelessWidget {
                                           .overline
                                           ?.copyWith(color: Colors.white)),
                                   Text(
-                                    Converters().toDouble(character.mass, 0),
-                                    style: Converters()
-                                                .toDouble(character.mass, 0) ==
+                                    Converters()
+                                        .toDouble(widget.character.mass, 0),
+                                    style: Converters().toDouble(
+                                                widget.character.mass, 0) ==
                                             'unknown'
                                         ? Theme.of(context)
                                             .textTheme
@@ -130,7 +137,7 @@ class CharacterCardWidget extends StatelessWidget {
                           MouseRegion(
                               cursor: SystemMouseCursors.click,
                               child: Tooltip(
-                                  message: character.isFavorite
+                                  message: widget.character.isFavorite
                                       ? 'Remover'
                                       : 'Favoritar',
                                   child: CupertinoButton(
@@ -138,12 +145,13 @@ class CharacterCardWidget extends StatelessWidget {
                                       padding: EdgeInsets.zero,
                                       borderRadius: BorderRadius.circular(50.0),
                                       child: Icon(
-                                          character.isFavorite
+                                          widget.character.isFavorite
                                               ? CupertinoIcons.heart_fill
                                               : CupertinoIcons.heart,
                                           size: 28),
-                                      onPressed: () =>
-                                          onIconPressed(character.id))))
+                                      onPressed: () => setState(() =>
+                                          widget.onIconPressed(
+                                              widget.character.id)))))
                         ],
                       )
                     ],

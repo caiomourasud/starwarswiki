@@ -122,6 +122,7 @@ class _StarshipsPageState extends State<StarshipsPage> {
                                   size: _starshipsController.searchSize,
                                   buscar: _buscar,
                                   focus: _focus,
+                                  backButton: 2,
                                   onChange: (text) {
                                     _starshipsController.setSearchText(text);
                                   },
@@ -174,6 +175,7 @@ class _StarshipsPageState extends State<StarshipsPage> {
       return CupertinoSliverAppBarWidget(
         context: context,
         title: 'Starships',
+        backButton: 2,
         position: _starshipsController.scrollPosition,
         titleActions: [
           _listFavorites(
@@ -201,6 +203,7 @@ class _StarshipsPageState extends State<StarshipsPage> {
           delegate: CupertinoAppBarWidget(
             context: context,
             title: 'Starships',
+            backButton: 2,
             actions: [
               _listFavorites(
                   paddingTop: 4.0,

@@ -10,6 +10,7 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
   final Function() cancelar;
   final texto;
   final fullDimens;
+  final int backButton;
   SearchBarWidget(
       {this.size,
       this.buscar,
@@ -17,7 +18,8 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
       this.onChange,
       required this.cancelar,
       this.texto = 'Buscar',
-      this.fullDimens});
+      this.fullDimens,
+      required this.backButton});
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) => Container(
