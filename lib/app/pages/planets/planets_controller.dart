@@ -217,7 +217,6 @@ abstract class _PlanetsControllerBase with Store {
   List<Planet> get filterPlanets {
     if (showFavorites) {
       var favorites = planets;
-      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {

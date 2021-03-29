@@ -10,12 +10,12 @@ import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/pages/characters/character_details/character_details_page.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
 import 'package:starwarswiki/app/pages/characters/characters_page.dart';
-import 'package:starwarswiki/app/pages/home/components/character_card_widget.dart';
-import 'package:starwarswiki/app/pages/home/components/film_card_widget.dart';
-import 'package:starwarswiki/app/pages/home/components/planet_card_widget.dart';
-import 'package:starwarswiki/app/pages/home/components/specie_card_widget.dart';
-import 'package:starwarswiki/app/pages/home/components/starship_card_widget.dart';
-import 'package:starwarswiki/app/pages/home/components/vehicle_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/character_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/film_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/planet_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/specie_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/starship_card_widget.dart';
+import 'package:starwarswiki/app/components/cards/vehicle_card_widget.dart';
 import 'package:starwarswiki/app/pages/planets/planet_details/planet_details_page.dart';
 import 'package:starwarswiki/app/pages/planets/planets_page.dart';
 import 'package:starwarswiki/app/pages/species/specie_details/specie_details_page.dart';
@@ -33,33 +33,42 @@ import 'custom_card_dialog.dart';
 final _charactersController = Modular.get<CharactersController>();
 
 class CustomCardList {
-  List<CardList> cardList(
-          {List<Film>? films,
-          String filmsTitle = 'Films',
-          required int filmsBackButton,
-          List<People>? characters,
-          String charactersTitle = 'Characters',
-          required int charactersBackButton,
-          List<Planet>? planets,
-          String planetsTitle = 'Planets',
-          required int planetsBackButton,
-          List<Specie>? species,
-          String speciesTitle = 'Species',
-          required int speciesBackButton,
-          List<Starship>? starships,
-          String starshipsTitle = 'Starships',
-          required int starshipsBackButton,
-          List<Vehicle>? vehicles,
-          String vehiclesTitle = 'Vehicles',
-          required int vehiclesBackButton}) =>
+  List<CardList> cardList({
+    required BuildContext context,
+    List<Film>? films,
+    String filmsTitle = 'Films',
+    int filmsBackButton = 1,
+    bool filmsHasDivider = true,
+    List<People>? characters,
+    String charactersTitle = 'Characters',
+    int charactersBackButton = 1,
+    bool charactersHasDivider = true,
+    List<Planet>? planets,
+    String planetsTitle = 'Planets',
+    int planetsBackButton = 1,
+    bool planetsHasDivider = true,
+    List<Specie>? species,
+    String speciesTitle = 'Species',
+    int speciesBackButton = 1,
+    bool speciesHasDivider = true,
+    List<Starship>? starships,
+    String starshipsTitle = 'Starships',
+    int starshipsBackButton = 1,
+    bool starshipsHasDivider = true,
+    List<Vehicle>? vehicles,
+    String vehiclesTitle = 'Vehicles',
+    int vehiclesBackButton = 1,
+    bool vehiclesHasDivider = true,
+  }) =>
       [
         if (films != null)
           CardList(
             title: filmsTitle,
             list: films,
-            height: 280.0,
-            width: 170.0,
+            height: 290.0,
+            width: 150.0,
             rows: 1,
+            hasDivider: filmsHasDivider,
             card: (context, dimens, index) {
               return FilmCardWidget(
                 film: films[index],
@@ -67,7 +76,6 @@ class CustomCardList {
                         filmsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        dimens: dimens,
                         item: FilmDetailsPage(
                             film: films[index], backButton: filmsBackButton),
                       )
@@ -94,9 +102,12 @@ class CustomCardList {
           CardList(
             title: charactersTitle,
             list: characters,
-            height: 180.0,
-            width: 140.0,
-            rows: 1,
+            height: 88.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.9
+                : 320.0,
+            rows: 3,
+            hasDivider: charactersHasDivider,
             card: (context, dimens, index) {
               return CharacterCardWidget(
                   character: characters[index],
@@ -106,7 +117,6 @@ class CustomCardList {
                           charactersBackButton == 2
                       ? CustomCardDialog().open(
                           context: context,
-                          dimens: dimens,
                           item: CharacterDetailsPage(
                               character: characters[index], backButton: 2),
                         )
@@ -138,6 +148,7 @@ class CustomCardList {
             height: 100.0,
             width: 100.0,
             rows: 2,
+            hasDivider: planetsHasDivider,
             card: (context, dimens, index) {
               return PlanetCardWidget(
                   planet: planets[index],
@@ -145,7 +156,6 @@ class CustomCardList {
                           planetsBackButton == 2
                       ? CustomCardDialog().open(
                           context: context,
-                          dimens: dimens,
                           item: PlanetDetailsPage(
                               planet: planets[index], backButton: 2),
                         )
@@ -172,6 +182,7 @@ class CustomCardList {
             height: 80.0,
             width: 140.0,
             rows: 2,
+            hasDivider: speciesHasDivider,
             card: (context, dimens, index) {
               return SpecieCardWidget(
                   specie: species[index],
@@ -179,7 +190,6 @@ class CustomCardList {
                           speciesBackButton == 2
                       ? CustomCardDialog().open(
                           context: context,
-                          dimens: dimens,
                           item: SpecieDetailsPage(
                               specie: species[index], backButton: 2),
                         )
@@ -206,6 +216,7 @@ class CustomCardList {
             height: 80.0,
             width: 140.0,
             rows: 2,
+            hasDivider: starshipsHasDivider,
             card: (context, dimens, index) {
               return StarshipCardWidget(
                   starship: starships[index],
@@ -213,7 +224,6 @@ class CustomCardList {
                           starshipsBackButton == 2
                       ? CustomCardDialog().open(
                           context: context,
-                          dimens: dimens,
                           item: StarshipDetailsPage(
                               starship: starships[index], backButton: 2),
                         )
@@ -240,6 +250,7 @@ class CustomCardList {
             height: 100.0,
             width: 100.0,
             rows: 2,
+            hasDivider: vehiclesHasDivider,
             card: (context, dimens, index) {
               return VehicleCardWidget(
                   vehicle: vehicles[index],
@@ -247,7 +258,6 @@ class CustomCardList {
                           vehiclesBackButton == 2
                       ? CustomCardDialog().open(
                           context: context,
-                          dimens: dimens,
                           item: VehicleDetailsPage(
                               vehicle: vehicles[index], backButton: 2),
                         )

@@ -68,23 +68,19 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: CustomCardList()
                       .cardList(
-                          charactersBackButton: 1,
-                          characters: characters.isNotEmpty ? characters : null,
-                          charactersTitle: 'Residents',
-                          filmsBackButton: 1,
-                          planetsBackButton: 1,
-                          films: films.isNotEmpty ? films : null,
-                          speciesBackButton: 1,
-                          starshipsBackButton: 1,
-                          vehiclesBackButton: 1)
+                        context: context,
+                        characters: characters.isNotEmpty ? characters : null,
+                        charactersTitle: 'Residents',
+                        films: films.isNotEmpty ? films : null,
+                      )
                       .map((item) => CustomHorizontalList().list(
                           context: context,
                           title: item.title,
                           height: item.height *
-                              (item.list.length > 12 ? item.rows : 1),
+                              (item.list.length > 3 ? item.rows : 1),
                           width: item.width *
-                              (item.list.length > 12 ? item.rows : 1),
-                          rows: item.list.length > 12 ? item.rows : 1,
+                              (item.list.length > 3 ? item.rows : 1),
+                          rows: item.list.length > 3 ? item.rows : 1,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           seeAll: false,

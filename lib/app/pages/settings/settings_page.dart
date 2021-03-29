@@ -124,20 +124,8 @@ class _SettingsPageState extends State<SettingsPage> {
         title: 'Settings',
         backButton: 2,
         position: _settingsController.scrollPosition,
-        titleActions: [
-          // _listFavorites(
-          //     paddingTop: 4.0,
-          //     paddingRight: 16.0,
-          //     disable: false,
-          //     onTap: () => _planetsController.setShowFavorites(null))
-        ],
-        actions: [
-          // _listFavorites(
-          //     paddingTop: 4.0,
-          //     paddingRight: 0.0,
-          //     disable: _planetsController.scrollPosition <= 35.0,
-          //     onTap: () => _planetsController.setShowFavorites(null))
-        ],
+        titleActions: [],
+        actions: [],
       );
     });
   }

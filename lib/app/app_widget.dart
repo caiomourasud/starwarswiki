@@ -54,7 +54,7 @@ class _AppWidgetState extends State<AppWidget> {
           accentColor: Colors.red[700],
           scaffoldBackgroundColor: CupertinoColors.black,
           cupertinoOverrideTheme:
-              CupertinoThemeData(primaryColor: Colors.red[600])),
+              CupertinoThemeData(primaryColor: Colors.red[700])),
       themeMode: ThemeMode.system,
       initialRoute: '/',
     ).modular();

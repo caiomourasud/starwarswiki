@@ -65,8 +65,10 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: CustomCardList()
                                         .cardList(
+                                            context: context,
                                             films: _filmsController.films,
                                             filmsBackButton: 2,
+                                            filmsHasDivider: false,
                                             characters:
                                                 _charactersController.people,
                                             charactersBackButton: 2,
@@ -100,6 +102,7 @@ class _HomePageState extends State<HomePage> {
                                             cards: item.list,
                                             card: (index) => item.card(
                                                 context, dimens, index),
+                                            hasDivider: item.hasDivider,
                                             seeAll: true,
                                             onTap: () =>
                                                 item.onSeeAllTap(context)))
@@ -130,7 +133,7 @@ class _HomePageState extends State<HomePage> {
       return CupertinoSliverNavigationBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        largeTitle: Text('StarWars Wiki',
+        largeTitle: Text('StarWars',
             style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.black87

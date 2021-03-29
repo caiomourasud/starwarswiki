@@ -220,7 +220,6 @@ abstract class _FilmsControllerBase with Store {
   List<Film> get filterFilms {
     if (showFavorites) {
       var favorites = films;
-      // films.where((personagem) => personagem.isFavorite).toList();
       if (searchText == '') {
         return favorites;
       } else {

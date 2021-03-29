@@ -91,6 +91,7 @@ class _CharactersPageState extends State<CharactersPage> {
                               onRefresh: () async {
                                 await Future<void>.delayed(
                                     const Duration(milliseconds: 1000));
+                                _charactersController.getPeople();
                                 if (_charactersController.people.isEmpty) {
                                   _charactersController.getPeople();
                                 } else {

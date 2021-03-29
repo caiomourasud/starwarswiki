@@ -1,9 +1,4 @@
 class IdGenerator {
-  // static final Random _random = Random.secure();
-  // static String createCryptoRandomString() {
-  //   var values = List<int>.generate(18, (i) => _random.nextInt(256));
-  //   return base64Url.encode(values);
-  // }
   static int generateId({required url, required type}) {
     String id = url.replaceAll('http://swapi.dev/api/$type/', '');
     id = id.replaceAll('/', '');

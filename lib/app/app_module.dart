@@ -28,9 +28,5 @@ class AppModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, __) => MainPage()),
-    // ChildRoute(
-    //   '/filmdetails/:id',
-    //   child: (_, args) => FilmDetailsPage(film: args.data),
-    // ),
   ];
 }

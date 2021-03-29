@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
+import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 import 'package:starwarswiki/app/models/people.dart';
 
@@ -24,121 +26,128 @@ class ListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Theme(
-        data: ThemeData(splashColor: Colors.transparent),
+        data: ThemeData(
+            splashColor: Colors.transparent,
+            cupertinoOverrideTheme:
+                CupertinoThemeData(primaryColor: Colors.red[700])),
         child: ListTile(
+          isThreeLine: true,
           selected: personSelected == person &&
               MediaQuery.of(context).size.width > md,
           selectedTileColor: Theme.of(context).focusColor,
-          contentPadding: EdgeInsets.fromLTRB(4.0, 8.0, 13.0, 8.0),
+          contentPadding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
           onTap: () {
             onTap(person);
           },
-          title: Row(
-            children: [
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.0),
-                  child: conversores.setGender(person.gender, 16.0)),
-              Flexible(
-                child: Text(
-                  person.name,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline6,
+          subtitle: Container(
+            height: 70.0,
+            child: Row(
+              children: [
+                Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  margin: EdgeInsets.zero,
+                  child: Container(
+                    height: 70.0,
+                    width: 70.0,
+                    decoration: BoxDecoration(
+                        color: Colors.black87,
+                        image: DecorationImage(
+                          image: NetworkImage(ImageGenerator.generateImage(
+                              id: person.id, type: 'characters')),
+                          alignment: Alignment.topCenter,
+                          fit: BoxFit.cover,
+                        )),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          subtitle: Row(
-            children: [
-              Flexible(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  height: 40.0,
-                  child: ListView(
-                    padding: EdgeInsets.only(top: 4.0),
-                    scrollDirection: Axis.horizontal,
+                SizedBox(width: 12.0),
+                Flexible(
+                  flex: 2,
+                  child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            CupertinoIcons.resize_v,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text('Altura',
-                                  style: Theme.of(context).textTheme.caption),
-                              Text('${conversores.toDouble(person.height, 1)}',
-                                  style:
-                                      '${conversores.toDouble(person.height, 1)}' !=
-                                              'Desconhecido'
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .caption),
+                              Opacity(
+                                opacity: 0.8,
+                                child: Text(
+                                    Converters().setSpecie(person.species),
+                                    style:
+                                        Theme.of(context).textTheme.overline),
+                              ),
+                              SizedBox(width: 2.0),
+                              Converters().setGender(person.gender, 8.0)
                             ],
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 22.0),
-                            child: Container(
-                              height: 20.0,
-                              width: 0.5,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
-                            child: Icon(
-                              CupertinoIcons.timer,
-                              size: 22,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Peso',
-                                  style: Theme.of(context).textTheme.caption),
-                              Text('${conversores.toDouble(person.mass, 0)}',
-                                  style:
-                                      '${conversores.toDouble(person.mass, 0)}' !=
-                                              'Desconhecido'
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .caption),
-                            ],
+                          Text(
+                            person.name,
+                            style: Theme.of(context).textTheme.subtitle2,
                           ),
                         ],
                       ),
+                      Flexible(flex: 2, child: Container()),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Opacity(
+                                opacity: 0.8,
+                                child: Text('Height',
+                                    style:
+                                        Theme.of(context).textTheme.overline),
+                              ),
+                              Text(Converters().toDouble(person.height, 1),
+                                  style: Converters()
+                                              .toDouble(person.height, 1) ==
+                                          'unknown'
+                                      ? Theme.of(context).textTheme.overline
+                                      : Theme.of(context).textTheme.subtitle2),
+                            ],
+                          ),
+                          SizedBox(width: 12.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Opacity(
+                                opacity: 0.8,
+                                child: Text('Mass',
+                                    style:
+                                        Theme.of(context).textTheme.overline),
+                              ),
+                              Text(
+                                Converters().toDouble(person.mass, 0),
+                                style: Converters().toDouble(person.mass, 0) ==
+                                        'unknown'
+                                    ? Theme.of(context).textTheme.overline
+                                    : Theme.of(context).textTheme.subtitle2,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-              ),
-              Tooltip(
-                message: person.isFavorite ? 'Remover' : 'Favoritar',
-                child: Theme(
-                  data: ThemeData(
-                      brightness: Brightness.dark,
-                      splashColor: Colors.transparent),
-                  child: IconButton(
-                    splashRadius: 22.0,
-                    icon: Icon(
-                        person.isFavorite
-                            ? CupertinoIcons.suit_heart_fill
-                            : CupertinoIcons.suit_heart,
-                        color: Colors.red[600]),
-                    onPressed: () => onFavoriteTap(person.id),
-                  ),
-                ),
-              )
-            ],
+                MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Tooltip(
+                        message: person.isFavorite ? 'Remover' : 'Favoritar',
+                        child: CupertinoButton(
+                            minSize: 30,
+                            padding: EdgeInsets.zero,
+                            borderRadius: BorderRadius.circular(50.0),
+                            child: Icon(
+                                person.isFavorite
+                                    ? CupertinoIcons.heart_fill
+                                    : CupertinoIcons.heart,
+                                size: 28),
+                            onPressed: () => onFavoriteTap(person.id)))),
+                SizedBox(width: 2.0)
+              ],
+            ),
           ),
         ),
       ),

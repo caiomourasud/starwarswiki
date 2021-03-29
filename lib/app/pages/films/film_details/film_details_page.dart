@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
@@ -117,7 +118,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                       ),
                     ),
                     SizedBox(
-                      width: 22.0,
+                      width: 8.0,
                     ),
                     Flexible(
                       child: Container(
@@ -129,7 +130,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                               widget.film.title,
                               style: Theme.of(context).textTheme.headline5,
                             ),
-                            SizedBox(height: 6.0),
+                            SizedBox(height: 4.0),
                             Opacity(
                               opacity: 0.8,
                               child: Text(
@@ -189,7 +190,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: CustomCardList()
                       .cardList(
-                          filmsBackButton: 1,
+                          context: context,
                           characters: characters,
                           charactersBackButton: widget.backButton == 2 ? 1 : 2,
                           planets: planets,
@@ -204,36 +205,17 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                           context: context,
                           title: item.title,
                           height: item.height *
-                              (item.list.length > 12 ? item.rows : 1),
+                              (item.list.length > 3 ? item.rows : 1),
                           width: item.width *
-                              (item.list.length > 12 ? item.rows : 1),
-                          rows: item.list.length > 12 ? item.rows : 1,
+                              (item.list.length > 3 ? item.rows : 1),
+                          rows: item.list.length > 3 ? item.rows : 1,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
+                          hasDivider: item.hasDivider,
                           seeAll: false,
                           onTap: () => item.onSeeAllTap(context)))
                       .toList()),
               SizedBox(height: 48.0),
-              // Column(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     Opacity(
-              //       opacity: 0.8,
-              //       child: Text(
-              //         'Opening crawl',
-              //         style: Theme.of(context).textTheme.overline,
-              //       ),
-              //     ),
-              //     SizedBox(height: 8.0),
-              //     Flexible(
-              //       child: Text(
-              //         widget.film.openingCrawl,
-              //         textAlign: TextAlign.center,
-              //         style: Theme.of(context).textTheme.headline5,
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         );

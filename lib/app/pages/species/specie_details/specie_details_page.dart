@@ -32,7 +32,6 @@ setList(widget) {
   films.clear();
 
   for (var specie in widget.specie.people) {
-    print(specie);
     characters.addAll(_charactersController.people
         .where((character) => specie == character.url));
   }
@@ -69,22 +68,17 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: CustomCardList()
                       .cardList(
-                          charactersBackButton: 1,
+                          context: context,
                           characters: characters.isNotEmpty ? characters : null,
-                          filmsBackButton: 1,
-                          planetsBackButton: 1,
-                          films: films.isNotEmpty ? films : null,
-                          speciesBackButton: 1,
-                          starshipsBackButton: 1,
-                          vehiclesBackButton: 1)
+                          films: films.isNotEmpty ? films : null)
                       .map((item) => CustomHorizontalList().list(
                           context: context,
                           title: item.title,
                           height: item.height *
-                              (item.list.length > 12 ? item.rows : 1),
+                              (item.list.length > 3 ? item.rows : 1),
                           width: item.width *
-                              (item.list.length > 12 ? item.rows : 1),
-                          rows: item.list.length > 12 ? item.rows : 1,
+                              (item.list.length > 3 ? item.rows : 1),
+                          rows: item.list.length > 3 ? item.rows : 1,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           seeAll: false,

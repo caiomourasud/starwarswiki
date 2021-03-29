@@ -13,6 +13,9 @@ final _appController = Modular.get<AppController>();
 
 SnackBarWidget snackBarWidget = SnackBarWidget();
 
+Map<String, String> get headers =>
+    {"Content-Type": "application/json; charset=UTF-8"};
+
 class API {
   bool canceled = false;
 
@@ -22,7 +25,7 @@ class API {
       BuildContext context) async {
     try {
       get(link) {
-        return http.get(Uri.parse(link)).then((res) async {
+        return http.get(Uri.parse(link), headers: headers).then((res) async {
           if (this.canceled) return;
           var jsonData;
           if (res.statusCode == 404 || res.body.isEmpty) {

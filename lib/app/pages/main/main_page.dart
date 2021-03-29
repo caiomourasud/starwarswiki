@@ -44,7 +44,6 @@ class _MainPageState extends State<MainPage> {
                       FocusScope.of(context).unfocus();
                       _onTap(index);
                     },
-                    // border: Border(bottom: BorderSide(color: Colors.transparent)),
                     items: allDestinations.map((destination) {
                       return BottomNavigationBarItem(
                         icon: Icon(destination.icon, size: 24),

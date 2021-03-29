@@ -11,12 +11,19 @@ class CustomHorizontalList {
       required List cards,
       required Function(int) card,
       required int rows,
+      bool hasDivider = true,
       required bool seeAll,
       required Function onTap}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (hasDivider) SizedBox(height: 8.0),
+        if (hasDivider)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Divider(height: 0),
+          ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
           child: Row(
@@ -49,10 +56,14 @@ class CustomHorizontalList {
           Container(
               height: height,
               child: GridView.builder(
+                controller: PageController(viewportFraction: 0.9),
+                physics: MediaQuery.of(context).size.width <= 420.0 && rows > 2
+                    ? PageScrollPhysics()
+                    : null,
                 padding: EdgeInsets.symmetric(horizontal: 14.0),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(width: width, child: card(index));
+                  return card(index);
                 },
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   childAspectRatio: rows / 4,
@@ -67,6 +78,7 @@ class CustomHorizontalList {
           Container(
             height: height,
             child: ListView.builder(
+              // physics: const PageScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 14.0),
               scrollDirection: Axis.horizontal,
               itemCount: cards.length,

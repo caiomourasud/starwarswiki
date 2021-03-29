@@ -23,8 +23,8 @@ class PlanetCardWidget extends StatelessWidget {
         child: Card(
             semanticContainer: true,
             clipBehavior: Clip.antiAliasWithSaveLayer,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0)),
+            // shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(50.0)),
             child: Stack(
               children: [
                 if (planet.id != 28 && planet.id != 46)
