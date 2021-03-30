@@ -72,19 +72,28 @@ class _HomePageState extends State<HomePage> {
                                             characters:
                                                 _charactersController.people,
                                             charactersBackButton: 2,
+                                            charactersLines: 3,
                                             planets: _planetsController.planets,
                                             planetsBackButton: 2,
+                                            planetsLines: 2,
                                             species: _speciesController.species,
                                             speciesBackButton: 2,
+                                            speciesLines: 2,
                                             starships:
                                                 _starshipsController.starships,
                                             starshipsBackButton: 2,
+                                            starshipsLines: _starshipsController
+                                                        .starships.length >
+                                                    4
+                                                ? 3
+                                                : 1,
                                             vehicles:
                                                 _vehiclesController.vehicles,
                                             vehiclesBackButton:
                                                 MediaQuery.of(context).size.width > md
                                                     ? 2
-                                                    : 1)
+                                                    : 1,
+                                            vehiclesLines: 2)
                                         .map((item) => CustomHorizontalList().list(
                                             context: context,
                                             title: item.title,
@@ -93,19 +102,14 @@ class _HomePageState extends State<HomePage> {
                                                     ? item.rows
                                                     : 1),
                                             width: item.width *
-                                                (item.list.length > 12
-                                                    ? item.rows
-                                                    : 1),
-                                            rows: item.list.length > 12
-                                                ? item.rows
-                                                : 1,
+                                                (item.list.length > 12 ? item.rows : 1),
+                                            rows: item.list.length > 12 ? item.rows : 1,
                                             cards: item.list,
-                                            card: (index) => item.card(
-                                                context, dimens, index),
+                                            card: (index) => item.card(context, dimens, index),
+                                            viewportFraction: item.viewportFraction,
                                             hasDivider: item.hasDivider,
                                             seeAll: true,
-                                            onTap: () =>
-                                                item.onSeeAllTap(context)))
+                                            onTap: () => item.onSeeAllTap(context)))
                                         .toList());
                               }),
                             ),

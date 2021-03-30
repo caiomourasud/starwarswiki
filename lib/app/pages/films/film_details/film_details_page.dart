@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
@@ -193,12 +192,15 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                           context: context,
                           characters: characters,
                           charactersBackButton: widget.backButton == 2 ? 1 : 2,
+                          charactersLines: characters.length > 6 ? 3 : 2,
                           planets: planets,
                           planetsBackButton: widget.backButton == 2 ? 1 : 2,
                           species: species,
                           speciesBackButton: widget.backButton == 2 ? 1 : 2,
+                          speciesLines: 2,
                           starships: starships,
                           starshipsBackButton: widget.backButton == 2 ? 1 : 2,
+                          starshipsLines: starships.length > 4 ? 2 : 1,
                           vehicles: vehicles,
                           vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
                       .map((item) => CustomHorizontalList().list(
@@ -209,6 +211,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                           width: item.width *
                               (item.list.length > 3 ? item.rows : 1),
                           rows: item.list.length > 3 ? item.rows : 1,
+                          viewportFraction: item.viewportFraction,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           hasDivider: item.hasDivider,

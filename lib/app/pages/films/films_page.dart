@@ -11,6 +11,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/film_listtile_widget.dart';
 import 'film_details/film_details_page.dart';
 import 'films_controller.dart';
 
@@ -219,25 +220,23 @@ class _FilmsPageState extends State<FilmsPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                title: Text(_filmsController.films[index].title),
-                onTap: () {
+            return FilmListTileWidget(
+                film: _filmsController.filterFilms[index],
+                onTap: (item) {
                   if (MediaQuery.of(context).size.width <= md) {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
                       return FilmDetailsPage(
-                          film: _filmsController.films[index],
-                          backButton: widget.backButton);
+                          film: item, backButton: widget.backButton);
                     }));
                   }
                   setState(() {
                     _filmsController
-                        .setFilmSelected(_filmsController.films[index]);
+                        .setFilmSelected(_filmsController.filterFilms[index]);
                   });
                 },
-              );
-            }, childCount: films.length),
-          )
+                filmSelected: _filmsController.filmSelected);
+          }, childCount: _filmsController.filterFilms.length))
         : SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.only(top: dimens.maxHeight / 3),

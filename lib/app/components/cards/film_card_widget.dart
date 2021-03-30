@@ -30,8 +30,12 @@ class FilmCardWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      height: 230.0,
-                      width: 150.0,
+                      height: MediaQuery.of(context).size.width <= 420.0
+                          ? 260.0
+                          : 230.0,
+                      width: MediaQuery.of(context).size.width <= 420.0
+                          ? MediaQuery.of(context).size.width * 0.45
+                          : 150.0,
                       decoration: BoxDecoration(
                           color: CupertinoColors.darkBackgroundGray,
                           image: DecorationImage(

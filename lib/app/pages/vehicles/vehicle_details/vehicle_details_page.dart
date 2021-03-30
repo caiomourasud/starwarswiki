@@ -69,6 +69,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                           width: item.width *
                               (item.list.length > 3 ? item.rows : 1),
                           rows: item.list.length > 3 ? item.rows : 1,
+                          viewportFraction: item.viewportFraction,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           seeAll: false,

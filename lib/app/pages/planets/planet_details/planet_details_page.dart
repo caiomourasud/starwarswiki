@@ -71,6 +71,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                         context: context,
                         characters: characters.isNotEmpty ? characters : null,
                         charactersTitle: 'Residents',
+                        charactersLines: characters.length > 6 ? 2 : 1,
                         films: films.isNotEmpty ? films : null,
                       )
                       .map((item) => CustomHorizontalList().list(
@@ -81,6 +82,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                           width: item.width *
                               (item.list.length > 3 ? item.rows : 1),
                           rows: item.list.length > 3 ? item.rows : 1,
+                          viewportFraction: item.viewportFraction,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           seeAll: false,

@@ -153,7 +153,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
               Container(
-                height: 100.0,
+                height: 140.0,
                 padding: EdgeInsets.symmetric(horizontal: 14.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,8 +162,8 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Container(
-                        height: 100.0,
-                        width: 94.0,
+                        height: 136.0,
+                        width: 130.0,
                         decoration: BoxDecoration(
                             color: CupertinoColors.darkBackgroundGray,
                             image: DecorationImage(
@@ -185,7 +185,13 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                             Text(
                               widget.character.name,
                               maxLines: 2,
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface),
                             ),
                             SizedBox(height: 2.0),
                             Row(
@@ -194,49 +200,45 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                   opacity: 0.8,
                                   child: Text(
                                     widget.character.gender,
-                                    style: Theme.of(context).textTheme.overline,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
                                   ),
                                 ),
                                 SizedBox(width: 2.0),
                                 Converters()
-                                    .setGender(widget.character.gender, 10.0)
+                                    .setGender(widget.character.gender, 12.0)
                               ],
                             ),
                             Flexible(
                               flex: 2,
                               child: Container(),
                             ),
-                            Flexible(
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.push(context,
-                                      CupertinoPageRoute(builder: (context) {
-                                    return PlanetDetailsPage(
-                                        planet: planet!,
-                                        backButton:
-                                            MediaQuery.of(context).size.width >
-                                                    md
-                                                ? 2
-                                                : 1);
-                                  })),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(CupertinoIcons.location_solid,
-                                          size: 12,
-                                          color: Theme.of(context).accentColor),
-                                      SizedBox(width: 2.0),
-                                      Text(
-                                        planet!.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                      ),
-                                    ],
-                                  ),
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return PlanetDetailsPage(
+                                      planet: planet!,
+                                      backButton:
+                                          MediaQuery.of(context).size.width > md
+                                              ? 2
+                                              : 1);
+                                })),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(CupertinoIcons.location_solid,
+                                        size: 12,
+                                        color: Theme.of(context).accentColor),
+                                    SizedBox(width: 2.0),
+                                    Text(
+                                      planet!.name,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -290,7 +292,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                               ),
                               Text(
                                 item.value,
-                                style: Theme.of(context).textTheme.subtitle1,
+                                style: Theme.of(context).textTheme.subtitle2,
                               ),
                             ],
                           ),
@@ -318,6 +320,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                           speciesBackButton: widget.backButton == 2 ? 1 : 2,
                           starships: starships.isNotEmpty ? starships : null,
                           starshipsBackButton: widget.backButton == 2 ? 1 : 2,
+                          starshipsLines: starships.length > 4 ? 2 : 1,
                           vehicles: vehicles.isNotEmpty ? vehicles : null,
                           vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
                       .map((item) => CustomHorizontalList().list(
@@ -328,6 +331,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                           width: item.width *
                               (item.list.length > 3 ? item.rows : 1),
                           rows: item.list.length > 3 ? item.rows : 1,
+                          viewportFraction: item.viewportFraction,
                           cards: item.list,
                           card: (index) => item.card(context, dimens, index),
                           seeAll: false,

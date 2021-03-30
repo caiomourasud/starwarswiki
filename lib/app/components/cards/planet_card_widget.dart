@@ -20,38 +20,81 @@ class PlanetCardWidget extends StatelessWidget {
       child: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: () => onTap(),
-        child: Card(
-            semanticContainer: true,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            // shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(50.0)),
-            child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                if (planet.id != 28 && planet.id != 46)
+                Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Container(
+                      height: 110.0,
+                      width: MediaQuery.of(context).size.width <= 420.0
+                          ? MediaQuery.of(context).size.width * 0.30
+                          : 130.0,
+                      decoration: BoxDecoration(
+                          color: CupertinoColors.darkBackgroundGray,
+                          image: planet.id != 28 && planet.id != 46
+                              ? DecorationImage(
+                                  image: NetworkImage(
+                                      ImageGenerator.generateImage(
+                                          id: planet.id, type: 'planets')),
+                                  alignment: Alignment.topCenter,
+                                  fit: BoxFit.cover)
+                              : null),
+                    )),
+                if (planet.id == 28 || planet.id == 46)
                   Container(
-                    height: 100.0,
-                    width: 100.0,
-                    decoration: BoxDecoration(
-                        color: CupertinoColors.darkBackgroundGray,
-                        image: DecorationImage(
-                          image: NetworkImage(ImageGenerator.generateImage(
-                              id: planet.id, type: 'planets')),
-                          alignment: Alignment.topCenter,
-                          fit: BoxFit.cover,
-                          colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.4), BlendMode.xor),
-                        )),
-                  ),
-                Center(
-                  child: Text(planet.name,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .overline
-                          ?.copyWith(color: Colors.white)),
-                )
+                    height: MediaQuery.of(context).size.width <= 420.0
+                        ? MediaQuery.of(context).size.width * 0.27
+                        : 110.0,
+                    width: MediaQuery.of(context).size.width <= 420.0
+                        ? MediaQuery.of(context).size.width * 0.30
+                        : 110.0,
+                    child: Center(
+                      child: Text('no image',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .overline
+                              ?.copyWith(color: Colors.white)),
+                    ),
+                  )
               ],
-            )),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(planet.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                    ],
+                  ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(planet.terrain,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.overline),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

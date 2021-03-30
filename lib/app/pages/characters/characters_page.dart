@@ -14,7 +14,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 import 'character_details/character_details_page.dart';
-import 'components/listtile_widget.dart';
+import 'components/character_listtile_widget.dart';
 
 final _charactersController = Modular.get<CharactersController>();
 
@@ -225,7 +225,7 @@ class _CharactersPageState extends State<CharactersPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTileWidget(
+              return CharacterListTileWidget(
                 personSelected: _charactersController.personSelected,
                 person: people[index],
                 onTap: (character) {

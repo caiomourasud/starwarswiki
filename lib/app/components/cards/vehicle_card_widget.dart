@@ -20,35 +20,57 @@ class VehicleCardWidget extends StatelessWidget {
       child: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: () => onTap(),
-        child: Card(
-            semanticContainer: true,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: Stack(
-              children: [
-                Container(
-                  height: 100.0,
-                  width: 100.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Card(
+                semanticContainer: true,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                child: Container(
+                  height: 110.0,
+                  width: MediaQuery.of(context).size.width <= 420.0
+                      ? MediaQuery.of(context).size.width * 0.30
+                      : 130.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,
                       image: DecorationImage(
-                        image: NetworkImage(ImageGenerator.generateImage(
-                            id: vehicle.id, type: 'vehicles')),
-                        alignment: Alignment.topCenter,
-                        fit: BoxFit.cover,
-                        colorFilter: new ColorFilter.mode(
-                            Colors.black.withOpacity(0.4), BlendMode.xor),
-                      )),
-                ),
-                Center(
-                  child: Text(vehicle.name,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .overline
-                          ?.copyWith(color: Colors.white)),
-                )
-              ],
-            )),
+                          image: NetworkImage(ImageGenerator.generateImage(
+                              id: vehicle.id, type: 'vehicles')),
+                          alignment: Alignment.topCenter,
+                          fit: BoxFit.cover)),
+                )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(vehicle.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                    ],
+                  ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(vehicle.model,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.overline),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@ class CustomHorizontalList {
       required String title,
       required double height,
       required double width,
+      double viewportFraction = 0.9,
       required List cards,
       required Function(int) card,
       required int rows,
@@ -52,41 +53,41 @@ class CustomHorizontalList {
             ],
           ),
         ),
-        if (rows > 1)
-          Container(
-              height: height,
-              child: GridView.builder(
-                controller: PageController(viewportFraction: 0.9),
-                physics: MediaQuery.of(context).size.width <= 420.0 && rows > 2
-                    ? PageScrollPhysics()
-                    : null,
-                padding: EdgeInsets.symmetric(horizontal: 14.0),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return card(index);
-                },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  childAspectRatio: rows / 4,
-                  maxCrossAxisExtent: height / rows,
-                  mainAxisExtent: (width / rows) - 0.10,
-                  crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 0.0,
-                ),
-                itemCount: cards.length,
-              )),
-        if (rows == 1)
-          Container(
+        // if (rows > 1)
+        Container(
             height: height,
-            child: ListView.builder(
-              // physics: const PageScrollPhysics(),
+            child: GridView.builder(
+              controller: PageController(viewportFraction: viewportFraction),
+              physics: MediaQuery.of(context).size.width <= 420.0
+                  ? PageScrollPhysics()
+                  : null,
               padding: EdgeInsets.symmetric(horizontal: 14.0),
               scrollDirection: Axis.horizontal,
-              itemCount: cards.length,
-              itemBuilder: (context, index) {
-                return Container(width: width, child: card(index));
+              itemBuilder: (BuildContext context, int index) {
+                return card(index);
               },
-            ),
-          ),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                childAspectRatio: rows / 4,
+                maxCrossAxisExtent: height / rows,
+                mainAxisExtent: (width / rows) - 0.10,
+                crossAxisSpacing: 0.0,
+                mainAxisSpacing: 0.0,
+              ),
+              itemCount: cards.length,
+            )),
+        // if (rows == 1)
+        //   Container(
+        //     height: height,
+        //     child: ListView.builder(
+        //       // physics: const PageScrollPhysics(),
+        //       padding: EdgeInsets.symmetric(horizontal: 14.0),
+        //       scrollDirection: Axis.horizontal,
+        //       itemCount: cards.length,
+        //       itemBuilder: (context, index) {
+        //         return Container(width: width, child: card(index));
+        //       },
+        //     ),
+        //   ),
         SizedBox(height: 24.0)
       ],
     );

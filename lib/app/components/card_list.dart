@@ -39,35 +39,50 @@ class CustomCardList {
     String filmsTitle = 'Films',
     int filmsBackButton = 1,
     bool filmsHasDivider = true,
+    int filmsLines = 1,
+    double filmsViewportFraction = 0.45,
     List<People>? characters,
     String charactersTitle = 'Characters',
     int charactersBackButton = 1,
     bool charactersHasDivider = true,
+    int charactersLines = 1,
+    double charactersViewportFraction = 0.9,
     List<Planet>? planets,
     String planetsTitle = 'Planets',
     int planetsBackButton = 1,
     bool planetsHasDivider = true,
+    int planetsLines = 1,
+    double planetsViewportFraction = 0.30,
     List<Specie>? species,
     String speciesTitle = 'Species',
     int speciesBackButton = 1,
     bool speciesHasDivider = true,
+    int speciesLines = 1,
+    double speciesViewportFraction = 0.45,
     List<Starship>? starships,
     String starshipsTitle = 'Starships',
     int starshipsBackButton = 1,
     bool starshipsHasDivider = true,
+    int starshipsLines = 1,
+    double starshipsViewportFraction = 0.9,
     List<Vehicle>? vehicles,
     String vehiclesTitle = 'Vehicles',
     int vehiclesBackButton = 1,
     bool vehiclesHasDivider = true,
+    int vehiclesLines = 1,
+    double vehiclesViewportFraction = 0.30,
   }) =>
       [
         if (films != null)
           CardList(
             title: filmsTitle,
             list: films,
-            height: 290.0,
-            width: 150.0,
-            rows: 1,
+            height: MediaQuery.of(context).size.width <= 420.0 ? 318.0 : 290.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.45
+                : 150.0,
+            rows: filmsLines,
+            viewportFraction: filmsViewportFraction,
             hasDivider: filmsHasDivider,
             card: (context, dimens, index) {
               return FilmCardWidget(
@@ -106,7 +121,8 @@ class CustomCardList {
             width: MediaQuery.of(context).size.width <= 420.0
                 ? MediaQuery.of(context).size.width * 0.9
                 : 320.0,
-            rows: 3,
+            rows: charactersLines,
+            viewportFraction: charactersViewportFraction,
             hasDivider: charactersHasDivider,
             card: (context, dimens, index) {
               return CharacterCardWidget(
@@ -145,9 +161,12 @@ class CustomCardList {
           CardList(
             title: planetsTitle,
             list: planets,
-            height: 100.0,
-            width: 100.0,
-            rows: 2,
+            height: 170.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.30
+                : 120.0,
+            rows: planetsLines,
+            viewportFraction: planetsViewportFraction,
             hasDivider: planetsHasDivider,
             card: (context, dimens, index) {
               return PlanetCardWidget(
@@ -179,9 +198,12 @@ class CustomCardList {
           CardList(
             title: speciesTitle,
             list: species,
-            height: 80.0,
-            width: 140.0,
-            rows: 2,
+            height: 126.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.45
+                : 150.0,
+            rows: speciesLines,
+            viewportFraction: speciesViewportFraction,
             hasDivider: speciesHasDivider,
             card: (context, dimens, index) {
               return SpecieCardWidget(
@@ -213,9 +235,12 @@ class CustomCardList {
           CardList(
             title: starshipsTitle,
             list: starships,
-            height: 80.0,
-            width: 140.0,
-            rows: 2,
+            height: 88.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.9
+                : 320.0,
+            rows: starshipsLines,
+            viewportFraction: starshipsViewportFraction,
             hasDivider: starshipsHasDivider,
             card: (context, dimens, index) {
               return StarshipCardWidget(
@@ -247,9 +272,12 @@ class CustomCardList {
           CardList(
             title: vehiclesTitle,
             list: vehicles,
-            height: 100.0,
-            width: 100.0,
-            rows: 2,
+            height: 170.0,
+            width: MediaQuery.of(context).size.width <= 420.0
+                ? MediaQuery.of(context).size.width * 0.30
+                : 120.0,
+            rows: vehiclesLines,
+            viewportFraction: vehiclesViewportFraction,
             hasDivider: vehiclesHasDivider,
             card: (context, dimens, index) {
               return VehicleCardWidget(
