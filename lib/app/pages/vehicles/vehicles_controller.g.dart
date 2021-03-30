@@ -124,22 +124,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
     });
   }
 
-  final _$showFavoritesAtom =
-      Atom(name: '_VehiclesControllerBase.showFavorites');
-
-  @override
-  bool get showFavorites {
-    _$showFavoritesAtom.reportRead();
-    return super.showFavorites;
-  }
-
-  @override
-  set showFavorites(bool value) {
-    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
-      super.showFavorites = value;
-    });
-  }
-
   final _$searchSizeAtom = Atom(name: '_VehiclesControllerBase.searchSize');
 
   @override
@@ -301,28 +285,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setShowFavorites');
-    try {
-      return super.setShowFavorites(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setFavorite(int id) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setFavorite');
-    try {
-      return super.setFavorite(id);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setSearchSize(dynamic newValue) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setSearchSize');
@@ -353,7 +315,6 @@ res: ${res},
 searchText: ${searchText},
 next: ${next},
 scrollPosition: ${scrollPosition},
-showFavorites: ${showFavorites},
 searchSize: ${searchSize},
 vehicleSelected: ${vehicleSelected},
 filterVehicles: ${filterVehicles}

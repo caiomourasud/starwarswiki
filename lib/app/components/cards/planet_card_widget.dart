@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class PlanetCardWidget extends StatelessWidget {
   final Planet planet;
@@ -30,7 +31,7 @@ class PlanetCardWidget extends StatelessWidget {
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
                       height: 110.0,
-                      width: MediaQuery.of(context).size.width <= 420.0
+                      width: MediaQuery.of(context).size.width <= sm
                           ? MediaQuery.of(context).size.width * 0.30
                           : 130.0,
                       decoration: BoxDecoration(
@@ -46,10 +47,10 @@ class PlanetCardWidget extends StatelessWidget {
                     )),
                 if (planet.id == 28 || planet.id == 46)
                   Container(
-                    height: MediaQuery.of(context).size.width <= 420.0
+                    height: MediaQuery.of(context).size.width <= sm
                         ? MediaQuery.of(context).size.width * 0.27
                         : 110.0,
-                    width: MediaQuery.of(context).size.width <= 420.0
+                    width: MediaQuery.of(context).size.width <= sm
                         ? MediaQuery.of(context).size.width * 0.30
                         : 110.0,
                     child: Center(

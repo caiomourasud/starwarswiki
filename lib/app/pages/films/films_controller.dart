@@ -32,7 +32,6 @@ abstract class _FilmsControllerBase with Store {
   filmsFromDB() {
     films = _filmsBox.values.toList()
       ..sort((a, b) => a.episodeId.compareTo(b.episodeId));
-    // someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
   }
 
   @action
@@ -69,12 +68,6 @@ abstract class _FilmsControllerBase with Store {
   setNext(newValue) => next = newValue;
 
   @observable
-  double scrollPosition = 0.0;
-
-  @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
-
-  @observable
   bool showFavorites = false;
 
   @action
@@ -89,7 +82,6 @@ abstract class _FilmsControllerBase with Store {
   @action
   setFavorite(int id) {
     var foundIndex = films.indexWhere((film) => film.id == id);
-    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
     _filmsBox.putAt(foundIndex, films[foundIndex]);
   }
 

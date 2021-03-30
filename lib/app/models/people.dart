@@ -72,7 +72,7 @@ class People extends HiveObject {
     eyeColor = json['eye_color'];
     birthYear = json['birth_year'];
     gender = json['gender'];
-    homeworld = json['homeworld'];
+    homeworld = json['homeworld'] ?? '';
     films = json['films'].cast<String>();
     species = json['species'].cast<String>();
     vehicles = json['vehicles'].cast<String>();

@@ -7,7 +7,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
   final String title;
   final List<Widget> titleActions;
   final List<Widget> actions;
-  final double position;
+  final double? position;
   final int backButton;
 
   const CupertinoSliverAppBarWidget({
@@ -16,7 +16,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
     required this.title,
     required this.titleActions,
     required this.actions,
-    required this.position,
+    this.position,
     required this.backButton,
   }) : super(key: key);
 
@@ -25,25 +25,11 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
     return CupertinoSliverNavigationBar(
       stretch: true,
       brightness: Theme.of(context).brightness,
-      middle: AnimatedOpacity(
-        opacity: position > 35.0 ? 1.0 : 0.0,
-        duration: Duration(milliseconds: 100),
-        child: Text(
-          title,
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary),
-        ),
-      ),
-      previousPageTitle: '',
-      automaticallyImplyTitle: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      largeTitle: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          if (position <= 35.0)
-            Flexible(
+      middle: position == null
+          ? null
+          : AnimatedOpacity(
+              opacity: position! > 35.0 ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 100),
               child: Text(
                 title,
                 style: TextStyle(
@@ -52,19 +38,47 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
                         : Theme.of(context).colorScheme.onPrimary),
               ),
             ),
-          if (position <= 35.0)
-            Row(
-              children: titleActions,
+      previousPageTitle: '',
+      automaticallyImplyTitle: position == null ? true : false,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      largeTitle: position == null
+          ? Text(
+              title,
+              style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.black87
+                      : Theme.of(context).colorScheme.onPrimary),
             )
-        ],
-      ),
-      trailing: AnimatedOpacity(
-          opacity: position > 35.0 ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 100),
-          child: Row(mainAxisSize: MainAxisSize.min, children: actions)),
-      border: position > 142.0 + MediaQuery.of(context).viewPadding.top
-          ? Border(bottom: BorderSide(width: 0, color: Colors.black26))
-          : Border.all(color: Colors.transparent),
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                if (position! <= 35.0)
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black87
+                                  : Theme.of(context).colorScheme.onPrimary),
+                    ),
+                  ),
+                if (position! <= 35.0)
+                  Row(
+                    children: titleActions,
+                  )
+              ],
+            ),
+      trailing: position == null
+          ? null
+          : AnimatedOpacity(
+              opacity: position! > 35.0 ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 100),
+              child: Row(mainAxisSize: MainAxisSize.min, children: actions)),
+      border: Border.all(color: Colors.transparent),
+      // border: position! > 142.0 + MediaQuery.of(context).viewPadding.top
+      //     ? Border(bottom: BorderSide(width: 0, color: Colors.black26))
+      //     : Border.all(color: Colors.transparent),
     );
   }
 }

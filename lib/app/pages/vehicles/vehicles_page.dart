@@ -11,6 +11,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/vehicle_listtile_widget.dart';
 import 'vehicle_details/vehicle_details_page.dart';
 
 final _vahiclesController = Modular.get<VehiclesController>();
@@ -23,6 +24,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class VehiclesPage extends StatefulWidget {
+  final int backButton;
+
+  const VehiclesPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _VehiclesPageState createState() => _VehiclesPageState();
 }
@@ -31,13 +35,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _vahiclesController.scrollController.addListener(_scrollListener);
     super.initState();
-  }
-
-  _scrollListener() {
-    _vahiclesController.setScrollPosition(
-        _vahiclesController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
@@ -169,48 +167,26 @@ class _VehiclesPageState extends State<VehiclesPage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverAppBarWidget(
-        context: context,
-        title: 'Vehicles',
-        backButton: 2,
-        position: _vahiclesController.scrollPosition,
-        titleActions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 16.0,
-              disable: false,
-              onTap: () => _vahiclesController.setShowFavorites(null))
-        ],
-        actions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 0.0,
-              disable: _vahiclesController.scrollPosition <= 35.0,
-              onTap: () => _vahiclesController.setShowFavorites(null))
-        ],
-      );
-    });
+    return CupertinoSliverAppBarWidget(
+      context: context,
+      title: 'Vehicles',
+      backButton: 2,
+      position: _vahiclesController.scrollPosition,
+      titleActions: [],
+      actions: [],
+    );
   }
 
   _appBar() {
-    return Observer(builder: (_) {
-      return SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CupertinoAppBarWidget(
-            context: context,
-            title: 'Vehicles',
-            backButton: 2,
-            actions: [
-              _listFavorites(
-                  paddingTop: 4.0,
-                  paddingRight: 0.0,
-                  disable: false,
-                  onTap: () => _vahiclesController.setShowFavorites(null))
-            ],
-          ));
-    });
+    return SliverPersistentHeader(
+        pinned: true,
+        floating: false,
+        delegate: CupertinoAppBarWidget(
+          context: context,
+          title: 'Vehicles',
+          backButton: 2,
+          actions: [],
+        ));
   }
 
   _sliverBody(List<Vehicle> vehicles, BoxConstraints dimens) {
@@ -218,24 +194,22 @@ class _VehiclesPageState extends State<VehiclesPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                title: Text(_vahiclesController.vehicles[index].name),
-                onTap: () {
-                  if (MediaQuery.of(context).size.width <= md) {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) {
-                      return VehicleDetailsPage(
-                          vehicle: _vahiclesController.vehicles[index],
-                          backButton: 1);
-                    }));
-                  }
-                  setState(() {
-                    _vahiclesController.setVehicleSelected(
-                        _vahiclesController.vehicles[index]);
-                  });
-                },
-              );
-            }, childCount: vehicles.length),
+              return VehicleListTileWidget(
+                  vehicle: _vahiclesController.filterVehicles[index],
+                  onTap: (item) {
+                    if (MediaQuery.of(context).size.width <= md) {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                        return VehicleDetailsPage(vehicle: item, backButton: 2);
+                      }));
+                    }
+                    setState(() {
+                      _vahiclesController.setVehicleSelected(
+                          _vahiclesController.filterVehicles[index]);
+                    });
+                  },
+                  vehicleSelected: _vahiclesController.vehicleSelected);
+            }, childCount: _vahiclesController.filterVehicles.length),
           )
         : SliverToBoxAdapter(
             child: Padding(
@@ -245,42 +219,5 @@ class _VehiclesPageState extends State<VehiclesPage> {
               ),
             ),
           );
-  }
-
-  _listFavorites(
-      {required double paddingTop,
-      required double paddingRight,
-      required bool disable,
-      required Function() onTap}) {
-    return MouseRegion(
-        cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-          child: disable
-              ? Opacity(
-                  opacity: 0,
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28),
-                      onPressed: null),
-                )
-              : Tooltip(
-                  message: _vahiclesController.showFavorites
-                      ? 'Listar todos'
-                      : 'Listar favoritos',
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(
-                          _vahiclesController.showFavorites
-                              ? CupertinoIcons.square_favorites_alt_fill
-                              : CupertinoIcons.square_favorites_alt,
-                          size: 28),
-                      onPressed: () => onTap())),
-        ));
   }
 }

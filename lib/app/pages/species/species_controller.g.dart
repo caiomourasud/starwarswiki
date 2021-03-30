@@ -108,38 +108,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
     });
   }
 
-  final _$scrollPositionAtom =
-      Atom(name: '_SpeciesControllerBase.scrollPosition');
-
-  @override
-  double get scrollPosition {
-    _$scrollPositionAtom.reportRead();
-    return super.scrollPosition;
-  }
-
-  @override
-  set scrollPosition(double value) {
-    _$scrollPositionAtom.reportWrite(value, super.scrollPosition, () {
-      super.scrollPosition = value;
-    });
-  }
-
-  final _$showFavoritesAtom =
-      Atom(name: '_SpeciesControllerBase.showFavorites');
-
-  @override
-  bool get showFavorites {
-    _$showFavoritesAtom.reportRead();
-    return super.showFavorites;
-  }
-
-  @override
-  set showFavorites(bool value) {
-    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
-      super.showFavorites = value;
-    });
-  }
-
   final _$searchSizeAtom = Atom(name: '_SpeciesControllerBase.searchSize');
 
   @override
@@ -290,39 +258,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   }
 
   @override
-  dynamic setScrollPosition(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.setScrollPosition');
-    try {
-      return super.setScrollPosition(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setShowFavorites(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.setShowFavorites');
-    try {
-      return super.setShowFavorites(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setFavorite(int id) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.setFavorite');
-    try {
-      return super.setFavorite(id);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setSearchSize(dynamic newValue) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSearchSize');
@@ -352,8 +287,6 @@ species: ${species},
 res: ${res},
 searchText: ${searchText},
 next: ${next},
-scrollPosition: ${scrollPosition},
-showFavorites: ${showFavorites},
 searchSize: ${searchSize},
 specieSelected: ${specieSelected},
 filterSpecies: ${filterSpecies}

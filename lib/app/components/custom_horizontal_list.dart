@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class CustomHorizontalList {
   Widget list(
@@ -53,12 +54,11 @@ class CustomHorizontalList {
             ],
           ),
         ),
-        // if (rows > 1)
         Container(
             height: height,
             child: GridView.builder(
               controller: PageController(viewportFraction: viewportFraction),
-              physics: MediaQuery.of(context).size.width <= 420.0
+              physics: MediaQuery.of(context).size.width <= sm
                   ? PageScrollPhysics()
                   : null,
               padding: EdgeInsets.symmetric(horizontal: 14.0),
@@ -75,19 +75,6 @@ class CustomHorizontalList {
               ),
               itemCount: cards.length,
             )),
-        // if (rows == 1)
-        //   Container(
-        //     height: height,
-        //     child: ListView.builder(
-        //       // physics: const PageScrollPhysics(),
-        //       padding: EdgeInsets.symmetric(horizontal: 14.0),
-        //       scrollDirection: Axis.horizontal,
-        //       itemCount: cards.length,
-        //       itemBuilder: (context, index) {
-        //         return Container(width: width, child: card(index));
-        //       },
-        //     ),
-        //   ),
         SizedBox(height: 24.0)
       ],
     );

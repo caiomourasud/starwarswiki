@@ -69,7 +69,6 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
                           itemColor: shrinkOffset <= 26.0 || minExtent == 48.0
                               ? CupertinoColors.secondaryLabel
                               : Colors.transparent,
-                          // itemSize: 20.0 - (shrinkOffset >= 0.6 ? shrinkOffset / 4 : 0.0),
                         ),
                         duration: Duration(milliseconds: 200)),
                     AnimatedOpacity(

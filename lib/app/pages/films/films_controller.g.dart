@@ -108,22 +108,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
     });
   }
 
-  final _$scrollPositionAtom =
-      Atom(name: '_FilmsControllerBase.scrollPosition');
-
-  @override
-  double get scrollPosition {
-    _$scrollPositionAtom.reportRead();
-    return super.scrollPosition;
-  }
-
-  @override
-  set scrollPosition(double value) {
-    _$scrollPositionAtom.reportWrite(value, super.scrollPosition, () {
-      super.scrollPosition = value;
-    });
-  }
-
   final _$showFavoritesAtom = Atom(name: '_FilmsControllerBase.showFavorites');
 
   @override
@@ -287,17 +271,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
-  dynamic setScrollPosition(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setScrollPosition');
-    try {
-      return super.setScrollPosition(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setShowFavorites(dynamic newValue) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setShowFavorites');
@@ -349,7 +322,6 @@ films: ${films},
 res: ${res},
 searchText: ${searchText},
 next: ${next},
-scrollPosition: ${scrollPosition},
 showFavorites: ${showFavorites},
 searchSize: ${searchSize},
 filmSelected: ${filmSelected},

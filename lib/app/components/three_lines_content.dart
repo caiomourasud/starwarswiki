@@ -33,25 +33,28 @@ class ThreeLinesContent extends StatelessWidget {
           clipBehavior: Clip.antiAliasWithSaveLayer,
           margin: EdgeInsets.zero,
           child: Container(
-            height: 70.0,
-            width: 70.0,
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                image: DecorationImage(
-                  image: NetworkImage(
-                      ImageGenerator.generateImage(id: id!, type: type!)),
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.cover,
-                )),
-          ),
+              height: subtitle == null || topText == null ? 50.0 : 72.0,
+              width: subtitle == null || topText == null ? 50.0 : 72.0,
+              decoration: type == 'planets' && (id == 28 || id == 46)
+                  ? null
+                  : BoxDecoration(
+                      color: Colors.black87,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            ImageGenerator.generateImage(id: id!, type: type!)),
+                        alignment: Alignment.topCenter,
+                        fit: BoxFit.cover,
+                      ))),
         ),
       SizedBox(width: 12.0),
       Flexible(
         flex: 2,
         child: Container(
-          height: 70.0,
+          height: subtitle == null || topText == null ? 50.0 : 70.0,
           padding: EdgeInsets.only(top: 2.0, bottom: 4.0),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (topText != null) topText!,
@@ -66,7 +69,6 @@ class ThreeLinesContent extends StatelessWidget {
                   ),
                 ],
               ),
-              // if (subtitle != null) Flexible(flex: 2, child: Container()),
               if (subtitle != null) subtitle!,
             ],
           ),

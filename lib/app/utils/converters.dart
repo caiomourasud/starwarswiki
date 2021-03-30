@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/pages/species/species_controller.dart';
-
-final _speciesController = Modular.get<SpeciesController>();
+import 'package:starwarswiki/code/config.dart';
 
 class Converters {
   toDouble(string, tipo) {
@@ -58,14 +56,16 @@ class Converters {
   }
 
   setSpecie(List<String>? url) {
-    if (url != null) {
-      if (url.length > 0) {
-        List<Specie> specie = _speciesController.species
-            .where((specie) => specie.url == url[0])
-            .toList();
-        return specie[0].name;
+    if (url!.isNotEmpty) {
+      List<Specie> specie = Hive.box<Specie>(speciesBox)
+          .values
+          .toList()
+          .where((specie) => specie.url == url.first)
+          .toList();
+      if (specie.isNotEmpty) {
+        return specie.first.name;
       } else {
-        return 'Human';
+        return '';
       }
     } else {
       return 'Human';

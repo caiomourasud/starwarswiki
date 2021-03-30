@@ -84,6 +84,7 @@ class _CharactersPageState extends State<CharactersPage> {
                     body: Observer(builder: (_) {
                       return Scrollbar(
                         child: CustomScrollView(
+                          physics: BouncingScrollPhysics(),
                           slivers: [
                             CupertinoSliverRefreshControl(
                               refreshTriggerPullDistance: 100.0,
@@ -91,7 +92,6 @@ class _CharactersPageState extends State<CharactersPage> {
                               onRefresh: () async {
                                 await Future<void>.delayed(
                                     const Duration(milliseconds: 1000));
-                                _charactersController.getPeople();
                                 if (_charactersController.people.isEmpty) {
                                   _charactersController.getPeople();
                                 } else {

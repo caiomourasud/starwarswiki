@@ -10,6 +10,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/specie_listtile_widget.dart';
 import 'specie_details/specie_details_page.dart';
 import 'species_controller.dart';
 
@@ -23,6 +24,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class SpeciesPage extends StatefulWidget {
+  final int backButton;
+
+  const SpeciesPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _SpeciesPageState createState() => _SpeciesPageState();
 }
@@ -31,13 +35,7 @@ class _SpeciesPageState extends State<SpeciesPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _speciesController.scrollController.addListener(_scrollListener);
     super.initState();
-  }
-
-  _scrollListener() {
-    _speciesController
-        .setScrollPosition(_speciesController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
@@ -167,48 +165,25 @@ class _SpeciesPageState extends State<SpeciesPage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverAppBarWidget(
-        context: context,
-        title: 'Species',
-        backButton: 2,
-        position: _speciesController.scrollPosition,
-        titleActions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 16.0,
-              disable: false,
-              onTap: () => _speciesController.setShowFavorites(null))
-        ],
-        actions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 0.0,
-              disable: _speciesController.scrollPosition <= 35.0,
-              onTap: () => _speciesController.setShowFavorites(null))
-        ],
-      );
-    });
+    return CupertinoSliverAppBarWidget(
+      context: context,
+      title: 'Species',
+      backButton: 2,
+      titleActions: [],
+      actions: [],
+    );
   }
 
   _appBar() {
-    return Observer(builder: (_) {
-      return SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CupertinoAppBarWidget(
-            context: context,
-            title: 'Species',
-            backButton: 2,
-            actions: [
-              _listFavorites(
-                  paddingTop: 4.0,
-                  paddingRight: 0.0,
-                  disable: false,
-                  onTap: () => _speciesController.setShowFavorites(null))
-            ],
-          ));
-    });
+    return SliverPersistentHeader(
+        pinned: true,
+        floating: false,
+        delegate: CupertinoAppBarWidget(
+          context: context,
+          title: 'Species',
+          backButton: 2,
+          actions: [],
+        ));
   }
 
   _sliverBody(List<Specie> species, BoxConstraints dimens) {
@@ -216,24 +191,22 @@ class _SpeciesPageState extends State<SpeciesPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                title: Text(_speciesController.species[index].name),
-                onTap: () {
-                  if (MediaQuery.of(context).size.width <= md) {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) {
-                      return SpecieDetailsPage(
-                          specie: _speciesController.species[index],
-                          backButton: 1);
-                    }));
-                  }
-                  setState(() {
-                    _speciesController
-                        .setSpecieSelected(_speciesController.species[index]);
-                  });
-                },
-              );
-            }, childCount: species.length),
+              return SpecieListTileWidget(
+                  specie: _speciesController.filterSpecies[index],
+                  onTap: (item) {
+                    if (MediaQuery.of(context).size.width <= md) {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                        return SpecieDetailsPage(specie: item, backButton: 2);
+                      }));
+                    }
+                    setState(() {
+                      _speciesController.setSpecieSelected(
+                          _speciesController.filterSpecies[index]);
+                    });
+                  },
+                  specieSelected: _speciesController.specieSelected);
+            }, childCount: _speciesController.filterSpecies.length),
           )
         : SliverToBoxAdapter(
             child: Padding(
@@ -243,42 +216,5 @@ class _SpeciesPageState extends State<SpeciesPage> {
               ),
             ),
           );
-  }
-
-  _listFavorites(
-      {required double paddingTop,
-      required double paddingRight,
-      required bool disable,
-      required Function() onTap}) {
-    return MouseRegion(
-        cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-          child: disable
-              ? Opacity(
-                  opacity: 0,
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28),
-                      onPressed: null),
-                )
-              : Tooltip(
-                  message: _speciesController.showFavorites
-                      ? 'Listar todos'
-                      : 'Listar favoritos',
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(
-                          _speciesController.showFavorites
-                              ? CupertinoIcons.square_favorites_alt_fill
-                              : CupertinoIcons.square_favorites_alt,
-                          size: 28),
-                      onPressed: () => onTap())),
-        ));
   }
 }

@@ -182,16 +182,23 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.character.name,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.character.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 2.0),
                             Row(

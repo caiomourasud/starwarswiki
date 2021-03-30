@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
@@ -8,6 +9,7 @@ import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
 import 'package:starwarswiki/app/pages/films/films_controller.dart';
+import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 final _charactersController = Modular.get<CharactersController>();
@@ -63,6 +65,111 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
           child: ListView(
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
+              Container(
+                height: 150.0,
+                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Container(
+                        height: 144.0,
+                        width: 138.0,
+                        decoration: BoxDecoration(
+                            color: CupertinoColors.darkBackgroundGray,
+                            image:
+                                widget.planet.id != 28 && widget.planet.id != 46
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            ImageGenerator.generateImage(
+                                                id: widget.planet.id,
+                                                type: 'planets')),
+                                        alignment: Alignment.topCenter,
+                                        fit: BoxFit.cover)
+                                    : null),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Flexible(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 4.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.planet.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        ?.copyWith(
+                                            height: 1.0,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: Container(),
+                            ),
+                            SizedBox(height: 2.0),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Text(
+                                'Climate',
+                                style: Theme.of(context).textTheme.overline,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.planet.climate,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                ),
+                                SizedBox(width: 2.0),
+                              ],
+                            ),
+                            SizedBox(height: 4.0),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Text(
+                                'Terrain',
+                                style: Theme.of(context).textTheme.overline,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.planet.terrain,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                ),
+                                SizedBox(width: 2.0),
+                              ],
+                            ),
+                            SizedBox(height: 4.0)
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 24.0),
               Column(
                   mainAxisSize: MainAxisSize.min,

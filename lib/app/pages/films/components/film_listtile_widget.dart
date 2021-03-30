@@ -47,17 +47,27 @@ class FilmListTileWidget extends StatelessWidget {
                 ],
               ),
               title: film.title,
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Opacity(
-                  opacity: 0.6,
-                  child: Row(
+              subtitle: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0),
+                    child: Opacity(
+                      opacity: 0.8,
+                      child: Row(
+                        children: [
+                          Text('Director',
+                              style: Theme.of(context).textTheme.overline)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
                     children: [
                       Text(film.director,
                           style: Theme.of(context).textTheme.bodyText2)
                     ],
                   ),
-                ),
+                ],
               ),
             )),
       ),

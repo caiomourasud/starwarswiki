@@ -66,31 +66,6 @@ abstract class _SpeciesControllerBase with Store {
   setNext(newValue) => next = newValue;
 
   @observable
-  double scrollPosition = 0.0;
-
-  @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
-
-  @observable
-  bool showFavorites = false;
-
-  @action
-  setShowFavorites(newValue) {
-    if (newValue == null) {
-      showFavorites = !showFavorites;
-    } else {
-      showFavorites = newValue;
-    }
-  }
-
-  @action
-  setFavorite(int id) {
-    var foundIndex = species.indexWhere((specie) => specie.id == id);
-    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
-    _speciesBox.putAt(foundIndex, species[foundIndex]);
-  }
-
-  @observable
   double searchSize = 0.0;
 
   @action
@@ -217,66 +192,33 @@ abstract class _SpeciesControllerBase with Store {
 
   @computed
   List<Specie> get filterSpecies {
-    if (showFavorites) {
-      var favorites = species;
-      // films.where((personagem) => personagem.isFavorite).toList();
-      if (searchText == '') {
-        return favorites;
-      } else {
-        return favorites
-            .where((specie) => specie.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+    if (searchText == '') {
+      return species;
     } else {
-      if (searchText == '') {
-        return species;
-      } else {
-        return species
-            .where((specie) => specie.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+      return species
+          .where((specie) => specie.name
+              .toLowerCase()
+              .replaceAll('á', 'a')
+              .replaceAll('é', 'e')
+              .replaceAll('í', 'i')
+              .replaceAll('ó', 'o')
+              .replaceAll('ú', 'u')
+              .replaceAll('ê', 'e')
+              .replaceAll('ã', 'a')
+              .replaceAll('õ', 'o')
+              .replaceAll('ç', 'c')
+              .contains(searchText
+                  .toLowerCase()
+                  .replaceAll('á', 'a')
+                  .replaceAll('é', 'e')
+                  .replaceAll('í', 'i')
+                  .replaceAll('ó', 'o')
+                  .replaceAll('ú', 'u')
+                  .replaceAll('ê', 'e')
+                  .replaceAll('ã', 'a')
+                  .replaceAll('õ', 'o')
+                  .replaceAll('ç', 'c')))
+          .toList();
     }
   }
 }

@@ -77,8 +77,8 @@ class CustomCardList {
           CardList(
             title: filmsTitle,
             list: films,
-            height: MediaQuery.of(context).size.width <= 420.0 ? 318.0 : 290.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            height: MediaQuery.of(context).size.width <= sm ? 318.0 : 290.0,
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.45
                 : 150.0,
             rows: filmsLines,
@@ -118,7 +118,7 @@ class CustomCardList {
             title: charactersTitle,
             list: characters,
             height: 88.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.9
                 : 320.0,
             rows: charactersLines,
@@ -162,7 +162,7 @@ class CustomCardList {
             title: planetsTitle,
             list: planets,
             height: 170.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.30
                 : 120.0,
             rows: planetsLines,
@@ -190,7 +190,12 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return PlanetsPage();
+                return PlanetsPage(
+                    backButton: planetsBackButton == 1
+                        ? MediaQuery.of(context).size.width > md
+                            ? 2
+                            : 1
+                        : 1);
               }));
             },
           ),
@@ -199,7 +204,7 @@ class CustomCardList {
             title: speciesTitle,
             list: species,
             height: 126.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.45
                 : 150.0,
             rows: speciesLines,
@@ -227,7 +232,12 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return SpeciesPage();
+                return SpeciesPage(
+                    backButton: speciesBackButton == 1
+                        ? MediaQuery.of(context).size.width > md
+                            ? 2
+                            : 1
+                        : 1);
               }));
             },
           ),
@@ -236,7 +246,7 @@ class CustomCardList {
             title: starshipsTitle,
             list: starships,
             height: 88.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.9
                 : 320.0,
             rows: starshipsLines,
@@ -264,7 +274,12 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return StarshipsPage();
+                return StarshipsPage(
+                    backButton: starshipsBackButton == 1
+                        ? MediaQuery.of(context).size.width > md
+                            ? 2
+                            : 1
+                        : 1);
               }));
             },
           ),
@@ -273,7 +288,7 @@ class CustomCardList {
             title: vehiclesTitle,
             list: vehicles,
             height: 170.0,
-            width: MediaQuery.of(context).size.width <= 420.0
+            width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.30
                 : 120.0,
             rows: vehiclesLines,
@@ -301,7 +316,12 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return VehiclesPage();
+                return VehiclesPage(
+                    backButton: vehiclesBackButton == 1
+                        ? MediaQuery.of(context).size.width > md
+                            ? 2
+                            : 1
+                        : 1);
               }));
             },
           )

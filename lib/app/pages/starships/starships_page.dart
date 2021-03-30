@@ -10,6 +10,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/starship_listtile_widget.dart';
 import 'starship_details/starship_details_page.dart';
 import 'starships_controller.dart';
 
@@ -23,6 +24,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class StarshipsPage extends StatefulWidget {
+  final int backButton;
+
+  const StarshipsPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _StarshipsPageState createState() => _StarshipsPageState();
 }
@@ -31,13 +35,7 @@ class _StarshipsPageState extends State<StarshipsPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _starshipsController.scrollController.addListener(_scrollListener);
     super.initState();
-  }
-
-  _scrollListener() {
-    _starshipsController.setScrollPosition(
-        _starshipsController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
@@ -171,48 +169,25 @@ class _StarshipsPageState extends State<StarshipsPage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverAppBarWidget(
-        context: context,
-        title: 'Starships',
-        backButton: 2,
-        position: _starshipsController.scrollPosition,
-        titleActions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 16.0,
-              disable: false,
-              onTap: () => _starshipsController.setShowFavorites(null))
-        ],
-        actions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 0.0,
-              disable: _starshipsController.scrollPosition <= 35.0,
-              onTap: () => _starshipsController.setShowFavorites(null))
-        ],
-      );
-    });
+    return CupertinoSliverAppBarWidget(
+      context: context,
+      title: 'Starships',
+      backButton: 2,
+      titleActions: [],
+      actions: [],
+    );
   }
 
   _appBar() {
-    return Observer(builder: (_) {
-      return SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CupertinoAppBarWidget(
-            context: context,
-            title: 'Starships',
-            backButton: 2,
-            actions: [
-              _listFavorites(
-                  paddingTop: 4.0,
-                  paddingRight: 0.0,
-                  disable: false,
-                  onTap: () => _starshipsController.setShowFavorites(null))
-            ],
-          ));
-    });
+    return SliverPersistentHeader(
+        pinned: true,
+        floating: false,
+        delegate: CupertinoAppBarWidget(
+          context: context,
+          title: 'Starships',
+          backButton: 2,
+          actions: [],
+        ));
   }
 
   _sliverBody(List<Starship> starships, BoxConstraints dimens) {
@@ -220,23 +195,22 @@ class _StarshipsPageState extends State<StarshipsPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                title: Text(_starshipsController.starships[index].name),
-                onTap: () {
-                  if (MediaQuery.of(context).size.width <= md) {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) {
-                      return StarshipDetailsPage(
-                          starship: _starshipsController.starships[index],
-                          backButton: 1);
-                    }));
-                  }
-                  setState(() {
-                    _starshipsController.setStarshipSelected(
-                        _starshipsController.starships[index]);
-                  });
-                },
-              );
+              return StarshipListTileWidget(
+                  starship: _starshipsController.filterStarships[index],
+                  onTap: (item) {
+                    if (MediaQuery.of(context).size.width <= md) {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                        return StarshipDetailsPage(
+                            starship: item, backButton: 2);
+                      }));
+                    }
+                    setState(() {
+                      _starshipsController.setStarshipSelected(
+                          _starshipsController.filterStarships[index]);
+                    });
+                  },
+                  starshipSelected: _starshipsController.starshipSelected);
             }, childCount: starships.length),
           )
         : SliverToBoxAdapter(
@@ -247,42 +221,5 @@ class _StarshipsPageState extends State<StarshipsPage> {
               ),
             ),
           );
-  }
-
-  _listFavorites(
-      {required double paddingTop,
-      required double paddingRight,
-      required bool disable,
-      required Function() onTap}) {
-    return MouseRegion(
-        cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-          child: disable
-              ? Opacity(
-                  opacity: 0,
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28),
-                      onPressed: null),
-                )
-              : Tooltip(
-                  message: _starshipsController.showFavorites
-                      ? 'Listar todos'
-                      : 'Listar favoritos',
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(
-                          _starshipsController.showFavorites
-                              ? CupertinoIcons.square_favorites_alt_fill
-                              : CupertinoIcons.square_favorites_alt,
-                          size: 28),
-                      onPressed: () => onTap())),
-        ));
   }
 }

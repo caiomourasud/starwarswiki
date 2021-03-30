@@ -49,7 +49,7 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
                     ),
                     title: widget.character.name,
                     subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 6.0),
                       child: Row(
                         children: [
                           Column(

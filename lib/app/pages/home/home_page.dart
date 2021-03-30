@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
@@ -133,27 +134,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverNavigationBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        largeTitle: Text('StarWars',
-            style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black87
-                    : Colors.yellow[600])),
-        leading: CupertinoButton(
-          minSize: 34,
-          padding: EdgeInsets.zero,
-          borderRadius: BorderRadius.circular(50.0),
-          child: Icon(CupertinoIcons.person_crop_circle_fill, size: 26),
-          onPressed: () {},
-        ),
-        border: _homeController.scrollPosition >
-                142.0 + MediaQuery.of(context).viewPadding.top
-            ? Border(bottom: BorderSide(width: 0, color: Colors.black26))
-            : Border.all(color: Colors.transparent),
-      );
-    });
+    return CupertinoSliverNavigationBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      largeTitle: Text('StarWars',
+          style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.black87
+                  : Colors.yellow[600])),
+      leading: CupertinoButton(
+        minSize: 34,
+        padding: EdgeInsets.zero,
+        borderRadius: BorderRadius.circular(50.0),
+        child: Icon(FontAwesomeIcons.jediOrder),
+        onPressed: () {},
+      ),
+      border: Border.all(color: Colors.transparent),
+    );
   }
 }

@@ -17,21 +17,22 @@ class FilmAdapter extends TypeAdapter<Film> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Film(
-        id: fields[0] as int,
-        title: fields[1] as String,
-        episodeId: fields[2] as int,
-        openingCrawl: fields[3] as String,
-        director: fields[4] as String,
-        producer: fields[5] as String,
-        releaseDate: fields[6] as String,
-        characters: (fields[7] as List).cast<String>(),
-        planets: (fields[8] as List).cast<String>(),
-        starships: (fields[9] as List).cast<String>(),
-        vehicles: (fields[10] as List).cast<String>(),
-        species: (fields[11] as List).cast<String>(),
-        created: fields[12] as String,
-        edited: fields[13] as String,
-        url: fields[14] as String);
+      id: fields[0] as int,
+      title: fields[1] as String,
+      episodeId: fields[2] as int,
+      openingCrawl: fields[3] as String,
+      director: fields[4] as String,
+      producer: fields[5] as String,
+      releaseDate: fields[6] as String,
+      characters: (fields[7] as List).cast<String>(),
+      planets: (fields[8] as List).cast<String>(),
+      starships: (fields[9] as List).cast<String>(),
+      vehicles: (fields[10] as List).cast<String>(),
+      species: (fields[11] as List).cast<String>(),
+      created: fields[12] as String,
+      edited: fields[13] as String,
+      url: fields[14] as String,
+    );
   }
 
   @override

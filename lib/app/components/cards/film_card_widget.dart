@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/film.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class FilmCardWidget extends StatelessWidget {
   final Film film;
@@ -30,10 +31,10 @@ class FilmCardWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.width <= 420.0
+                      height: MediaQuery.of(context).size.width <= sm
                           ? 260.0
                           : 230.0,
-                      width: MediaQuery.of(context).size.width <= 420.0
+                      width: MediaQuery.of(context).size.width <= sm
                           ? MediaQuery.of(context).size.width * 0.45
                           : 150.0,
                       decoration: BoxDecoration(

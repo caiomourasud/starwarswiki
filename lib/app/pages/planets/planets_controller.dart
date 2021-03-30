@@ -66,12 +66,6 @@ abstract class _PlanetsControllerBase with Store {
   setNext(newValue) => next = newValue;
 
   @observable
-  double scrollPosition = 0.0;
-
-  @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
-
-  @observable
   bool showFavorites = false;
 
   @action
@@ -81,13 +75,6 @@ abstract class _PlanetsControllerBase with Store {
     } else {
       showFavorites = newValue;
     }
-  }
-
-  @action
-  setFavorite(int id) {
-    var foundIndex = planets.indexWhere((planet) => planet.id == id);
-    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
-    _planetsBox.putAt(foundIndex, planets[foundIndex]);
   }
 
   @observable
@@ -215,65 +202,33 @@ abstract class _PlanetsControllerBase with Store {
 
   @computed
   List<Planet> get filterPlanets {
-    if (showFavorites) {
-      var favorites = planets;
-      if (searchText == '') {
-        return favorites;
-      } else {
-        return favorites
-            .where((planet) => planet.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+    if (searchText == '') {
+      return planets;
     } else {
-      if (searchText == '') {
-        return planets;
-      } else {
-        return planets
-            .where((planet) => planet.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+      return planets
+          .where((planet) => planet.name
+              .toLowerCase()
+              .replaceAll('á', 'a')
+              .replaceAll('é', 'e')
+              .replaceAll('í', 'i')
+              .replaceAll('ó', 'o')
+              .replaceAll('ú', 'u')
+              .replaceAll('ê', 'e')
+              .replaceAll('ã', 'a')
+              .replaceAll('õ', 'o')
+              .replaceAll('ç', 'c')
+              .contains(searchText
+                  .toLowerCase()
+                  .replaceAll('á', 'a')
+                  .replaceAll('é', 'e')
+                  .replaceAll('í', 'i')
+                  .replaceAll('ó', 'o')
+                  .replaceAll('ú', 'u')
+                  .replaceAll('ê', 'e')
+                  .replaceAll('ã', 'a')
+                  .replaceAll('õ', 'o')
+                  .replaceAll('ç', 'c')))
+          .toList();
     }
   }
 }

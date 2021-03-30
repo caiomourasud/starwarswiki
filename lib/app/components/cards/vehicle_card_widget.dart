@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class VehicleCardWidget extends StatelessWidget {
   final Vehicle vehicle;
@@ -28,7 +29,7 @@ class VehicleCardWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Container(
                   height: 110.0,
-                  width: MediaQuery.of(context).size.width <= 420.0
+                  width: MediaQuery.of(context).size.width <= sm
                       ? MediaQuery.of(context).size.width * 0.30
                       : 130.0,
                   decoration: BoxDecoration(

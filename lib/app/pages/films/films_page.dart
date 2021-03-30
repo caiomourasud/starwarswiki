@@ -36,13 +36,7 @@ class _FilmsPageState extends State<FilmsPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _filmsController.scrollController.addListener(_scrollListener);
     super.initState();
-  }
-
-  _scrollListener() {
-    _filmsController
-        .setScrollPosition(_filmsController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
@@ -171,48 +165,25 @@ class _FilmsPageState extends State<FilmsPage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverAppBarWidget(
-        context: context,
-        title: 'Films',
-        backButton: widget.backButton,
-        position: _filmsController.scrollPosition,
-        titleActions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 16.0,
-              disable: false,
-              onTap: () => _filmsController.setShowFavorites(null))
-        ],
-        actions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 0.0,
-              disable: _filmsController.scrollPosition <= 35.0,
-              onTap: () => _filmsController.setShowFavorites(null))
-        ],
-      );
-    });
+    return CupertinoSliverAppBarWidget(
+      context: context,
+      title: 'Films',
+      backButton: widget.backButton,
+      titleActions: [],
+      actions: [],
+    );
   }
 
   _appBar() {
-    return Observer(builder: (_) {
-      return SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CupertinoAppBarWidget(
-            context: context,
-            title: 'Films',
-            backButton: widget.backButton,
-            actions: [
-              _listFavorites(
-                  paddingTop: 4.0,
-                  paddingRight: 0.0,
-                  disable: false,
-                  onTap: () => _filmsController.setShowFavorites(null))
-            ],
-          ));
-    });
+    return SliverPersistentHeader(
+        pinned: true,
+        floating: false,
+        delegate: CupertinoAppBarWidget(
+          context: context,
+          title: 'Films',
+          backButton: widget.backButton,
+          actions: [],
+        ));
   }
 
   _sliverBody(List<Film> films, BoxConstraints dimens) {
@@ -245,42 +216,5 @@ class _FilmsPageState extends State<FilmsPage> {
               ),
             ),
           );
-  }
-
-  _listFavorites(
-      {required double paddingTop,
-      required double paddingRight,
-      required bool disable,
-      required Function() onTap}) {
-    return MouseRegion(
-        cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-          child: disable
-              ? Opacity(
-                  opacity: 0,
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28),
-                      onPressed: null),
-                )
-              : Tooltip(
-                  message: _filmsController.showFavorites
-                      ? 'Listar todos'
-                      : 'Listar favoritos',
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(
-                          _filmsController.showFavorites
-                              ? CupertinoIcons.square_favorites_alt_fill
-                              : CupertinoIcons.square_favorites_alt,
-                          size: 28),
-                      onPressed: () => onTap())),
-        ));
   }
 }

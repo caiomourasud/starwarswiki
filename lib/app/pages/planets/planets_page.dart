@@ -10,6 +10,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import 'components/planet_listtile_widget.dart';
 import 'planet_details/planet_details_page.dart';
 import 'planets_controller.dart';
 
@@ -23,6 +24,9 @@ Converters conversores = Converters();
 bool selectable = false;
 
 class PlanetsPage extends StatefulWidget {
+  final int backButton;
+
+  const PlanetsPage({Key? key, required this.backButton}) : super(key: key);
   @override
   _PlanetsPageState createState() => _PlanetsPageState();
 }
@@ -31,13 +35,7 @@ class _PlanetsPageState extends State<PlanetsPage> {
   @override
   void initState() {
     _focus.addListener(_onFocusChange);
-    _planetsController.scrollController.addListener(_scrollListener);
     super.initState();
-  }
-
-  _scrollListener() {
-    _planetsController
-        .setScrollPosition(_planetsController.scrollController.position.pixels);
   }
 
   _onFocusChange() {
@@ -167,48 +165,25 @@ class _PlanetsPageState extends State<PlanetsPage> {
   }
 
   _sliverAppBar() {
-    return Observer(builder: (_) {
-      return CupertinoSliverAppBarWidget(
-        context: context,
-        title: 'Planets',
-        backButton: 2,
-        position: _planetsController.scrollPosition,
-        titleActions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 16.0,
-              disable: false,
-              onTap: () => _planetsController.setShowFavorites(null))
-        ],
-        actions: [
-          _listFavorites(
-              paddingTop: 4.0,
-              paddingRight: 0.0,
-              disable: _planetsController.scrollPosition <= 35.0,
-              onTap: () => _planetsController.setShowFavorites(null))
-        ],
-      );
-    });
+    return CupertinoSliverAppBarWidget(
+      context: context,
+      title: 'Planets',
+      backButton: 2,
+      titleActions: [],
+      actions: [],
+    );
   }
 
   _appBar() {
-    return Observer(builder: (_) {
-      return SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CupertinoAppBarWidget(
-            context: context,
-            title: 'Films',
-            backButton: 2,
-            actions: [
-              _listFavorites(
-                  paddingTop: 4.0,
-                  paddingRight: 0.0,
-                  disable: false,
-                  onTap: () => _planetsController.setShowFavorites(null))
-            ],
-          ));
-    });
+    return SliverPersistentHeader(
+        pinned: true,
+        floating: false,
+        delegate: CupertinoAppBarWidget(
+          context: context,
+          title: 'Films',
+          backButton: 2,
+          actions: [],
+        ));
   }
 
   _sliverBody(List<Planet> planets, BoxConstraints dimens) {
@@ -216,24 +191,22 @@ class _PlanetsPageState extends State<PlanetsPage> {
         ? SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                title: Text(_planetsController.planets[index].name),
-                onTap: () {
-                  if (MediaQuery.of(context).size.width <= md) {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) {
-                      return PlanetDetailsPage(
-                          planet: _planetsController.planets[index],
-                          backButton: 1);
-                    }));
-                  }
-                  setState(() {
-                    _planetsController
-                        .setPlanetSelected(_planetsController.planets[index]);
-                  });
-                },
-              );
-            }, childCount: planets.length),
+              return PlanetListTileWidget(
+                  planet: _planetsController.filterPlanets[index],
+                  onTap: (item) {
+                    if (MediaQuery.of(context).size.width <= md) {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                        return PlanetDetailsPage(planet: item, backButton: 2);
+                      }));
+                    }
+                    setState(() {
+                      _planetsController.setPlanetSelected(
+                          _planetsController.filterPlanets[index]);
+                    });
+                  },
+                  planetSelected: _planetsController.planetSelected);
+            }, childCount: _planetsController.filterPlanets.length),
           )
         : SliverToBoxAdapter(
             child: Padding(
@@ -243,42 +216,5 @@ class _PlanetsPageState extends State<PlanetsPage> {
               ),
             ),
           );
-  }
-
-  _listFavorites(
-      {required double paddingTop,
-      required double paddingRight,
-      required bool disable,
-      required Function() onTap}) {
-    return MouseRegion(
-        cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-          child: disable
-              ? Opacity(
-                  opacity: 0,
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                          size: 28),
-                      onPressed: null),
-                )
-              : Tooltip(
-                  message: _planetsController.showFavorites
-                      ? 'Listar todos'
-                      : 'Listar favoritos',
-                  child: CupertinoButton(
-                      minSize: 34,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Icon(
-                          _planetsController.showFavorites
-                              ? CupertinoIcons.square_favorites_alt_fill
-                              : CupertinoIcons.square_favorites_alt,
-                          size: 28),
-                      onPressed: () => onTap())),
-        ));
   }
 }

@@ -41,7 +41,7 @@ class _AppWidgetState extends State<AppWidget> {
     }
 
     return MaterialApp(
-      title: 'StarWars Wiki',
+      title: 'StarWars',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           brightness: Brightness.light,

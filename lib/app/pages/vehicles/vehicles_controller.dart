@@ -73,25 +73,6 @@ abstract class _VehiclesControllerBase with Store {
   setScrollPosition(newValue) => scrollPosition = newValue;
 
   @observable
-  bool showFavorites = false;
-
-  @action
-  setShowFavorites(newValue) {
-    if (newValue == null) {
-      showFavorites = !showFavorites;
-    } else {
-      showFavorites = newValue;
-    }
-  }
-
-  @action
-  setFavorite(int id) {
-    var foundIndex = vehicles.indexWhere((vehicle) => vehicle.id == id);
-    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
-    _vehiclesBox.putAt(foundIndex, vehicles[foundIndex]);
-  }
-
-  @observable
   double searchSize = 0.0;
 
   @action
@@ -220,66 +201,33 @@ abstract class _VehiclesControllerBase with Store {
 
   @computed
   List<Vehicle> get filterVehicles {
-    if (showFavorites) {
-      var favorites = vehicles;
-      // films.where((personagem) => personagem.isFavorite).toList();
-      if (searchText == '') {
-        return favorites;
-      } else {
-        return favorites
-            .where((vehicle) => vehicle.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+    if (searchText == '') {
+      return vehicles;
     } else {
-      if (searchText == '') {
-        return vehicles;
-      } else {
-        return vehicles
-            .where((vehicle) => vehicle.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+      return vehicles
+          .where((vehicle) => vehicle.name
+              .toLowerCase()
+              .replaceAll('á', 'a')
+              .replaceAll('é', 'e')
+              .replaceAll('í', 'i')
+              .replaceAll('ó', 'o')
+              .replaceAll('ú', 'u')
+              .replaceAll('ê', 'e')
+              .replaceAll('ã', 'a')
+              .replaceAll('õ', 'o')
+              .replaceAll('ç', 'c')
+              .contains(searchText
+                  .toLowerCase()
+                  .replaceAll('á', 'a')
+                  .replaceAll('é', 'e')
+                  .replaceAll('í', 'i')
+                  .replaceAll('ó', 'o')
+                  .replaceAll('ú', 'u')
+                  .replaceAll('ê', 'e')
+                  .replaceAll('ã', 'a')
+                  .replaceAll('õ', 'o')
+                  .replaceAll('ç', 'c')))
+          .toList();
     }
   }
 }

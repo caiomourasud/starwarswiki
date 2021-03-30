@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class SpecieCardWidget extends StatelessWidget {
   final Specie specie;
@@ -27,7 +28,7 @@ class SpecieCardWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Container(
                   height: 80.0,
-                  width: MediaQuery.of(context).size.width <= 420.0
+                  width: MediaQuery.of(context).size.width <= sm
                       ? MediaQuery.of(context).size.width * 0.45
                       : 150.0,
                   decoration: BoxDecoration(

@@ -67,31 +67,6 @@ abstract class _StarshipsControllerBase with Store {
   setNext(newValue) => next = newValue;
 
   @observable
-  double scrollPosition = 0.0;
-
-  @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
-
-  @observable
-  bool showFavorites = false;
-
-  @action
-  setShowFavorites(newValue) {
-    if (newValue == null) {
-      showFavorites = !showFavorites;
-    } else {
-      showFavorites = newValue;
-    }
-  }
-
-  @action
-  setFavorite(int id) {
-    var foundIndex = starships.indexWhere((starship) => starship.id == id);
-    // films[foundIndex].isFavorite = !films[foundIndex].isFavorite;
-    _starshipsBox.putAt(foundIndex, starships[foundIndex]);
-  }
-
-  @observable
   double searchSize = 0.0;
 
   @action
@@ -224,66 +199,33 @@ abstract class _StarshipsControllerBase with Store {
 
   @computed
   List<Starship> get filterStarships {
-    if (showFavorites) {
-      var favorites = starships;
-      // films.where((personagem) => personagem.isFavorite).toList();
-      if (searchText == '') {
-        return favorites;
-      } else {
-        return favorites
-            .where((starship) => starship.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+    if (searchText == '') {
+      return starships;
     } else {
-      if (searchText == '') {
-        return starships;
-      } else {
-        return starships
-            .where((starship) => starship.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
-            .toList();
-      }
+      return starships
+          .where((starship) => starship.name
+              .toLowerCase()
+              .replaceAll('á', 'a')
+              .replaceAll('é', 'e')
+              .replaceAll('í', 'i')
+              .replaceAll('ó', 'o')
+              .replaceAll('ú', 'u')
+              .replaceAll('ê', 'e')
+              .replaceAll('ã', 'a')
+              .replaceAll('õ', 'o')
+              .replaceAll('ç', 'c')
+              .contains(searchText
+                  .toLowerCase()
+                  .replaceAll('á', 'a')
+                  .replaceAll('é', 'e')
+                  .replaceAll('í', 'i')
+                  .replaceAll('ó', 'o')
+                  .replaceAll('ú', 'u')
+                  .replaceAll('ê', 'e')
+                  .replaceAll('ã', 'a')
+                  .replaceAll('õ', 'o')
+                  .replaceAll('ç', 'c')))
+          .toList();
     }
   }
 }
