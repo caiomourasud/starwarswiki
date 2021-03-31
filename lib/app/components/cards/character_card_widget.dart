@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 
-import '../three_lines_content.dart';
+import '../line_content.dart';
 
 class CharacterCardWidget extends StatefulWidget {
   final People character;
@@ -32,7 +32,7 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
             onPressed: () => widget.onTap(),
             child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ThreeLinesContent(
+                child: LineContent(
                     id: widget.character.id,
                     type: 'characters',
                     topText: Row(

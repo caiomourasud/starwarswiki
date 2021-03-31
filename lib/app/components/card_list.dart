@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/models/card_list.dart';
 import 'package:starwarswiki/app/models/film.dart';
@@ -7,30 +10,41 @@ import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
-import 'package:starwarswiki/app/pages/characters/character_details/character_details_page.dart';
-import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
-import 'package:starwarswiki/app/pages/characters/characters_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/character_details_page.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/components/cards/character_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/film_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/planet_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/specie_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/starship_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/vehicle_card_widget.dart';
-import 'package:starwarswiki/app/pages/planets/planet_details/planet_details_page.dart';
-import 'package:starwarswiki/app/pages/planets/planets_page.dart';
-import 'package:starwarswiki/app/pages/species/specie_details/specie_details_page.dart';
-import 'package:starwarswiki/app/pages/species/species_page.dart';
-import 'package:starwarswiki/app/pages/starships/starship_details/starship_details_page.dart';
-import 'package:starwarswiki/app/pages/starships/starships_page.dart';
-import 'package:starwarswiki/app/pages/vehicles/vehicle_details/vehicle_details_page.dart';
-import 'package:starwarswiki/app/pages/vehicles/vehicles_page.dart';
+import 'package:starwarswiki/app/components/list_tiles/character_listtile_widget.dart';
+import 'package:starwarswiki/app/pages/default_list_page.dart';
+import 'package:starwarswiki/app/components/list_tiles/film_listtile_widget.dart';
+import 'package:starwarswiki/app/controllers/films_controller.dart';
+import 'package:starwarswiki/app/components/list_tiles/planet_listtile_widget.dart';
+import 'package:starwarswiki/app/pages/details_pages/planet_details_page.dart';
+import 'package:starwarswiki/app/controllers/planets_controller.dart';
+import 'package:starwarswiki/app/components/list_tiles/specie_listtile_widget.dart';
+import 'package:starwarswiki/app/pages/details_pages/specie_details_page.dart';
+import 'package:starwarswiki/app/controllers/species_controller.dart';
+import 'package:starwarswiki/app/components/list_tiles/starship_listtile_widget.dart';
+import 'package:starwarswiki/app/pages/details_pages/starship_details_page.dart';
+import 'package:starwarswiki/app/controllers/starships_controller.dart';
+import 'package:starwarswiki/app/components/list_tiles/vehicle_listtile_widget.dart';
+import 'package:starwarswiki/app/pages/details_pages/vehicle_details_page.dart';
+import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import '../pages/films/films_page.dart';
-import '../pages/films/film_details/film_details_page.dart';
+import '../pages/details_pages/film_details_page.dart';
 import 'custom_card_dialog.dart';
 
+final _filmsController = Modular.get<FilmsController>();
 final _charactersController = Modular.get<CharactersController>();
+final _planetsController = Modular.get<PlanetsController>();
+final _speciesController = Modular.get<SpeciesController>();
+final _starshipsController = Modular.get<StarshipsController>();
+final _vehiclesController = Modular.get<VehiclesController>();
 
 class CustomCardList {
   List<CardList> cardList({
@@ -77,10 +91,12 @@ class CustomCardList {
           CardList(
             title: filmsTitle,
             list: films,
-            height: MediaQuery.of(context).size.width <= sm ? 318.0 : 290.0,
+            height: MediaQuery.of(context).size.width <= sm
+                ? MediaQuery.of(context).size.width * 0.65 + 54.0
+                : 240.0 + 54.0,
             width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.45
-                : 150.0,
+                : 160.0,
             rows: filmsLines,
             viewportFraction: filmsViewportFraction,
             hasDivider: filmsHasDivider,
@@ -105,12 +121,62 @@ class CustomCardList {
             },
             onSeeAllTap: (context) =>
                 Navigator.push(context, CupertinoPageRoute(builder: (context) {
-              return FilmsPage(
-                  backButton: filmsBackButton == 1
-                      ? MediaQuery.of(context).size.width > md
-                          ? 1
-                          : 2
-                      : 1);
+              return Observer(builder: (_) {
+                return DefaultListPage(
+                    title: 'Films',
+                    backButton: filmsBackButton == 1
+                        ? MediaQuery.of(context).size.width > md
+                            ? 1
+                            : 2
+                        : 1,
+                    scrollController: _filmsController.scrollController,
+                    scrollPosition: null,
+                    setScrollPosition: null,
+                    searchSize: _filmsController.searchSize,
+                    setSearchSize: _filmsController.setSearchSize,
+                    searchText: _filmsController.searchText,
+                    setSearchText: _filmsController.setSearchText,
+                    setShowFavorites: null,
+                    getList: () => _filmsController.getFilms(),
+                    getMoreList: (link) => _filmsController.getMoreFilms(link),
+                    res: _filmsController.res,
+                    nextText: 'next_films',
+                    list: _filmsController.films,
+                    filterList: _filmsController.filterFilms,
+                    actions: [],
+                    titleActions: [],
+                    appBarActions: [],
+                    showFavorites: null,
+                    listTile: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                      return FilmListTileWidget(
+                          film: _filmsController.filterFilms[index],
+                          onTap: (item) {
+                            if (MediaQuery.of(context).size.width <= md) {
+                              Navigator.push(context,
+                                  CupertinoPageRoute(builder: (context) {
+                                return FilmDetailsPage(
+                                    film: item,
+                                    backButton: filmsBackButton == 1
+                                        ? MediaQuery.of(context).size.width > md
+                                            ? 1
+                                            : 2
+                                        : 1);
+                              }));
+                            }
+                            _filmsController.setFilmSelected(
+                                _filmsController.filterFilms[index]);
+                          },
+                          filmSelected: _filmsController.filmSelected);
+                    }, childCount: _filmsController.filterFilms.length)),
+                    detailsPage: FilmDetailsPage(
+                      backButton: 0,
+                      film: _filmsController.filmSelected,
+                    ),
+                    itemSelectedId: _filmsController.filmSelected.id,
+                    noItemSelected: 'No film selected');
+              });
             })),
           ),
         if (characters != null)
@@ -148,12 +214,96 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return CharactersPage(
-                    backButton: charactersBackButton == 1
-                        ? MediaQuery.of(context).size.width > md
-                            ? 2
-                            : 1
-                        : 1);
+                return Observer(builder: (_) {
+                  return DefaultListPage(
+                      title: 'Characters',
+                      backButton: charactersBackButton == 1
+                          ? MediaQuery.of(context).size.width > md
+                              ? 1
+                              : 2
+                          : 1,
+                      scrollController: _charactersController.scrollController,
+                      scrollPosition: _charactersController.scrollPosition,
+                      setScrollPosition: (position) =>
+                          _charactersController.setScrollPosition(position),
+                      searchSize: _charactersController.searchSize,
+                      setSearchSize: _charactersController.setSearchSize,
+                      searchText: _charactersController.searchText,
+                      setSearchText: _charactersController.setSearchText,
+                      setShowFavorites: (show) =>
+                          _charactersController.setShowFavorites(show),
+                      getList: () => _charactersController.getPeople(),
+                      getMoreList: (link) =>
+                          _charactersController.getMorePeople(link),
+                      res: _charactersController.res,
+                      nextText: 'next_people',
+                      list: _charactersController.people,
+                      filterList: _charactersController.filterCharacters,
+                      actions: [
+                        _listFavorites(
+                            paddingTop: 4.0,
+                            paddingRight: 0.0,
+                            disable:
+                                _charactersController.scrollPosition <= 35.0,
+                            onTap: () =>
+                                _charactersController.setShowFavorites(null))
+                      ],
+                      titleActions: [
+                        _listFavorites(
+                            paddingTop: 4.0,
+                            paddingRight: 16.0,
+                            disable: false,
+                            onTap: () =>
+                                _charactersController.setShowFavorites(null))
+                      ],
+                      appBarActions: [
+                        _listFavorites(
+                            paddingTop: 4.0,
+                            paddingRight: 0.0,
+                            disable: false,
+                            onTap: () =>
+                                _charactersController.setShowFavorites(null))
+                      ],
+                      showFavorites: _charactersController.showFavorites,
+                      listTile: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                        return CharacterListTileWidget(
+                            person:
+                                _charactersController.filterCharacters[index],
+                            onTap: (item) {
+                              if (MediaQuery.of(context).size.width <= md) {
+                                Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return CharacterDetailsPage(
+                                      character: item,
+                                      backButton: charactersBackButton == 1
+                                          ? MediaQuery.of(context).size.width >
+                                                  md
+                                              ? 1
+                                              : 2
+                                          : 1);
+                                }));
+                              }
+                              _charactersController.setPersonSelected(
+                                  _charactersController
+                                      .filterCharacters[index]);
+                            },
+                            personSelected:
+                                _charactersController.personSelected,
+                            onFavoriteTap: (index) {
+                              print(index);
+                            });
+                      },
+                              childCount: _charactersController
+                                  .filterCharacters.length)),
+                      detailsPage: CharacterDetailsPage(
+                        backButton: 0,
+                        character: _charactersController.personSelected,
+                      ),
+                      itemSelectedId: _charactersController.personSelected.id,
+                      noItemSelected: 'No character selected');
+                });
               }));
             },
           ),
@@ -161,7 +311,9 @@ class CustomCardList {
           CardList(
             title: planetsTitle,
             list: planets,
-            height: 170.0,
+            height: MediaQuery.of(context).size.width <= sm
+                ? MediaQuery.of(context).size.width * 0.28 + 54.0
+                : 110.0 + 54.0,
             width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.30
                 : 120.0,
@@ -190,12 +342,64 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return PlanetsPage(
-                    backButton: planetsBackButton == 1
-                        ? MediaQuery.of(context).size.width > md
-                            ? 2
-                            : 1
-                        : 1);
+                return Observer(builder: (_) {
+                  return DefaultListPage(
+                      title: 'Planets',
+                      backButton: planetsBackButton == 1
+                          ? MediaQuery.of(context).size.width > md
+                              ? 1
+                              : 2
+                          : 1,
+                      scrollController: _planetsController.scrollController,
+                      scrollPosition: null,
+                      setScrollPosition: null,
+                      searchSize: _planetsController.searchSize,
+                      setSearchSize: _planetsController.setSearchSize,
+                      searchText: _planetsController.searchText,
+                      setSearchText: _planetsController.setSearchText,
+                      setShowFavorites: null,
+                      getList: () => _planetsController.getPlanets(),
+                      getMoreList: (link) =>
+                          _planetsController.getMorePlanets(link),
+                      res: _planetsController.res,
+                      nextText: 'next_planets',
+                      list: _planetsController.planets,
+                      filterList: _planetsController.filterPlanets,
+                      actions: [],
+                      titleActions: [],
+                      appBarActions: [],
+                      showFavorites: null,
+                      listTile: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                        return PlanetListTileWidget(
+                            planet: _planetsController.filterPlanets[index],
+                            onTap: (item) {
+                              if (MediaQuery.of(context).size.width <= md) {
+                                Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return PlanetDetailsPage(
+                                      planet: item,
+                                      backButton: planetsBackButton == 1
+                                          ? MediaQuery.of(context).size.width >
+                                                  md
+                                              ? 1
+                                              : 2
+                                          : 1);
+                                }));
+                              }
+                              _planetsController.setPlanetSelected(
+                                  _planetsController.filterPlanets[index]);
+                            },
+                            planetSelected: _planetsController.planetSelected);
+                      }, childCount: _planetsController.filterPlanets.length)),
+                      detailsPage: PlanetDetailsPage(
+                        backButton: 0,
+                        planet: _planetsController.planetSelected,
+                      ),
+                      itemSelectedId: _planetsController.planetSelected.id,
+                      noItemSelected: 'No planet selected');
+                });
               }));
             },
           ),
@@ -232,12 +436,64 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return SpeciesPage(
-                    backButton: speciesBackButton == 1
-                        ? MediaQuery.of(context).size.width > md
-                            ? 2
-                            : 1
-                        : 1);
+                return Observer(builder: (_) {
+                  return DefaultListPage(
+                      title: 'Species',
+                      backButton: speciesBackButton == 1
+                          ? MediaQuery.of(context).size.width > md
+                              ? 2
+                              : 1
+                          : 1,
+                      scrollController: _speciesController.scrollController,
+                      scrollPosition: null,
+                      setScrollPosition: null,
+                      searchSize: _speciesController.searchSize,
+                      setSearchSize: _speciesController.setSearchSize,
+                      searchText: _speciesController.searchText,
+                      setSearchText: _speciesController.setSearchText,
+                      setShowFavorites: null,
+                      getList: () => _speciesController.getSpecies(),
+                      getMoreList: (link) =>
+                          _speciesController.getMoreSpecies(link),
+                      res: _speciesController.res,
+                      nextText: 'next_species',
+                      list: _speciesController.species,
+                      filterList: _speciesController.filterSpecies,
+                      actions: [],
+                      titleActions: [],
+                      appBarActions: [],
+                      showFavorites: null,
+                      listTile: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                        return SpecieListTileWidget(
+                            specie: _speciesController.filterSpecies[index],
+                            onTap: (item) {
+                              if (MediaQuery.of(context).size.width <= md) {
+                                Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return SpecieDetailsPage(
+                                      specie: item,
+                                      backButton: filmsBackButton == 1
+                                          ? MediaQuery.of(context).size.width >
+                                                  md
+                                              ? 1
+                                              : 2
+                                          : 1);
+                                }));
+                              }
+                              _speciesController.setSpecieSelected(
+                                  _speciesController.filterSpecies[index]);
+                            },
+                            specieSelected: _speciesController.specieSelected);
+                      }, childCount: _speciesController.filterSpecies.length)),
+                      detailsPage: SpecieDetailsPage(
+                        backButton: 0,
+                        specie: _speciesController.specieSelected,
+                      ),
+                      itemSelectedId: _speciesController.specieSelected.id,
+                      noItemSelected: 'No specie selected');
+                });
               }));
             },
           ),
@@ -274,12 +530,68 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return StarshipsPage(
-                    backButton: starshipsBackButton == 1
-                        ? MediaQuery.of(context).size.width > md
-                            ? 2
-                            : 1
-                        : 1);
+                return Observer(builder: (_) {
+                  return DefaultListPage(
+                      title: 'Starships',
+                      backButton: starshipsBackButton == 1
+                          ? MediaQuery.of(context).size.width > md
+                              ? 2
+                              : 1
+                          : 1,
+                      scrollController: _starshipsController.scrollController,
+                      scrollPosition: null,
+                      setScrollPosition: null,
+                      searchSize: _starshipsController.searchSize,
+                      setSearchSize: _starshipsController.setSearchSize,
+                      searchText: _starshipsController.searchText,
+                      setSearchText: _starshipsController.setSearchText,
+                      setShowFavorites: null,
+                      getList: () => _starshipsController.getStarships(),
+                      getMoreList: (link) =>
+                          _starshipsController.getMoreStarships(link),
+                      res: _starshipsController.res,
+                      nextText: 'next_starships',
+                      list: _starshipsController.starships,
+                      filterList: _starshipsController.filterStarships,
+                      actions: [],
+                      titleActions: [],
+                      appBarActions: [],
+                      showFavorites: null,
+                      listTile: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                        return StarshipListTileWidget(
+                            starship:
+                                _starshipsController.filterStarships[index],
+                            onTap: (item) {
+                              if (MediaQuery.of(context).size.width <= md) {
+                                Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return StarshipDetailsPage(
+                                      starship: item,
+                                      backButton: starshipsBackButton == 1
+                                          ? MediaQuery.of(context).size.width >
+                                                  md
+                                              ? 1
+                                              : 2
+                                          : 1);
+                                }));
+                              }
+                              _starshipsController.setStarshipSelected(
+                                  _starshipsController.filterStarships[index]);
+                            },
+                            starshipSelected:
+                                _starshipsController.starshipSelected);
+                      },
+                              childCount:
+                                  _starshipsController.filterStarships.length)),
+                      detailsPage: StarshipDetailsPage(
+                        backButton: 0,
+                        starship: _starshipsController.starshipSelected,
+                      ),
+                      itemSelectedId: _starshipsController.starshipSelected.id,
+                      noItemSelected: 'No starship selected');
+                });
               }));
             },
           ),
@@ -287,7 +599,9 @@ class CustomCardList {
           CardList(
             title: vehiclesTitle,
             list: vehicles,
-            height: 170.0,
+            height: MediaQuery.of(context).size.width <= sm
+                ? MediaQuery.of(context).size.width * 0.28 + 54.0
+                : 110.0 + 54.0,
             width: MediaQuery.of(context).size.width <= sm
                 ? MediaQuery.of(context).size.width * 0.30
                 : 120.0,
@@ -316,14 +630,106 @@ class CustomCardList {
             onSeeAllTap: (context) {
               return Navigator.push(context,
                   CupertinoPageRoute(builder: (context) {
-                return VehiclesPage(
-                    backButton: vehiclesBackButton == 1
-                        ? MediaQuery.of(context).size.width > md
-                            ? 2
-                            : 1
-                        : 1);
+                return Observer(builder: (_) {
+                  return DefaultListPage(
+                      title: 'Vehicles',
+                      backButton: vehiclesBackButton == 1
+                          ? MediaQuery.of(context).size.width > md
+                              ? 2
+                              : 1
+                          : 1,
+                      scrollController: _vehiclesController.scrollController,
+                      scrollPosition: null,
+                      setScrollPosition: null,
+                      searchSize: _vehiclesController.searchSize,
+                      setSearchSize: _vehiclesController.setSearchSize,
+                      searchText: _vehiclesController.searchText,
+                      setSearchText: _vehiclesController.setSearchText,
+                      setShowFavorites: null,
+                      getList: () => _vehiclesController.getVehicles(),
+                      getMoreList: (link) =>
+                          _vehiclesController.getMoreVehicles(link),
+                      res: _vehiclesController.res,
+                      nextText: 'next_vehicles',
+                      list: _vehiclesController.vehicles,
+                      filterList: _vehiclesController.filterVehicles,
+                      actions: [],
+                      titleActions: [],
+                      appBarActions: [],
+                      showFavorites: null,
+                      listTile: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                        return VehicleListTileWidget(
+                            vehicle: _vehiclesController.filterVehicles[index],
+                            onTap: (item) {
+                              if (MediaQuery.of(context).size.width <= md) {
+                                Navigator.push(context,
+                                    CupertinoPageRoute(builder: (context) {
+                                  return VehicleDetailsPage(
+                                      vehicle: item,
+                                      backButton: vehiclesBackButton == 1
+                                          ? MediaQuery.of(context).size.width >
+                                                  md
+                                              ? 1
+                                              : 2
+                                          : 1);
+                                }));
+                              }
+                              _vehiclesController.setVehicleSelected(
+                                  _vehiclesController.filterVehicles[index]);
+                            },
+                            vehicleSelected:
+                                _vehiclesController.vehicleSelected);
+                      },
+                              childCount:
+                                  _vehiclesController.filterVehicles.length)),
+                      detailsPage: VehicleDetailsPage(
+                        backButton: 0,
+                        vehicle: _vehiclesController.vehicleSelected,
+                      ),
+                      itemSelectedId: _vehiclesController.vehicleSelected.id,
+                      noItemSelected: 'No vehicle selected');
+                });
               }));
             },
           )
       ];
+}
+
+_listFavorites(
+    {required double paddingTop,
+    required double paddingRight,
+    required bool disable,
+    required Function() onTap}) {
+  return MouseRegion(
+      cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
+      child: Padding(
+        padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
+        child: disable
+            ? Opacity(
+                opacity: 0,
+                child: CupertinoButton(
+                    minSize: 34,
+                    padding: EdgeInsets.zero,
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Icon(CupertinoIcons.square_favorites_alt_fill,
+                        size: 28),
+                    onPressed: null),
+              )
+            : Tooltip(
+                message: _charactersController.showFavorites
+                    ? 'List all'
+                    : 'List favorites',
+                child: CupertinoButton(
+                    minSize: 34,
+                    padding: EdgeInsets.zero,
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Icon(
+                        _charactersController.showFavorites
+                            ? CupertinoIcons.square_favorites_alt_fill
+                            : CupertinoIcons.square_favorites_alt,
+                        size: 28),
+                    onPressed: () => onTap())),
+      ));
 }

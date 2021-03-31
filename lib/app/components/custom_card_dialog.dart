@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/app/pages/main/default_view.dart';
+import 'package:starwarswiki/app/pages/view/default_view.dart';
 
 class CustomCardDialog {
   open({required BuildContext context, required Widget item}) {

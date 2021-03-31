@@ -21,12 +21,18 @@ class StorageUtil {
     return await preferences.setBool(key, value);
   }
 
-  deleteAll() async {
-    delete('next');
-  }
-
   delete(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove(key);
+  }
+
+  deleteAll() async {
+    delete('next_films');
+    delete('next_people');
+    delete('next_planets');
+    delete('next_species');
+    delete('next_starships');
+    delete('next_vehicles');
+    delete('theme_mode');
   }
 }

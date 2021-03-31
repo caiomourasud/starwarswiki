@@ -1,15 +1,15 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'app_controller.dart';
-import 'pages/characters/characters_controller.dart';
-import 'pages/films/films_controller.dart';
-import 'pages/home/home_controller.dart';
-import 'pages/main/main_page.dart';
-import 'pages/planets/planets_controller.dart';
-import 'pages/settings/settings_controller.dart';
-import 'pages/species/species_controller.dart';
-import 'pages/starships/starships_controller.dart';
-import 'pages/vehicles/vehicles_controller.dart';
+import 'controllers/app_controller.dart';
+import 'controllers/characters_controller.dart';
+import 'controllers/films_controller.dart';
+import 'controllers/home_controller.dart';
+import 'pages/main_page.dart';
+import 'controllers/planets_controller.dart';
+import 'controllers/settings_controller.dart';
+import 'controllers/species_controller.dart';
+import 'controllers/starships_controller.dart';
+import 'controllers/vehicles_controller.dart';
 
 class AppModule extends Module {
   @override

@@ -30,10 +30,12 @@ class PlanetCardWidget extends StatelessWidget {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
-                      height: 110.0,
+                      height: MediaQuery.of(context).size.width <= sm
+                          ? MediaQuery.of(context).size.width * 0.28
+                          : 110.0,
                       width: MediaQuery.of(context).size.width <= sm
                           ? MediaQuery.of(context).size.width * 0.30
-                          : 130.0,
+                          : 120.0,
                       decoration: BoxDecoration(
                           color: CupertinoColors.darkBackgroundGray,
                           image: planet.id != 28 && planet.id != 46

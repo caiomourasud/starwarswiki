@@ -38,9 +38,10 @@ class CustomHorizontalList {
                   child: CupertinoButton(
                     padding: EdgeInsets.zero,
                     child: Text('See all',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context).accentColor)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            ?.copyWith(color: Theme.of(context).accentColor)),
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       onTap();

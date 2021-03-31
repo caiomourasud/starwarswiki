@@ -265,13 +265,13 @@ class ImageGenerator {
         case '39':
           return 'https://static.wikia.nocookie.net/starwars/images/b/be/Vulpter_FF7.jpg/revision/latest?cb=20070628190912';
         case '40':
-          return 'http://www.theforce.net/timetales/tt1-1/malastare.jpg';
+          return 'https://www.theforce.net/timetales/tt1-1/malastare.jpg';
         case '41':
           return 'https://static.wikia.nocookie.net/starwars/images/3/31/Tund_TEA.jpg/revision/latest?cb=20200908113330';
         case '42':
           return 'https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/430013_286862551384302_1670304622_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=d2e176&_nc_ohc=T9WidYw6SKgAX8vBlTa&_nc_ht=scontent-gig2-1.xx&oh=7a1c8d7229b2865afb2b07d8b2906cf9&oe=60852088';
         case '43':
-          return 'http://images3.wikia.nocookie.net/__cb20070506100932/jedipedia/de/images/3/34/Dantooine2.jpg';
+          return 'https://images3.wikia.nocookie.net/__cb20070506100932/jedipedia/de/images/3/34/Dantooine2.jpg';
         case '44':
           return 'https://cdnb.artstation.com/p/assets/images/images/022/894/425/large/slawomir-rudzki-highresscreenshot00004.jpg?1577131657';
         case '45':
@@ -285,7 +285,7 @@ class ImageGenerator {
         case '50':
           return 'https://static.wikia.nocookie.net/starwars/images/d/d7/Champala_NEGAS.jpg/revision/latest/top-crop/width/360/height/450?cb=20061114221731';
         case '51':
-          return 'http://pm1.narvii.com/6335/d6b9d345cbf46b23175bcd3996a0d2306c3e8995_00.jpg';
+          return 'https://pm1.narvii.com/6335/d6b9d345cbf46b23175bcd3996a0d2306c3e8995_00.jpg';
         case '52':
           return 'https://lumiere-a.akamaihd.net/v1/images/databank_serenno_01_169_0541fc55.jpeg?region=0%2C0%2C1560%2C878&width=600';
         case '53':
@@ -344,7 +344,7 @@ class ImageGenerator {
         case '17':
           return 'https://ethandotgames.files.wordpress.com/2018/05/screenshot_1.png?w=788';
         case '18':
-          return 'http://1.bp.blogspot.com/-kszZbqWDykk/Ve8G6lCbbdI/AAAAAAAAA24/jPeWRUAz6kw/s1600/Xexto.jpg';
+          return 'https://1.bp.blogspot.com/-kszZbqWDykk/Ve8G6lCbbdI/AAAAAAAAA24/jPeWRUAz6kw/s1600/Xexto.jpg';
         case '19':
           return 'https://static.wikia.nocookie.net/starwars/images/4/4f/Tund.jpg/revision/latest/scale-to-width-down/340?cb=20051102142339';
         case '20':
@@ -440,13 +440,13 @@ class ImageGenerator {
         case '49':
           return 'https://lumiere-a.akamaihd.net/v1/images/h-type-nubian-yacht_7d67bc00.jpeg?region=0%2C0%2C1181%2C663&width=600';
         case '52':
-          return 'http://pm1.narvii.com/6402/b011f7c6cc4225023a26a1f0d978e96075a1a890_00.jpg';
+          return 'https://pm1.narvii.com/6402/b011f7c6cc4225023a26a1f0d978e96075a1a890_00.jpg';
         case '58':
           return 'https://lumiere-a.akamaihd.net/v1/images/databank_geonosiansolarsailer_01_169_b3873578.jpeg?region=0%2C0%2C1560%2C878&width=600';
         case '59':
           return 'https://i.pinimg.com/originals/2f/a1/2d/2fa12d607af47a04bd538a8182133630.jpg';
         case '61':
-          return 'http://starwarz.com/tbone/wp-content/uploads/2011/08/826.jpg';
+          return 'https://starwarz.com/tbone/wp-content/uploads/2011/08/826.jpg';
         case '63':
           return 'https://lumiere-a.akamaihd.net/v1/images/databank_republicattackcruiser_01_169_812f153d.jpeg?region=0%2C0%2C1560%2C878&width=600';
         case '64':
@@ -497,7 +497,7 @@ class ImageGenerator {
         case '34':
           return 'https://i.ytimg.com/vi/w71RRKbbMEg/maxresdefault.jpg';
         case '35':
-          return 'http://pm1.narvii.com/6253/37c6d6adb1ec7d8eca17a1b8d50c0b38f825d071_00.jpg';
+          return 'https://pm1.narvii.com/6253/37c6d6adb1ec7d8eca17a1b8d50c0b38f825d071_00.jpg';
         case '36':
           return 'https://static.wikia.nocookie.net/starwars/images/2/28/ST-STAPs.jpg/revision/latest/scale-to-width-down/250?cb=20080607113754';
         case '37':

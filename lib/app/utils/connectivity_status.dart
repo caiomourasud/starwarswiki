@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:starwarswiki/app/pages/characters/characters_controller.dart';
-import 'package:starwarswiki/app/pages/films/films_controller.dart';
-import 'package:starwarswiki/app/pages/planets/planets_controller.dart';
-import 'package:starwarswiki/app/pages/species/species_controller.dart';
-import 'package:starwarswiki/app/pages/starships/starships_controller.dart';
-import 'package:starwarswiki/app/pages/vehicles/vehicles_controller.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
+import 'package:starwarswiki/app/controllers/films_controller.dart';
+import 'package:starwarswiki/app/controllers/planets_controller.dart';
+import 'package:starwarswiki/app/controllers/species_controller.dart';
+import 'package:starwarswiki/app/controllers/starships_controller.dart';
+import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 
-import '../app_controller.dart';
+import '../controllers/app_controller.dart';
 
 final _appController = Modular.get<AppController>();
 final _filmsController = Modular.get<FilmsController>();

@@ -64,8 +64,10 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
                                 : Colors.transparent,
                           ),
                           style: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black87
+                                  : Theme.of(context).colorScheme.onPrimary),
                           itemColor: shrinkOffset <= 26.0 || minExtent == 48.0
                               ? CupertinoColors.secondaryLabel
                               : Colors.transparent,
@@ -78,10 +80,12 @@ class SearchBarWidget extends SliverPersistentHeaderDelegate {
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: CupertinoButton(
-                          child: Text('Cancelar',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: Theme.of(context).accentColor)),
+                          child: Text('Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  ?.copyWith(
+                                      color: Theme.of(context).accentColor)),
                           padding: EdgeInsets.only(bottom: 2.0),
                           onPressed: () {
                             FocusScope.of(context).requestFocus(FocusNode());

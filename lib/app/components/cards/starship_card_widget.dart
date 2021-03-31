@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/starship.dart';
 
-import '../three_lines_content.dart';
+import '../line_content.dart';
 
 class StarshipCardWidget extends StatelessWidget {
   final Starship starship;
@@ -23,7 +23,7 @@ class StarshipCardWidget extends StatelessWidget {
           onPressed: () => onTap(),
           child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ThreeLinesContent(
+              child: LineContent(
                   id: starship.id,
                   type: 'starships',
                   topText: Opacity(

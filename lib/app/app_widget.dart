@@ -5,9 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'controllers/app_controller.dart';
 import 'utils/connectivity_status.dart';
+
+final _appController = Modular.get<AppController>();
 
 late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
@@ -40,25 +44,27 @@ class _AppWidgetState extends State<AppWidget> {
           statusBarIconBrightness: Brightness.light));
     }
 
-    return MaterialApp(
-      title: 'StarWars',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          brightness: Brightness.light,
-          accentColor: Colors.red[700],
-          splashColor: Colors.transparent,
-          scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
-          cupertinoOverrideTheme:
-              CupertinoThemeData(primaryColor: Colors.red[700])),
-      darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          accentColor: Colors.red[700],
-          splashColor: Colors.transparent,
-          scaffoldBackgroundColor: CupertinoColors.black,
-          cupertinoOverrideTheme:
-              CupertinoThemeData(primaryColor: Colors.red[700])),
-      themeMode: ThemeMode.system,
-      initialRoute: '/',
-    ).modular();
+    return Observer(builder: (_) {
+      return MaterialApp(
+        title: 'StarWars',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            brightness: Brightness.light,
+            accentColor: Colors.blue[700],
+            splashColor: Colors.transparent,
+            scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
+            cupertinoOverrideTheme:
+                CupertinoThemeData(primaryColor: Colors.blue[700])),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            accentColor: Colors.red[700],
+            splashColor: Colors.transparent,
+            scaffoldBackgroundColor: CupertinoColors.black,
+            cupertinoOverrideTheme:
+                CupertinoThemeData(primaryColor: Colors.red[700])),
+        themeMode: _appController.appThemeMode,
+        initialRoute: '/',
+      ).modular();
+    });
   }
 }
