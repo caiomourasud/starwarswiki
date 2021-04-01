@@ -77,21 +77,6 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
     });
   }
 
-  final _$nextAtom = Atom(name: '_CharactersControllerBase.next');
-
-  @override
-  String get next {
-    _$nextAtom.reportRead();
-    return super.next;
-  }
-
-  @override
-  set next(String value) {
-    _$nextAtom.reportWrite(value, super.next, () {
-      super.next = value;
-    });
-  }
-
   final _$showFavoritesAtom =
       Atom(name: '_CharactersControllerBase.showFavorites');
 
@@ -105,21 +90,6 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   set showFavorites(bool value) {
     _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
       super.showFavorites = value;
-    });
-  }
-
-  final _$searchSizeAtom = Atom(name: '_CharactersControllerBase.searchSize');
-
-  @override
-  double get searchSize {
-    _$searchSizeAtom.reportRead();
-    return super.searchSize;
-  }
-
-  @override
-  set searchSize(double value) {
-    _$searchSizeAtom.reportWrite(value, super.searchSize, () {
-      super.searchSize = value;
     });
   }
 
@@ -143,86 +113,13 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
       AsyncAction('_CharactersControllerBase.getPeople');
 
   @override
-  Future getPeople() {
-    return _$getPeopleAsyncAction.run(() => super.getPeople());
-  }
-
-  final _$getMorePeopleAsyncAction =
-      AsyncAction('_CharactersControllerBase.getMorePeople');
-
-  @override
-  Future getMorePeople(String link) {
-    return _$getMorePeopleAsyncAction.run(() => super.getMorePeople(link));
+  Future getPeople({String? nextPage}) {
+    return _$getPeopleAsyncAction
+        .run(() => super.getPeople(nextPage: nextPage));
   }
 
   final _$_CharactersControllerBaseActionController =
       ActionController(name: '_CharactersControllerBase');
-
-  @override
-  dynamic peopleFromDB() {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.peopleFromDB');
-    try {
-      return super.peopleFromDB();
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addListPeople(dynamic newValue) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.addListPeople');
-    try {
-      return super.addListPeople(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addPeopleBox(dynamic newValue) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.addPeopleBox');
-    try {
-      return super.addPeopleBox(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearListPeople() {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.clearListPeople');
-    try {
-      return super.clearListPeople();
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearPeopleBox() {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.clearPeopleBox');
-    try {
-      return super.clearPeopleBox();
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deletePeopleBox() {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.deletePeopleBox');
-    try {
-      return super.deletePeopleBox();
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic setRes(dynamic newValue) {
@@ -247,55 +144,11 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
-  dynamic setNext(dynamic newValue) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setNext');
-    try {
-      return super.setNext(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setShowFavorites(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setShowFavorites');
     try {
       return super.setShowFavorites(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setFavorite(int id) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setFavorite');
-    try {
-      return super.setFavorite(id);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSearchSize(dynamic newValue) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setSearchSize');
-    try {
-      return super.setSearchSize(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic personById(int id) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.personById');
-    try {
-      return super.personById(id);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -318,9 +171,7 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
 people: ${people},
 res: ${res},
 searchText: ${searchText},
-next: ${next},
 showFavorites: ${showFavorites},
-searchSize: ${searchSize},
 personSelected: ${personSelected},
 filterCharacters: ${filterCharacters}
     ''';

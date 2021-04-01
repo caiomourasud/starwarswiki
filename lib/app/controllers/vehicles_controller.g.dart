@@ -77,52 +77,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
     });
   }
 
-  final _$nextAtom = Atom(name: '_VehiclesControllerBase.next');
-
-  @override
-  String get next {
-    _$nextAtom.reportRead();
-    return super.next;
-  }
-
-  @override
-  set next(String value) {
-    _$nextAtom.reportWrite(value, super.next, () {
-      super.next = value;
-    });
-  }
-
-  final _$scrollPositionAtom =
-      Atom(name: '_VehiclesControllerBase.scrollPosition');
-
-  @override
-  double get scrollPosition {
-    _$scrollPositionAtom.reportRead();
-    return super.scrollPosition;
-  }
-
-  @override
-  set scrollPosition(double value) {
-    _$scrollPositionAtom.reportWrite(value, super.scrollPosition, () {
-      super.scrollPosition = value;
-    });
-  }
-
-  final _$searchSizeAtom = Atom(name: '_VehiclesControllerBase.searchSize');
-
-  @override
-  double get searchSize {
-    _$searchSizeAtom.reportRead();
-    return super.searchSize;
-  }
-
-  @override
-  set searchSize(double value) {
-    _$searchSizeAtom.reportWrite(value, super.searchSize, () {
-      super.searchSize = value;
-    });
-  }
-
   final _$vehicleSelectedAtom =
       Atom(name: '_VehiclesControllerBase.vehicleSelected');
 
@@ -143,86 +97,13 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
       AsyncAction('_VehiclesControllerBase.getVehicles');
 
   @override
-  Future getVehicles() {
-    return _$getVehiclesAsyncAction.run(() => super.getVehicles());
-  }
-
-  final _$getMoreVehiclesAsyncAction =
-      AsyncAction('_VehiclesControllerBase.getMoreVehicles');
-
-  @override
-  Future getMoreVehicles(String link) {
-    return _$getMoreVehiclesAsyncAction.run(() => super.getMoreVehicles(link));
+  Future getVehicles({String? nextPage}) {
+    return _$getVehiclesAsyncAction
+        .run(() => super.getVehicles(nextPage: nextPage));
   }
 
   final _$_VehiclesControllerBaseActionController =
       ActionController(name: '_VehiclesControllerBase');
-
-  @override
-  dynamic vehiclesFromDB() {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.vehiclesFromDB');
-    try {
-      return super.vehiclesFromDB();
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addListVehicles(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.addListVehicles');
-    try {
-      return super.addListVehicles(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addVehiclesBox(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.addVehiclesBox');
-    try {
-      return super.addVehiclesBox(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearListVehicles() {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.clearListVehicles');
-    try {
-      return super.clearListVehicles();
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearVehiclesBox() {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.clearVehiclesBox');
-    try {
-      return super.clearVehiclesBox();
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deleteVehiclesBox() {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.deleteVehiclesBox');
-    try {
-      return super.deleteVehiclesBox();
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic setRes(dynamic newValue) {
@@ -247,50 +128,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   }
 
   @override
-  dynamic setNext(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setNext');
-    try {
-      return super.setNext(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setScrollPosition(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setScrollPosition');
-    try {
-      return super.setScrollPosition(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSearchSize(dynamic newValue) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.setSearchSize');
-    try {
-      return super.setSearchSize(newValue);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic vehicleById(int id) {
-    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
-        name: '_VehiclesControllerBase.vehicleById');
-    try {
-      return super.vehicleById(id);
-    } finally {
-      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setVehicleSelected(int newValue) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setVehicleSelected');
@@ -307,9 +144,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
 vehicles: ${vehicles},
 res: ${res},
 searchText: ${searchText},
-next: ${next},
-scrollPosition: ${scrollPosition},
-searchSize: ${searchSize},
 vehicleSelected: ${vehicleSelected},
 filterVehicles: ${filterVehicles}
     ''';

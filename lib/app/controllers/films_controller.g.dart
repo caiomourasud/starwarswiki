@@ -77,51 +77,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
     });
   }
 
-  final _$nextAtom = Atom(name: '_FilmsControllerBase.next');
-
-  @override
-  String get next {
-    _$nextAtom.reportRead();
-    return super.next;
-  }
-
-  @override
-  set next(String value) {
-    _$nextAtom.reportWrite(value, super.next, () {
-      super.next = value;
-    });
-  }
-
-  final _$showFavoritesAtom = Atom(name: '_FilmsControllerBase.showFavorites');
-
-  @override
-  bool get showFavorites {
-    _$showFavoritesAtom.reportRead();
-    return super.showFavorites;
-  }
-
-  @override
-  set showFavorites(bool value) {
-    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
-      super.showFavorites = value;
-    });
-  }
-
-  final _$searchSizeAtom = Atom(name: '_FilmsControllerBase.searchSize');
-
-  @override
-  double get searchSize {
-    _$searchSizeAtom.reportRead();
-    return super.searchSize;
-  }
-
-  @override
-  set searchSize(double value) {
-    _$searchSizeAtom.reportWrite(value, super.searchSize, () {
-      super.searchSize = value;
-    });
-  }
-
   final _$filmSelectedAtom = Atom(name: '_FilmsControllerBase.filmSelected');
 
   @override
@@ -140,86 +95,12 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   final _$getFilmsAsyncAction = AsyncAction('_FilmsControllerBase.getFilms');
 
   @override
-  Future getFilms() {
-    return _$getFilmsAsyncAction.run(() => super.getFilms());
-  }
-
-  final _$getMoreFilmsAsyncAction =
-      AsyncAction('_FilmsControllerBase.getMoreFilms');
-
-  @override
-  Future getMoreFilms(String link) {
-    return _$getMoreFilmsAsyncAction.run(() => super.getMoreFilms(link));
+  Future getFilms({String? nextPage}) {
+    return _$getFilmsAsyncAction.run(() => super.getFilms(nextPage: nextPage));
   }
 
   final _$_FilmsControllerBaseActionController =
       ActionController(name: '_FilmsControllerBase');
-
-  @override
-  dynamic filmsFromDB() {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.filmsFromDB');
-    try {
-      return super.filmsFromDB();
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addListFilms(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.addListFilms');
-    try {
-      return super.addListFilms(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addFilmsBox(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.addFilmsBox');
-    try {
-      return super.addFilmsBox(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearListFilms() {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.clearListFilms');
-    try {
-      return super.clearListFilms();
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearFilmsBox() {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.clearFilmsBox');
-    try {
-      return super.clearFilmsBox();
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deleteFilmsBox() {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.deleteFilmsBox');
-    try {
-      return super.deleteFilmsBox();
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic setRes(dynamic newValue) {
@@ -244,50 +125,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
-  dynamic setNext(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setNext');
-    try {
-      return super.setNext(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setShowFavorites(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setShowFavorites');
-    try {
-      return super.setShowFavorites(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSearchSize(dynamic newValue) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setSearchSize');
-    try {
-      return super.setSearchSize(newValue);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic filmById(int id) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.filmById');
-    try {
-      return super.filmById(id);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setFilmSelected(int newValue) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setFilmSelected');
@@ -304,9 +141,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
 films: ${films},
 res: ${res},
 searchText: ${searchText},
-next: ${next},
-showFavorites: ${showFavorites},
-searchSize: ${searchSize},
 filmSelected: ${filmSelected},
 filterFilms: ${filterFilms}
     ''';

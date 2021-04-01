@@ -16,6 +16,7 @@ class PlanetCardWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
@@ -30,12 +31,8 @@ class PlanetCardWidget extends StatelessWidget {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
-                      height: MediaQuery.of(context).size.width <= sm
-                          ? MediaQuery.of(context).size.width * 0.28
-                          : 110.0,
-                      width: MediaQuery.of(context).size.width <= sm
-                          ? MediaQuery.of(context).size.width * 0.30
-                          : 120.0,
+                      height: width <= sm ? width * 0.28 : 110.0,
+                      width: width <= sm ? width * 0.30 : 120.0,
                       decoration: BoxDecoration(
                           color: CupertinoColors.darkBackgroundGray,
                           image: planet.id != 28 && planet.id != 46
@@ -49,12 +46,8 @@ class PlanetCardWidget extends StatelessWidget {
                     )),
                 if (planet.id == 28 || planet.id == 46)
                   Container(
-                    height: MediaQuery.of(context).size.width <= sm
-                        ? MediaQuery.of(context).size.width * 0.27
-                        : 110.0,
-                    width: MediaQuery.of(context).size.width <= sm
-                        ? MediaQuery.of(context).size.width * 0.30
-                        : 110.0,
+                    height: width <= sm ? width * 0.27 : 110.0,
+                    width: width <= sm ? width * 0.30 : 110.0,
                     child: Center(
                       child: Text('no image',
                           textAlign: TextAlign.center,

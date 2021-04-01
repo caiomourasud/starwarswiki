@@ -16,6 +16,7 @@ class SpecieCardWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
@@ -28,9 +29,7 @@ class SpecieCardWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Container(
                   height: 80.0,
-                  width: MediaQuery.of(context).size.width <= sm
-                      ? MediaQuery.of(context).size.width * 0.45
-                      : 150.0,
+                  width: width <= sm ? width * 0.45 : 150.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,
                       image: DecorationImage(

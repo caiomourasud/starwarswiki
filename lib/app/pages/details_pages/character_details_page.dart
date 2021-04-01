@@ -15,13 +15,12 @@ import 'package:starwarswiki/app/controllers/planets_controller.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
 import 'package:starwarswiki/app/controllers/starships_controller.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
+import 'package:starwarswiki/app/repository/characters_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import '../../controllers/characters_controller.dart';
-
-final _charactersController = Modular.get<CharactersController>();
+final _charactersRepository = CharactersRepositiry();
 final _planetsController = Modular.get<PlanetsController>();
 final _speciesController = Modular.get<SpeciesController>();
 final _starshipsController = Modular.get<StarshipsController>();
@@ -32,21 +31,16 @@ List<Starship> starships = [];
 List<Vehicle> vehicles = [];
 List<Specie> species = [];
 
-class CharacterDetailsPage extends StatefulWidget {
-  final People? character;
-  final int backButton;
+bool get isAllEmpty => species.isEmpty && starships.isEmpty && vehicles.isEmpty;
 
-  const CharacterDetailsPage(
-      {Key? key, this.character, required this.backButton})
-      : super(key: key);
-  @override
-  _CharacterDetailsPageState createState() => _CharacterDetailsPageState();
-}
-
-setList(widget) {
+clearAll() {
   starships.clear();
   vehicles.clear();
   species.clear();
+}
+
+setList(widget) {
+  clearAll();
   if (widget.character.homeworld != '') {
     List<Planet> planetTemp = _planetsController.planets
         .where((pl) => pl.url == widget.character.homeworld)
@@ -73,9 +67,22 @@ setList(widget) {
   }
 }
 
+class CharacterDetailsPage extends StatefulWidget {
+  final People? character;
+  final int backButton;
+
+  const CharacterDetailsPage(
+      {Key? key, this.character, required this.backButton})
+      : super(key: key);
+  @override
+  _CharacterDetailsPageState createState() => _CharacterDetailsPageState();
+}
+
 class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     setList(widget);
 
     List<CharacteristicsList> info = [
@@ -107,10 +114,11 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
 
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md ||
-            (MediaQuery.of(context).size.width > md && widget.backButton == 2),
+        automaticallyImplyLeading:
+            width <= md || (width > md && widget.backButton == 2),
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        transitionBetweenRoutes: widget.backButton == 1,
         middle: Text(
           widget.character!.name,
           style: TextStyle(
@@ -132,7 +140,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                             : CupertinoIcons.heart,
                         size: 28),
                     onPressed: () => setState(
-                          () => _charactersController
+                          () => _charactersRepository
                               .setFavorite(widget.character!.id),
                         )))),
       ),
@@ -216,10 +224,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                     CupertinoPageRoute(builder: (context) {
                                   return PlanetDetailsPage(
                                       planet: planet!,
-                                      backButton:
-                                          MediaQuery.of(context).size.width > md
-                                              ? 2
-                                              : 1);
+                                      backButton: width > md ? 2 : 1);
                                 })),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -261,9 +266,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                     children: info.map((item) {
                   return Container(
                     height: 70.0,
-                    width: MediaQuery.of(context).size.width <= sm
-                        ? MediaQuery.of(context).size.width * 0.46 - 16.0
-                        : 140.0,
+                    width: width <= sm ? width * 0.46 - 16.0 : 140.0,
                     decoration: new BoxDecoration(
                         color: Color(0x12cfcfcf),
                         border: Border.all(color: Theme.of(context).focusColor),
@@ -308,33 +311,34 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                 }).toList()),
               ),
               SizedBox(height: 18.0),
-              Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: CustomCardList()
-                      .cardList(
-                          context: context,
-                          speciesTitle: 'Specie',
-                          species: species.isNotEmpty ? species : null,
-                          speciesBackButton: widget.backButton == 2 ? 1 : 2,
-                          starships: starships.isNotEmpty ? starships : null,
-                          starshipsBackButton: widget.backButton == 2 ? 1 : 2,
-                          starshipsLines: starships.length > 4 ? 2 : 1,
-                          vehicles: vehicles.isNotEmpty ? vehicles : null,
-                          vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
-                      .map((item) => CustomHorizontalList().list(
-                          context: context,
-                          title: item.title,
-                          height: item.height *
-                              (item.list.length > 3 ? item.rows : 1),
-                          width: item.width *
-                              (item.list.length > 3 ? item.rows : 1),
-                          rows: item.list.length > 3 ? item.rows : 1,
-                          viewportFraction: item.viewportFraction,
-                          cards: item.list,
-                          card: (index) => item.card(context, dimens, index),
-                          seeAll: false,
-                          onTap: () => item.onSeeAllTap(context)))
-                      .toList()),
+              if (!isAllEmpty)
+                Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: CustomCardList()
+                        .cardList(
+                            context: context,
+                            speciesTitle: 'Specie',
+                            species: species.isNotEmpty ? species : null,
+                            speciesBackButton: widget.backButton == 2 ? 1 : 2,
+                            starships: starships.isNotEmpty ? starships : null,
+                            starshipsBackButton: widget.backButton == 2 ? 1 : 2,
+                            starshipsLines: starships.length > 4 ? 2 : 1,
+                            vehicles: vehicles.isNotEmpty ? vehicles : null,
+                            vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
+                        .map((item) => CustomHorizontalList().list(
+                            context: context,
+                            title: item.title,
+                            height: item.height *
+                                (item.list.length > 3 ? item.rows : 1),
+                            width: item.width *
+                                (item.list.length > 3 ? item.rows : 1),
+                            rows: item.list.length > 3 ? item.rows : 1,
+                            viewportFraction: item.viewportFraction,
+                            cards: item.list,
+                            card: (index) => item.card(context, dimens, index),
+                            seeAll: false,
+                            onTap: () => item.onSeeAllTap(context)))
+                        .toList()),
             ],
           ),
         );

@@ -16,6 +16,7 @@ class VehicleCardWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
@@ -28,11 +29,11 @@ class VehicleCardWidget extends StatelessWidget {
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Container(
-                  height: MediaQuery.of(context).size.width <= sm
-                      ? MediaQuery.of(context).size.width * 0.28
+                  height: width <= sm
+                      ? width * 0.28
                       : 110.0,
-                  width: MediaQuery.of(context).size.width <= sm
-                      ? MediaQuery.of(context).size.width * 0.30
+                  width: width <= sm
+                      ? width * 0.30
                       : 130.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,

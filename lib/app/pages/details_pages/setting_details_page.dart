@@ -2,6 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+var heroTag = 'settings';
+
+class ScreenArguments {
+  final String title;
+  final String message;
+
+  ScreenArguments(this.title, this.message);
+}
+
 class SettingDetailsPage extends StatefulWidget {
   final String title;
 
@@ -16,7 +25,6 @@ class _SettingDetailsPageState extends State<SettingDetailsPage> {
     return Scaffold(
       appBar: CupertinoNavigationBar(
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= md,
-        brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
           widget.title,

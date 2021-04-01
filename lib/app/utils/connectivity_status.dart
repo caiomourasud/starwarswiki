@@ -46,20 +46,13 @@ class ConnectivityStatus {
         print(result.toString());
         _appController.setConnectionStatus(result.toString());
 
-        _charactersController.peopleFromDB();
-        _filmsController.filmsFromDB();
-        _planetsController.planetsFromDB();
-        _speciesController.speciesFromDB();
-        _starshipsController.starshipsFromDB();
-        _vehiclesController.vehiclesFromDB();
-
         // Films
         if (_filmsController.films.isEmpty) {
           _filmsController.getFilms();
         } else {
           prefs.getString('next_films').then((data) {
             if (data != '') {
-              _filmsController.getMoreFilms(data);
+              _filmsController.getFilms(nextPage: data);
             }
           });
         }
@@ -70,7 +63,7 @@ class ConnectivityStatus {
         } else {
           prefs.getString('next_people').then((data) {
             if (data != '') {
-              _charactersController.getMorePeople(data);
+              _charactersController.getPeople(nextPage: data);
             }
           });
         }
@@ -81,7 +74,7 @@ class ConnectivityStatus {
         } else {
           prefs.getString('next_planets').then((data) {
             if (data != '') {
-              _planetsController.getMorePlanets(data);
+              _planetsController.getPlanets(nextPage: data);
             }
           });
         }
@@ -92,7 +85,7 @@ class ConnectivityStatus {
         } else {
           prefs.getString('next_species').then((data) {
             if (data != '') {
-              _speciesController.getMoreSpecies(data);
+              _speciesController.getSpecies(nextPage: data);
             }
           });
         }
@@ -103,7 +96,7 @@ class ConnectivityStatus {
         } else {
           prefs.getString('next_starships').then((data) {
             if (data != '') {
-              _starshipsController.getMoreStarships(data);
+              _starshipsController.getStarships(nextPage: data);
             }
           });
         }
@@ -114,7 +107,7 @@ class ConnectivityStatus {
         } else {
           prefs.getString('next_vehicles').then((data) {
             if (data != '') {
-              _vehiclesController.getMoreVehicles(data);
+              _vehiclesController.getVehicles(nextPage: data);
             }
           });
         }

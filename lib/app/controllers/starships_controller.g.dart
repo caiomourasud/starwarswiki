@@ -78,36 +78,6 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
     });
   }
 
-  final _$nextAtom = Atom(name: '_StarshipsControllerBase.next');
-
-  @override
-  String get next {
-    _$nextAtom.reportRead();
-    return super.next;
-  }
-
-  @override
-  set next(String value) {
-    _$nextAtom.reportWrite(value, super.next, () {
-      super.next = value;
-    });
-  }
-
-  final _$searchSizeAtom = Atom(name: '_StarshipsControllerBase.searchSize');
-
-  @override
-  double get searchSize {
-    _$searchSizeAtom.reportRead();
-    return super.searchSize;
-  }
-
-  @override
-  set searchSize(double value) {
-    _$searchSizeAtom.reportWrite(value, super.searchSize, () {
-      super.searchSize = value;
-    });
-  }
-
   final _$starshipSelectedAtom =
       Atom(name: '_StarshipsControllerBase.starshipSelected');
 
@@ -128,87 +98,13 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
       AsyncAction('_StarshipsControllerBase.getStarships');
 
   @override
-  Future getStarships() {
-    return _$getStarshipsAsyncAction.run(() => super.getStarships());
-  }
-
-  final _$getMoreStarshipsAsyncAction =
-      AsyncAction('_StarshipsControllerBase.getMoreStarships');
-
-  @override
-  Future getMoreStarships(String link) {
-    return _$getMoreStarshipsAsyncAction
-        .run(() => super.getMoreStarships(link));
+  Future getStarships({String? nextPage}) {
+    return _$getStarshipsAsyncAction
+        .run(() => super.getStarships(nextPage: nextPage));
   }
 
   final _$_StarshipsControllerBaseActionController =
       ActionController(name: '_StarshipsControllerBase');
-
-  @override
-  dynamic starshipsFromDB() {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.starshipsFromDB');
-    try {
-      return super.starshipsFromDB();
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addListStarships(dynamic newValue) {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.addListStarships');
-    try {
-      return super.addListStarships(newValue);
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addStarshipsBox(dynamic newValue) {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.addStarshipsBox');
-    try {
-      return super.addStarshipsBox(newValue);
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearListStarships() {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.clearListStarships');
-    try {
-      return super.clearListStarships();
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearStarshipsBox() {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.clearStarshipsBox');
-    try {
-      return super.clearStarshipsBox();
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deleteStarshipsBox() {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.deleteStarshipsBox');
-    try {
-      return super.deleteStarshipsBox();
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic setRes(dynamic newValue) {
@@ -233,39 +129,6 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
   }
 
   @override
-  dynamic setNext(dynamic newValue) {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.setNext');
-    try {
-      return super.setNext(newValue);
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSearchSize(dynamic newValue) {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.setSearchSize');
-    try {
-      return super.setSearchSize(newValue);
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic starshipById(int id) {
-    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
-        name: '_StarshipsControllerBase.starshipById');
-    try {
-      return super.starshipById(id);
-    } finally {
-      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setStarshipSelected(int newValue) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setStarshipSelected');
@@ -282,8 +145,6 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
 starships: ${starships},
 res: ${res},
 searchText: ${searchText},
-next: ${next},
-searchSize: ${searchSize},
 starshipSelected: ${starshipSelected},
 filterStarships: ${filterStarships}
     ''';

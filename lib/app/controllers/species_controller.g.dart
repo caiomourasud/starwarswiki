@@ -77,36 +77,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
     });
   }
 
-  final _$nextAtom = Atom(name: '_SpeciesControllerBase.next');
-
-  @override
-  String get next {
-    _$nextAtom.reportRead();
-    return super.next;
-  }
-
-  @override
-  set next(String value) {
-    _$nextAtom.reportWrite(value, super.next, () {
-      super.next = value;
-    });
-  }
-
-  final _$searchSizeAtom = Atom(name: '_SpeciesControllerBase.searchSize');
-
-  @override
-  double get searchSize {
-    _$searchSizeAtom.reportRead();
-    return super.searchSize;
-  }
-
-  @override
-  set searchSize(double value) {
-    _$searchSizeAtom.reportWrite(value, super.searchSize, () {
-      super.searchSize = value;
-    });
-  }
-
   final _$specieSelectedAtom =
       Atom(name: '_SpeciesControllerBase.specieSelected');
 
@@ -127,86 +97,13 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
       AsyncAction('_SpeciesControllerBase.getSpecies');
 
   @override
-  Future getSpecies() {
-    return _$getSpeciesAsyncAction.run(() => super.getSpecies());
-  }
-
-  final _$getMoreSpeciesAsyncAction =
-      AsyncAction('_SpeciesControllerBase.getMoreSpecies');
-
-  @override
-  Future getMoreSpecies(String link) {
-    return _$getMoreSpeciesAsyncAction.run(() => super.getMoreSpecies(link));
+  Future getSpecies({String? nextPage}) {
+    return _$getSpeciesAsyncAction
+        .run(() => super.getSpecies(nextPage: nextPage));
   }
 
   final _$_SpeciesControllerBaseActionController =
       ActionController(name: '_SpeciesControllerBase');
-
-  @override
-  dynamic speciesFromDB() {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.speciesFromDB');
-    try {
-      return super.speciesFromDB();
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addListSpecies(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.addListSpecies');
-    try {
-      return super.addListSpecies(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addSpeciesBox(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.addSpeciesBox');
-    try {
-      return super.addSpeciesBox(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearListSpecies() {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.clearListSpecies');
-    try {
-      return super.clearListSpecies();
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearSpeciesBox() {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.clearSpeciesBox');
-    try {
-      return super.clearSpeciesBox();
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deleteSpeciesBox() {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.deleteSpeciesBox');
-    try {
-      return super.deleteSpeciesBox();
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic setRes(dynamic newValue) {
@@ -231,39 +128,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   }
 
   @override
-  dynamic setNext(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.setNext');
-    try {
-      return super.setNext(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSearchSize(dynamic newValue) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.setSearchSize');
-    try {
-      return super.setSearchSize(newValue);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic specieById(int id) {
-    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
-        name: '_SpeciesControllerBase.specieById');
-    try {
-      return super.specieById(id);
-    } finally {
-      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setSpecieSelected(int newValue) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSpecieSelected');
@@ -280,8 +144,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
 species: ${species},
 res: ${res},
 searchText: ${searchText},
-next: ${next},
-searchSize: ${searchSize},
 specieSelected: ${specieSelected},
 filterSpecies: ${filterSpecies}
     ''';

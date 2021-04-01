@@ -34,11 +34,12 @@ setList(widget) {
 class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     setList(widget);
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md ||
-            (MediaQuery.of(context).size.width > md && widget.backButton == 2),
+        automaticallyImplyLeading:
+            width <= md || (width > md && widget.backButton == 2),
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
@@ -55,27 +56,28 @@ class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
               SizedBox(height: 24.0),
-              Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: CustomCardList()
-                      .cardList(
-                        context: context,
-                        films: films.isNotEmpty ? films : null,
-                      )
-                      .map((item) => CustomHorizontalList().list(
+              if (films.isNotEmpty)
+                Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: CustomCardList()
+                        .cardList(
                           context: context,
-                          title: item.title,
-                          height: item.height *
-                              (item.list.length > 3 ? item.rows : 1),
-                          width: item.width *
-                              (item.list.length > 3 ? item.rows : 1),
-                          rows: item.list.length > 3 ? item.rows : 1,
-                          viewportFraction: item.viewportFraction,
-                          cards: item.list,
-                          card: (index) => item.card(context, dimens, index),
-                          seeAll: false,
-                          onTap: () => item.onSeeAllTap(context)))
-                      .toList()),
+                          films: films.isNotEmpty ? films : null,
+                        )
+                        .map((item) => CustomHorizontalList().list(
+                            context: context,
+                            title: item.title,
+                            height: item.height *
+                                (item.list.length > 3 ? item.rows : 1),
+                            width: item.width *
+                                (item.list.length > 3 ? item.rows : 1),
+                            rows: item.list.length > 3 ? item.rows : 1,
+                            viewportFraction: item.viewportFraction,
+                            cards: item.list,
+                            card: (index) => item.card(context, dimens, index),
+                            seeAll: false,
+                            onTap: () => item.onSeeAllTap(context)))
+                        .toList()),
             ],
           ),
         );

@@ -1,20 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/models/starship.dart';
-import 'package:starwarswiki/app/utils/api.dart';
+import 'package:starwarswiki/app/repository/starships_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
-import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
 
 part 'starships_controller.g.dart';
 
-StorageUtil _prefs = StorageUtil();
-
-final _appController = Modular.get<AppController>();
+final _starshipsRepository = StarshipsRepositiry();
 
 class StarshipsController = _StarshipsControllerBase with _$StarshipsController;
 
@@ -26,24 +21,17 @@ abstract class _StarshipsControllerBase with Store {
   List<Starship> starships = [];
 
   @action
-  starshipsFromDB() {
-    starships = _starshipsBox.values.toList();
+  getStarships({String? nextPage}) async {
+    setRes(false);
+    if (_starshipsBox.values.isNotEmpty && nextPage == null) {
+      starships = _starshipsBox.values.toList();
+      setRes(true);
+    } else {
+      starships = [];
+      starships = await _starshipsRepository.fecthStarships(nextPage: nextPage);
+      setRes(true);
+    }
   }
-
-  @action
-  addListStarships(newValue) => starships.add(newValue);
-
-  @action
-  addStarshipsBox(newValue) => _starshipsBox.add(newValue);
-
-  @action
-  clearListStarships() => starships.clear();
-
-  @action
-  clearStarshipsBox() => _starshipsBox.clear();
-
-  @action
-  deleteStarshipsBox() => _starshipsBox.deleteFromDisk();
 
   @observable
   bool res = true;
@@ -58,108 +46,11 @@ abstract class _StarshipsControllerBase with Store {
   setSearchText(newValue) => searchText = newValue;
 
   @observable
-  String next = '';
-
-  @action
-  setNext(newValue) => next = newValue;
-
-  @observable
-  double searchSize = 0.0;
-
-  @action
-  setSearchSize(newValue) => searchSize = newValue;
-
-  @action
-  starshipById(int id) {
-    if (id == 0) {
-      return null;
-    } else {
-      var starship = starships.where((starship) => starship.id == id);
-      return starship.first;
-    }
-  }
-
-  @observable
   int starshipSelected = 0;
 
   @action
   setStarshipSelected(int newValue) {
     starshipSelected = newValue;
-  }
-
-  API? api;
-
-  @action
-  getStarships() async {
-    clearStarshipsBox();
-    clearListStarships();
-    setStarshipSelected(0);
-    if (api != null) api!.cancel();
-    api = API();
-    api!.getApi('https://swapi.dev/api/starships/', successGetStarships, error,
-        _appController.context!);
-  }
-
-  @action
-  getMoreStarships(String link) async {
-    setRes(false);
-    if (api != null) api!.cancel();
-    api = API();
-    api!.getApi(link, successGetMoreStarships, error, _appController.context!);
-  }
-
-  successGetStarships(jsonData) async {
-    if (jsonData != null) {
-      if (jsonData['next'] != null) {
-        next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_starships', next);
-      }
-      Iterable starships = jsonData['results'];
-      starships.map((starship) {
-        addListStarships(Starship.fromJson(starship));
-        addStarshipsBox(Starship.fromJson(starship));
-      }).toList();
-      print(next);
-      setRes(true);
-      if (res && jsonData['next'] != null) {
-        Timer(Duration(milliseconds: 200), () {
-          if (res) getMoreStarships(next);
-        });
-      }
-    }
-  }
-
-  successGetMoreStarships(jsonData) async {
-    if (jsonData != null) {
-      Iterable starships = jsonData['results'];
-      starships.map((starship) {
-        addListStarships(Starship.fromJson(starship));
-        addStarshipsBox(Starship.fromJson(starship));
-      }).toList();
-      setRes(true);
-      if (jsonData['next'] != null) {
-        next = jsonData['next'].replaceAll('http', 'https');
-        _prefs.setString('next_starships', next);
-      } else {
-        _prefs.setString('next_starships', '');
-        next = '';
-      }
-      print(next);
-      if (next != '' && res) getMoreStarships(next);
-    }
-  }
-
-  error(jsonData) {
-    setRes(true);
-    if (jsonData != null) {
-      print('error');
-      // alert.alertDialog(
-      //     context: context,
-      //     titulo: 'Atenção',
-      //     subtitulo: jsonData,
-      //     secundario: 'OK',
-      //     cor: Colors.red);
-    }
   }
 
   @computed

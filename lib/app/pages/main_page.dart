@@ -74,21 +74,25 @@ class _MainPageState extends State<MainPage> {
       case 0:
         if (indexSelected == 0) {
           _animateToTop(_homeController.scrollController);
+          allDestinations[0].navigatorKey.currentState!.maybePop();
         }
         break;
       case 1:
         if (indexSelected == 1) {
           _animateToTop(_settingsController.scrollController);
+          allDestinations[1].navigatorKey.currentState!.maybePop();
         }
         break;
       case 2:
         if (indexSelected == 2) {
           _animateToTop(_settingsController.scrollController);
+          allDestinations[2].navigatorKey.currentState!.maybePop();
         }
         break;
       case 3:
         if (indexSelected == 3) {
           _animateToTop(_settingsController.scrollController);
+          allDestinations[3].navigatorKey.currentState!.maybePop();
         }
         break;
       default:

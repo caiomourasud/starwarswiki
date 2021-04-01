@@ -24,7 +24,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
   Widget build(context) {
     return CupertinoSliverNavigationBar(
         stretch: true,
-        brightness: Theme.of(context).brightness,
+        heroTag: title,
         middle: position == null
             ? null
             : AnimatedOpacity(
@@ -77,47 +77,4 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
                 child: Row(mainAxisSize: MainAxisSize.min, children: actions)),
         border: Border.all(color: Colors.transparent));
   }
-}
-
-class CupertinoAppBarWidget extends SliverPersistentHeaderDelegate {
-  final BuildContext context;
-  final String title;
-  final int backButton;
-  final List<Widget> actions;
-
-  const CupertinoAppBarWidget(
-      {required this.context,
-      required this.title,
-      required this.actions,
-      required this.backButton});
-
-  @override
-  Widget build(context, shrinkOffset, overlapsContent) {
-    return CupertinoNavigationBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        border: Border.all(color: Colors.transparent),
-        previousPageTitle: '',
-        middle: Text(
-          title,
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary),
-        ),
-        trailing: Material(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: actions,
-            )));
-  }
-
-  @override
-  double get maxExtent => (44.0 + MediaQuery.of(context).viewPadding.top);
-
-  @override
-  double get minExtent => (44.0 + MediaQuery.of(context).viewPadding.top);
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }

@@ -32,23 +32,23 @@ List<Starship> starships = [];
 List<Vehicle> vehicles = [];
 List<Specie> species = [];
 
-class FilmDetailsPage extends StatefulWidget {
-  final Film? film;
-  final int backButton;
+bool get isAllEmpty =>
+    characters.isEmpty &&
+    planets.isEmpty &&
+    species.isEmpty &&
+    starships.isEmpty &&
+    vehicles.isEmpty;
 
-  const FilmDetailsPage({Key? key, this.film, required this.backButton})
-      : super(key: key);
-  @override
-  _FilmDetailsPageState createState() => _FilmDetailsPageState();
-}
-
-setList(widget) {
+clearAll() {
   characters.clear();
   planets.clear();
   starships.clear();
   vehicles.clear();
   species.clear();
+}
 
+setList(widget) {
+  clearAll();
   for (var person in widget.film.characters) {
     characters.addAll(_charactersController.people
         .where((character) => person == character.url));
@@ -69,14 +69,25 @@ setList(widget) {
   }
 }
 
+class FilmDetailsPage extends StatefulWidget {
+  final Film? film;
+  final int backButton;
+
+  const FilmDetailsPage({Key? key, this.film, required this.backButton})
+      : super(key: key);
+  @override
+  _FilmDetailsPageState createState() => _FilmDetailsPageState();
+}
+
 class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     setList(widget);
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md ||
-            (MediaQuery.of(context).size.width > md && widget.backButton == 2),
+        automaticallyImplyLeading:
+            width <= md || (width > md && widget.backButton == 2),
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
@@ -184,39 +195,41 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                 ),
               ),
               SizedBox(height: 24.0),
-              Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: CustomCardList()
-                      .cardList(
-                          context: context,
-                          characters: characters,
-                          charactersBackButton: widget.backButton == 2 ? 1 : 2,
-                          charactersLines: characters.length > 6 ? 3 : 2,
-                          planets: planets,
-                          planetsBackButton: widget.backButton == 2 ? 1 : 2,
-                          species: species,
-                          speciesBackButton: widget.backButton == 2 ? 1 : 2,
-                          speciesLines: 2,
-                          starships: starships,
-                          starshipsBackButton: widget.backButton == 2 ? 1 : 2,
-                          starshipsLines: starships.length > 4 ? 2 : 1,
-                          vehicles: vehicles,
-                          vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
-                      .map((item) => CustomHorizontalList().list(
-                          context: context,
-                          title: item.title,
-                          height: item.height *
-                              (item.list.length > 3 ? item.rows : 1),
-                          width: item.width *
-                              (item.list.length > 3 ? item.rows : 1),
-                          rows: item.list.length > 3 ? item.rows : 1,
-                          viewportFraction: item.viewportFraction,
-                          cards: item.list,
-                          card: (index) => item.card(context, dimens, index),
-                          hasDivider: item.hasDivider,
-                          seeAll: false,
-                          onTap: () => item.onSeeAllTap(context)))
-                      .toList()),
+              if (!isAllEmpty)
+                Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: CustomCardList()
+                        .cardList(
+                            context: context,
+                            characters: characters,
+                            charactersBackButton:
+                                widget.backButton == 2 ? 1 : 2,
+                            charactersLines: characters.length > 6 ? 3 : 2,
+                            planets: planets,
+                            planetsBackButton: widget.backButton == 2 ? 1 : 2,
+                            species: species,
+                            speciesBackButton: widget.backButton == 2 ? 1 : 2,
+                            speciesLines: 2,
+                            starships: starships,
+                            starshipsBackButton: widget.backButton == 2 ? 1 : 2,
+                            starshipsLines: starships.length > 4 ? 2 : 1,
+                            vehicles: vehicles,
+                            vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
+                        .map((item) => CustomHorizontalList().list(
+                            context: context,
+                            title: item.title,
+                            height: item.height *
+                                (item.list.length > 3 ? item.rows : 1),
+                            width: item.width *
+                                (item.list.length > 3 ? item.rows : 1),
+                            rows: item.list.length > 3 ? item.rows : 1,
+                            viewportFraction: item.viewportFraction,
+                            cards: item.list,
+                            card: (index) => item.card(context, dimens, index),
+                            hasDivider: item.hasDivider,
+                            seeAll: false,
+                            onTap: () => item.onSeeAllTap(context)))
+                        .toList()),
               SizedBox(height: 48.0),
             ],
           ),

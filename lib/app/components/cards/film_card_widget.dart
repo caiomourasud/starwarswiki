@@ -17,6 +17,7 @@ class FilmCardWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
@@ -31,12 +32,8 @@ class FilmCardWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.width <= sm
-                          ? MediaQuery.of(context).size.width * 0.65
-                          : 240.0,
-                      width: MediaQuery.of(context).size.width <= sm
-                          ? MediaQuery.of(context).size.width * 0.45
-                          : 160.0,
+                      height: width <= sm ? width * 0.65 : 240.0,
+                      width: width <= sm ? width * 0.45 : 160.0,
                       decoration: BoxDecoration(
                           color: CupertinoColors.darkBackgroundGray,
                           image: DecorationImage(

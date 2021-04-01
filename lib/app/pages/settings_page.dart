@@ -18,6 +18,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     List<SettingList> settings = [
       SettingList(
           id: 1,
@@ -49,9 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 Container(
                   height: double.infinity,
-                  width: MediaQuery.of(context).size.width > md
-                      ? 380.0
-                      : dimens.maxWidth,
+                  width: width > md ? 380.0 : dimens.maxWidth,
                   child: NestedScrollView(
                       controller: _settingsController.scrollController,
                       physics: const BouncingScrollPhysics(
@@ -65,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 return ListTile(
                                   selected: settings[index].id ==
                                           _settingsController.settingSelected &&
-                                      MediaQuery.of(context).size.width > md,
+                                      width > md,
                                   selectedTileColor:
                                       Theme.of(context).focusColor,
                                   title: Text(settings[index].title,
@@ -78,15 +77,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                           .bodyText2),
                                   trailing: settings[index].trailing,
                                   onTap: () {
-                                    if (MediaQuery.of(context).size.width <=
-                                        md) {
-                                      Navigator.push(context,
+                                    if (width <= md) {
+                                      Navigator.push(
+                                          context,
                                           CupertinoPageRoute(
+                                              title: settings[index].title,
                                               builder: (context) {
-                                        return SettingDetailsPage(
-                                          title: settings[index].title,
-                                        );
-                                      }));
+                                                return SettingDetailsPage(
+                                                  title: settings[index].title,
+                                                );
+                                              }));
                                     }
                                     setState(() {
                                       _settingsController.setSettingSelected(
@@ -105,6 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         return <Widget>[
                           CupertinoSliverNavigationBar(
                             automaticallyImplyLeading: false,
+                            heroTag: 'settings',
                             backgroundColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             largeTitle: Text('Settings',
@@ -115,26 +116,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                         : Theme.of(context)
                                             .colorScheme
                                             .onPrimary)),
-                            // leading: CupertinoButton(
-                            //   minSize: 34,
-                            //   padding: EdgeInsets.zero,
-                            //   borderRadius: BorderRadius.circular(50.0),
-                            //   child: Icon(Theme.of(context).brightness ==
-                            //           Brightness.light
-                            //       ? FontAwesomeIcons.jediOrder
-                            //       : FontAwesomeIcons.galacticRepublic),
-                            //   onPressed: () {},
-                            // ),
                             border: Border.all(color: Colors.transparent),
                           )
                         ];
                       }),
                 ),
-                if (MediaQuery.of(context).size.width > md)
+                if (width > md)
                   VerticalDivider(
                     width: 0.1,
                   ),
-                if (MediaQuery.of(context).size.width > md)
+                if (width > md)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
                     child: Container(
@@ -145,13 +136,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 Observer(
                   builder: (_) {
-                    return _settingsController.settingSelected == 0
+                    return _settingsController.settingSelected > 0 && width > md
                         ? Expanded(
-                            child: Scaffold(
-                                body:
-                                    Center(child: Text('No setting selected'))),
-                          )
-                        : Expanded(
                             child: ClipRect(
                               child: SettingDetailsPage(
                                 title: settings[
@@ -159,6 +145,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                     .title,
                               ),
                             ),
+                          )
+                        : Expanded(
+                            child: Scaffold(
+                                body:
+                                    Center(child: Text('No setting selected'))),
                           );
                   },
                 ),

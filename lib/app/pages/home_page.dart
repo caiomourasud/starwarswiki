@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                         return <Widget>[
                           CupertinoSliverNavigationBar(
                             automaticallyImplyLeading: false,
+                            heroTag: 'Starwars',
                             backgroundColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             largeTitle: Text('StarWars',
@@ -130,16 +131,6 @@ class _HomePageState extends State<HomePage> {
                                             Brightness.light
                                         ? Colors.black87
                                         : Colors.yellow[600])),
-                            // leading: CupertinoButton(
-                            //   minSize: 34,
-                            //   padding: EdgeInsets.zero,
-                            //   borderRadius: BorderRadius.circular(50.0),
-                            //   child: Icon(Theme.of(context).brightness ==
-                            //           Brightness.light
-                            //       ? FontAwesomeIcons.jediOrder
-                            //       : FontAwesomeIcons.galacticRepublic),
-                            //   onPressed: () {},
-                            // ),
                             border: Border.all(color: Colors.transparent),
                           ),
                         ];

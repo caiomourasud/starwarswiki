@@ -18,6 +18,25 @@ final _filmsController = Modular.get<FilmsController>();
 List<People> characters = [];
 List<Film> films = [];
 
+bool get isAllEmpty => characters.isEmpty && films.isEmpty;
+
+clearAll() {
+  characters.clear();
+  films.clear();
+}
+
+setList(widget) {
+  clearAll();
+
+  for (var person in widget.planet.residents) {
+    characters.addAll(_charactersController.people
+        .where((character) => person == character.url));
+  }
+  for (var film in widget.planet.films) {
+    films.addAll(_filmsController.films.where((pl) => film == pl.url));
+  }
+}
+
 class PlanetDetailsPage extends StatefulWidget {
   final Planet? planet;
   final int backButton;
@@ -29,27 +48,15 @@ class PlanetDetailsPage extends StatefulWidget {
   _PlanetDetailsPageState createState() => _PlanetDetailsPageState();
 }
 
-setList(widget) {
-  characters.clear();
-  films.clear();
-
-  for (var person in widget.planet.residents) {
-    characters.addAll(_charactersController.people
-        .where((character) => person == character.url));
-  }
-  for (var film in widget.planet.films) {
-    films.addAll(_filmsController.films.where((pl) => film == pl.url));
-  }
-}
-
 class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     setList(widget);
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md ||
-            (MediaQuery.of(context).size.width > md && widget.backButton == 2),
+        automaticallyImplyLeading:
+            width <= md || (width > md && widget.backButton == 2),
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
@@ -171,30 +178,31 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                 ),
               ),
               SizedBox(height: 24.0),
-              Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: CustomCardList()
-                      .cardList(
-                        context: context,
-                        characters: characters.isNotEmpty ? characters : null,
-                        charactersTitle: 'Residents',
-                        charactersLines: characters.length > 6 ? 2 : 1,
-                        films: films.isNotEmpty ? films : null,
-                      )
-                      .map((item) => CustomHorizontalList().list(
+              if (!isAllEmpty)
+                Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: CustomCardList()
+                        .cardList(
                           context: context,
-                          title: item.title,
-                          height: item.height *
-                              (item.list.length > 3 ? item.rows : 1),
-                          width: item.width *
-                              (item.list.length > 3 ? item.rows : 1),
-                          rows: item.list.length > 3 ? item.rows : 1,
-                          viewportFraction: item.viewportFraction,
-                          cards: item.list,
-                          card: (index) => item.card(context, dimens, index),
-                          seeAll: false,
-                          onTap: () => item.onSeeAllTap(context)))
-                      .toList()),
+                          characters: characters.isNotEmpty ? characters : null,
+                          charactersTitle: 'Residents',
+                          charactersLines: characters.length > 6 ? 2 : 1,
+                          films: films.isNotEmpty ? films : null,
+                        )
+                        .map((item) => CustomHorizontalList().list(
+                            context: context,
+                            title: item.title,
+                            height: item.height *
+                                (item.list.length > 3 ? item.rows : 1),
+                            width: item.width *
+                                (item.list.length > 3 ? item.rows : 1),
+                            rows: item.list.length > 3 ? item.rows : 1,
+                            viewportFraction: item.viewportFraction,
+                            cards: item.list,
+                            card: (index) => item.card(context, dimens, index),
+                            seeAll: false,
+                            onTap: () => item.onSeeAllTap(context)))
+                        .toList()),
             ],
           ),
         );
