@@ -17,7 +17,7 @@ List<People> characters = [];
 List<Film> films = [];
 
 class SpecieDetailsPage extends StatefulWidget {
-  final Specie specie;
+  final Specie? specie;
   final int backButton;
 
   const SpecieDetailsPage(
@@ -51,7 +51,7 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.specie.name,
+          widget.specie!.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87

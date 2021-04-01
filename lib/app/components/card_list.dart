@@ -129,9 +129,6 @@ class CustomCardList {
                             ? 1
                             : 2
                         : 1,
-                    scrollController: _filmsController.scrollController,
-                    scrollPosition: null,
-                    setScrollPosition: null,
                     searchSize: _filmsController.searchSize,
                     setSearchSize: _filmsController.setSearchSize,
                     searchText: _filmsController.searchText,
@@ -166,15 +163,16 @@ class CustomCardList {
                               }));
                             }
                             _filmsController.setFilmSelected(
-                                _filmsController.filterFilms[index]);
+                                _filmsController.filterFilms[index].id);
                           },
                           filmSelected: _filmsController.filmSelected);
                     }, childCount: _filmsController.filterFilms.length)),
                     detailsPage: FilmDetailsPage(
                       backButton: 0,
-                      film: _filmsController.filmSelected,
+                      film: _filmsController
+                          .filmById(_filmsController.filmSelected),
                     ),
-                    itemSelectedId: _filmsController.filmSelected.id,
+                    itemSelectedId: _filmsController.filmSelected,
                     noItemSelected: 'No film selected');
               });
             })),
@@ -222,10 +220,6 @@ class CustomCardList {
                               ? 1
                               : 2
                           : 1,
-                      scrollController: _charactersController.scrollController,
-                      scrollPosition: _charactersController.scrollPosition,
-                      setScrollPosition: (position) =>
-                          _charactersController.setScrollPosition(position),
                       searchSize: _charactersController.searchSize,
                       setSearchSize: _charactersController.setSearchSize,
                       searchText: _charactersController.searchText,
@@ -243,8 +237,7 @@ class CustomCardList {
                         _listFavorites(
                             paddingTop: 4.0,
                             paddingRight: 0.0,
-                            disable:
-                                _charactersController.scrollPosition <= 35.0,
+                            disable: false,
                             onTap: () =>
                                 _charactersController.setShowFavorites(null))
                       ],
@@ -287,7 +280,7 @@ class CustomCardList {
                               }
                               _charactersController.setPersonSelected(
                                   _charactersController
-                                      .filterCharacters[index]);
+                                      .filterCharacters[index].id);
                             },
                             personSelected:
                                 _charactersController.personSelected,
@@ -299,9 +292,10 @@ class CustomCardList {
                                   .filterCharacters.length)),
                       detailsPage: CharacterDetailsPage(
                         backButton: 0,
-                        character: _charactersController.personSelected,
+                        character: _charactersController
+                            .personById(_charactersController.personSelected),
                       ),
-                      itemSelectedId: _charactersController.personSelected.id,
+                      itemSelectedId: _charactersController.personSelected,
                       noItemSelected: 'No character selected');
                 });
               }));
@@ -350,9 +344,6 @@ class CustomCardList {
                               ? 1
                               : 2
                           : 1,
-                      scrollController: _planetsController.scrollController,
-                      scrollPosition: null,
-                      setScrollPosition: null,
                       searchSize: _planetsController.searchSize,
                       setSearchSize: _planetsController.setSearchSize,
                       searchText: _planetsController.searchText,
@@ -389,15 +380,16 @@ class CustomCardList {
                                 }));
                               }
                               _planetsController.setPlanetSelected(
-                                  _planetsController.filterPlanets[index]);
+                                  _planetsController.filterPlanets[index].id);
                             },
                             planetSelected: _planetsController.planetSelected);
                       }, childCount: _planetsController.filterPlanets.length)),
                       detailsPage: PlanetDetailsPage(
                         backButton: 0,
-                        planet: _planetsController.planetSelected,
+                        planet: _planetsController
+                            .planetById(_planetsController.planetSelected),
                       ),
-                      itemSelectedId: _planetsController.planetSelected.id,
+                      itemSelectedId: _planetsController.planetSelected,
                       noItemSelected: 'No planet selected');
                 });
               }));
@@ -444,9 +436,6 @@ class CustomCardList {
                               ? 2
                               : 1
                           : 1,
-                      scrollController: _speciesController.scrollController,
-                      scrollPosition: null,
-                      setScrollPosition: null,
                       searchSize: _speciesController.searchSize,
                       setSearchSize: _speciesController.setSearchSize,
                       searchText: _speciesController.searchText,
@@ -483,15 +472,15 @@ class CustomCardList {
                                 }));
                               }
                               _speciesController.setSpecieSelected(
-                                  _speciesController.filterSpecies[index]);
+                                  _speciesController.filterSpecies[index].id);
                             },
                             specieSelected: _speciesController.specieSelected);
                       }, childCount: _speciesController.filterSpecies.length)),
                       detailsPage: SpecieDetailsPage(
-                        backButton: 0,
-                        specie: _speciesController.specieSelected,
-                      ),
-                      itemSelectedId: _speciesController.specieSelected.id,
+                          backButton: 0,
+                          specie: _speciesController
+                              .specieById(_speciesController.specieSelected)),
+                      itemSelectedId: _speciesController.specieSelected,
                       noItemSelected: 'No specie selected');
                 });
               }));
@@ -538,9 +527,6 @@ class CustomCardList {
                               ? 2
                               : 1
                           : 1,
-                      scrollController: _starshipsController.scrollController,
-                      scrollPosition: null,
-                      setScrollPosition: null,
                       searchSize: _starshipsController.searchSize,
                       setSearchSize: _starshipsController.setSearchSize,
                       searchText: _starshipsController.searchText,
@@ -578,7 +564,8 @@ class CustomCardList {
                                 }));
                               }
                               _starshipsController.setStarshipSelected(
-                                  _starshipsController.filterStarships[index]);
+                                  _starshipsController
+                                      .filterStarships[index].id);
                             },
                             starshipSelected:
                                 _starshipsController.starshipSelected);
@@ -587,9 +574,10 @@ class CustomCardList {
                                   _starshipsController.filterStarships.length)),
                       detailsPage: StarshipDetailsPage(
                         backButton: 0,
-                        starship: _starshipsController.starshipSelected,
+                        starship: _starshipsController.starshipById(
+                            _starshipsController.starshipSelected),
                       ),
-                      itemSelectedId: _starshipsController.starshipSelected.id,
+                      itemSelectedId: _starshipsController.starshipSelected,
                       noItemSelected: 'No starship selected');
                 });
               }));
@@ -638,9 +626,6 @@ class CustomCardList {
                               ? 2
                               : 1
                           : 1,
-                      scrollController: _vehiclesController.scrollController,
-                      scrollPosition: null,
-                      setScrollPosition: null,
                       searchSize: _vehiclesController.searchSize,
                       setSearchSize: _vehiclesController.setSearchSize,
                       searchText: _vehiclesController.searchText,
@@ -677,7 +662,7 @@ class CustomCardList {
                                 }));
                               }
                               _vehiclesController.setVehicleSelected(
-                                  _vehiclesController.filterVehicles[index]);
+                                  _vehiclesController.filterVehicles[index].id);
                             },
                             vehicleSelected:
                                 _vehiclesController.vehicleSelected);
@@ -686,9 +671,10 @@ class CustomCardList {
                                   _vehiclesController.filterVehicles.length)),
                       detailsPage: VehicleDetailsPage(
                         backButton: 0,
-                        vehicle: _vehiclesController.vehicleSelected,
+                        vehicle: _vehiclesController
+                            .vehicleById(_vehiclesController.vehicleSelected),
                       ),
-                      itemSelectedId: _vehiclesController.vehicleSelected.id,
+                      itemSelectedId: _vehiclesController.vehicleSelected,
                       noItemSelected: 'No vehicle selected');
                 });
               }));

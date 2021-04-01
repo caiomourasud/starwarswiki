@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/utils/api.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
 import 'package:starwarswiki/app/models/people.dart';
@@ -20,9 +20,6 @@ class CharactersController = _CharactersControllerBase
     with _$CharactersController;
 
 abstract class _CharactersControllerBase with Store {
-  @observable
-  ScrollController scrollController = ScrollController();
-
   @observable
   Box<People> _peopleBox = Hive.box<People>(peopleBox);
 
@@ -68,12 +65,6 @@ abstract class _CharactersControllerBase with Store {
   setNext(newValue) => next = newValue;
 
   @observable
-  double scrollPosition = 0.0;
-
-  @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
-
-  @observable
   bool showFavorites = false;
 
   @action
@@ -98,50 +89,22 @@ abstract class _CharactersControllerBase with Store {
   @action
   setSearchSize(newValue) => searchSize = newValue;
 
+  @action
+  personById(int id) {
+    if (id == 0) {
+      return null;
+    } else {
+      var person = people.where((person) => person.id == id);
+      return person.first;
+    }
+  }
+
   @observable
-  People personSelected = People(
-      id: 0,
-      name: '',
-      height: '',
-      mass: '',
-      hairColor: '',
-      skinColor: '',
-      eyeColor: '',
-      birthYear: '',
-      gender: '',
-      homeworld: '',
-      films: [],
-      species: [],
-      vehicles: [],
-      starships: [],
-      created: '',
-      edited: '',
-      url: '');
+  int personSelected = 0;
 
   @action
-  setPersonSelected(newValue) {
-    if (newValue != null) {
-      personSelected = newValue;
-    } else {
-      personSelected = People(
-          id: 0,
-          name: '',
-          height: '',
-          mass: '',
-          hairColor: '',
-          skinColor: '',
-          eyeColor: '',
-          birthYear: '',
-          gender: '',
-          homeworld: '',
-          films: [],
-          species: [],
-          vehicles: [],
-          starships: [],
-          created: '',
-          edited: '',
-          url: '');
-    }
+  setPersonSelected(int newValue) {
+    personSelected = newValue;
   }
 
   API? api;
@@ -150,7 +113,7 @@ abstract class _CharactersControllerBase with Store {
   getPeople() async {
     clearPeopleBox();
     clearListPeople();
-    setPersonSelected(null);
+    setPersonSelected(0);
     if (api != null) api!.cancel();
     api = API();
     api!.getApi('https://swapi.dev/api/people/', successGetPeople, error,
@@ -226,28 +189,9 @@ abstract class _CharactersControllerBase with Store {
         return favorites;
       } else {
         return favorites
-            .where((character) => character.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
+            .where((character) => Converters()
+                .simplifyString(character.name)
+                .contains(Converters().simplifyString(searchText)))
             .toList();
       }
     } else {
@@ -255,28 +199,9 @@ abstract class _CharactersControllerBase with Store {
         return people;
       } else {
         return people
-            .where((character) => character.name
-                .toLowerCase()
-                .replaceAll('á', 'a')
-                .replaceAll('é', 'e')
-                .replaceAll('í', 'i')
-                .replaceAll('ó', 'o')
-                .replaceAll('ú', 'u')
-                .replaceAll('ê', 'e')
-                .replaceAll('ã', 'a')
-                .replaceAll('õ', 'o')
-                .replaceAll('ç', 'c')
-                .contains(searchText
-                    .toLowerCase()
-                    .replaceAll('á', 'a')
-                    .replaceAll('é', 'e')
-                    .replaceAll('í', 'i')
-                    .replaceAll('ó', 'o')
-                    .replaceAll('ú', 'u')
-                    .replaceAll('ê', 'e')
-                    .replaceAll('ã', 'a')
-                    .replaceAll('õ', 'o')
-                    .replaceAll('ç', 'c')))
+            .where((character) => Converters()
+                .simplifyString(character.name)
+                .contains(Converters().simplifyString(searchText)))
             .toList();
       }
     }

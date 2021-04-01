@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import '../../pages/view/destination.dart';
+import 'package:starwarswiki/app/models/destination.dart';
 
 class CustomNavigationRail extends StatelessWidget {
   final BoxConstraints dimens;

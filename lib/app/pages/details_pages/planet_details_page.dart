@@ -19,7 +19,7 @@ List<People> characters = [];
 List<Film> films = [];
 
 class PlanetDetailsPage extends StatefulWidget {
-  final Planet planet;
+  final Planet? planet;
   final int backButton;
 
   const PlanetDetailsPage(
@@ -53,7 +53,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.planet.name,
+          widget.planet!.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87
@@ -79,16 +79,16 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                         width: 138.0,
                         decoration: BoxDecoration(
                             color: CupertinoColors.darkBackgroundGray,
-                            image:
-                                widget.planet.id != 28 && widget.planet.id != 46
-                                    ? DecorationImage(
-                                        image: NetworkImage(
-                                            ImageGenerator.generateImage(
-                                                id: widget.planet.id,
-                                                type: 'planets')),
-                                        alignment: Alignment.topCenter,
-                                        fit: BoxFit.cover)
-                                    : null),
+                            image: widget.planet!.id != 28 &&
+                                    widget.planet!.id != 46
+                                ? DecorationImage(
+                                    image: NetworkImage(
+                                        ImageGenerator.generateImage(
+                                            id: widget.planet!.id,
+                                            type: 'planets')),
+                                    alignment: Alignment.topCenter,
+                                    fit: BoxFit.cover)
+                                : null),
                       ),
                     ),
                     SizedBox(
@@ -103,7 +103,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.planet.name,
+                                    widget.planet!.name,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
@@ -134,7 +134,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.planet.climate,
+                                    widget.planet!.climate,
                                     style:
                                         Theme.of(context).textTheme.subtitle2,
                                   ),
@@ -154,7 +154,7 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.planet.terrain,
+                                    widget.planet!.terrain,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style:

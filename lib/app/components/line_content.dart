@@ -25,6 +25,8 @@ class LineContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = subtitle == null || topText == null ? 50.0 : 72.0;
+    double width = subtitle == null || topText == null ? 50.0 : 72.0;
     return Row(children: [
       SizedBox(width: 5.0),
       if (id != null && type != null)
@@ -33,8 +35,8 @@ class LineContent extends StatelessWidget {
           clipBehavior: Clip.antiAliasWithSaveLayer,
           margin: EdgeInsets.zero,
           child: Container(
-              height: subtitle == null || topText == null ? 50.0 : 72.0,
-              width: subtitle == null || topText == null ? 50.0 : 72.0,
+              height: height,
+              width: width,
               decoration: type == 'planets' && (id == 28 || id == 46)
                   ? null
                   : BoxDecoration(
@@ -50,7 +52,7 @@ class LineContent extends StatelessWidget {
       Flexible(
         flex: 2,
         child: Container(
-          height: subtitle == null || topText == null ? 50.0 : 70.0,
+          height: height - 2.0,
           padding: EdgeInsets.only(top: 2.0, bottom: 4.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,

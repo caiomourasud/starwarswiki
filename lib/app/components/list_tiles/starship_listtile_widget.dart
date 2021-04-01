@@ -9,7 +9,7 @@ import 'package:starwarswiki/code/breakpoints.dart';
 Converters conversores = Converters();
 
 class StarshipListTileWidget extends StatelessWidget {
-  final Starship starshipSelected;
+  final int starshipSelected;
   final Starship starship;
   final Function(Starship) onTap;
 
@@ -24,7 +24,7 @@ class StarshipListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        selected: starshipSelected == starship &&
+        selected: starshipSelected == starship.id &&
             MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),

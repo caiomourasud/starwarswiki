@@ -9,7 +9,7 @@ import 'package:starwarswiki/code/breakpoints.dart';
 Converters conversores = Converters();
 
 class PlanetListTileWidget extends StatelessWidget {
-  final Planet planetSelected;
+  final int planetSelected;
   final Planet planet;
   final Function(Planet) onTap;
 
@@ -24,8 +24,8 @@ class PlanetListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        selected:
-            planetSelected == planet && MediaQuery.of(context).size.width > md,
+        selected: planetSelected == planet.id &&
+            MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),
         onTap: () {

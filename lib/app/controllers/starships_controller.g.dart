@@ -17,22 +17,6 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
               name: '_StarshipsControllerBase.filterStarships'))
       .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_StarshipsControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_starshipsBoxAtom =
       Atom(name: '_StarshipsControllerBase._starshipsBox');
 
@@ -128,13 +112,13 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
       Atom(name: '_StarshipsControllerBase.starshipSelected');
 
   @override
-  Starship get starshipSelected {
+  int get starshipSelected {
     _$starshipSelectedAtom.reportRead();
     return super.starshipSelected;
   }
 
   @override
-  set starshipSelected(Starship value) {
+  set starshipSelected(int value) {
     _$starshipSelectedAtom.reportWrite(value, super.starshipSelected, () {
       super.starshipSelected = value;
     });
@@ -271,7 +255,18 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
   }
 
   @override
-  dynamic setStarshipSelected(dynamic newValue) {
+  dynamic starshipById(int id) {
+    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
+        name: '_StarshipsControllerBase.starshipById');
+    try {
+      return super.starshipById(id);
+    } finally {
+      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setStarshipSelected(int newValue) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setStarshipSelected');
     try {
@@ -284,7 +279,6 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 starships: ${starships},
 res: ${res},
 searchText: ${searchText},

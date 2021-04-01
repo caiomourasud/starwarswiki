@@ -1,17 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:starwarswiki/app/models/destination.dart';
 import 'package:starwarswiki/app/pages/home_page.dart';
 import 'package:starwarswiki/app/pages/settings_page.dart';
 
 import 'default_view.dart';
-
-class Destination {
-  final Widget pagina;
-  final IconData icon;
-  final String tooltip;
-  const Destination(
-      {required this.pagina, required this.icon, required this.tooltip});
-}
 
 List<Destination> allDestinations = <Destination>[
   Destination(
@@ -40,6 +34,11 @@ List<Destination> allDestinations = <Destination>[
         page: SettingsPage(),
         actionList: [],
       ),
-      icon: Icons.menu_rounded,
+      icon:
+          // Theme.of(_appController.context!).brightness == Brightness.light
+          // ?
+          FontAwesomeIcons.jediOrder
+      // : FontAwesomeIcons.galacticRepublic
+      ,
       tooltip: 'Settings'),
 ];

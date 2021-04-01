@@ -17,22 +17,6 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
               name: '_CharactersControllerBase.filterCharacters'))
       .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_CharactersControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_peopleBoxAtom = Atom(name: '_CharactersControllerBase._peopleBox');
 
   @override
@@ -108,22 +92,6 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
     });
   }
 
-  final _$scrollPositionAtom =
-      Atom(name: '_CharactersControllerBase.scrollPosition');
-
-  @override
-  double get scrollPosition {
-    _$scrollPositionAtom.reportRead();
-    return super.scrollPosition;
-  }
-
-  @override
-  set scrollPosition(double value) {
-    _$scrollPositionAtom.reportWrite(value, super.scrollPosition, () {
-      super.scrollPosition = value;
-    });
-  }
-
   final _$showFavoritesAtom =
       Atom(name: '_CharactersControllerBase.showFavorites');
 
@@ -159,13 +127,13 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
       Atom(name: '_CharactersControllerBase.personSelected');
 
   @override
-  People get personSelected {
+  int get personSelected {
     _$personSelectedAtom.reportRead();
     return super.personSelected;
   }
 
   @override
-  set personSelected(People value) {
+  set personSelected(int value) {
     _$personSelectedAtom.reportWrite(value, super.personSelected, () {
       super.personSelected = value;
     });
@@ -290,17 +258,6 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
-  dynamic setScrollPosition(dynamic newValue) {
-    final _$actionInfo = _$_CharactersControllerBaseActionController
-        .startAction(name: '_CharactersControllerBase.setScrollPosition');
-    try {
-      return super.setScrollPosition(newValue);
-    } finally {
-      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setShowFavorites(dynamic newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setShowFavorites');
@@ -334,7 +291,18 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
-  dynamic setPersonSelected(dynamic newValue) {
+  dynamic personById(int id) {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.personById');
+    try {
+      return super.personById(id);
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPersonSelected(int newValue) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setPersonSelected');
     try {
@@ -347,12 +315,10 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 people: ${people},
 res: ${res},
 searchText: ${searchText},
 next: ${next},
-scrollPosition: ${scrollPosition},
 showFavorites: ${showFavorites},
 searchSize: ${searchSize},
 personSelected: ${personSelected},

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
+import 'package:starwarswiki/app/models/characteristics_list.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/models/specie.dart';
@@ -31,24 +32,12 @@ List<Starship> starships = [];
 List<Vehicle> vehicles = [];
 List<Specie> species = [];
 
-class TestList {
-  final String title;
-  final String value;
-  final IconData icon;
-
-  TestList({
-    required this.title,
-    required this.value,
-    required this.icon,
-  });
-}
-
 class CharacterDetailsPage extends StatefulWidget {
-  final People character;
+  final People? character;
   final int backButton;
 
   const CharacterDetailsPage(
-      {Key? key, required this.character, required this.backButton})
+      {Key? key, this.character, required this.backButton})
       : super(key: key);
   @override
   _CharacterDetailsPageState createState() => _CharacterDetailsPageState();
@@ -89,30 +78,30 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   Widget build(BuildContext context) {
     setList(widget);
 
-    List<TestList> info = [
-      TestList(
+    List<CharacteristicsList> info = [
+      CharacteristicsList(
           title: 'Height',
-          value: Converters().toDouble(widget.character.height, 1),
+          value: Converters().toDouble(widget.character!.height, 1),
           icon: CupertinoIcons.resize_v),
-      TestList(
+      CharacteristicsList(
           title: 'Mass',
-          value: Converters().toDouble(widget.character.mass, 0),
+          value: Converters().toDouble(widget.character!.mass, 0),
           icon: CupertinoIcons.timer),
-      TestList(
+      CharacteristicsList(
           title: 'Birth year',
-          value: widget.character.birthYear,
+          value: widget.character!.birthYear,
           icon: CupertinoIcons.gift),
-      TestList(
+      CharacteristicsList(
           title: 'Hair color',
-          value: widget.character.hairColor,
+          value: widget.character!.hairColor,
           icon: Icons.color_lens_rounded),
-      TestList(
+      CharacteristicsList(
           title: 'Eye color',
-          value: widget.character.eyeColor,
+          value: widget.character!.eyeColor,
           icon: CupertinoIcons.eye),
-      TestList(
+      CharacteristicsList(
           title: 'Skin color',
-          value: widget.character.skinColor,
+          value: widget.character!.skinColor,
           icon: CupertinoIcons.hand_raised_fill)
     ];
 
@@ -123,7 +112,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.character.name,
+          widget.character!.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87
@@ -132,19 +121,19 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         trailing: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: Tooltip(
-                message: widget.character.isFavorite ? 'Remover' : 'Favoritar',
+                message: widget.character!.isFavorite ? 'Remover' : 'Favoritar',
                 child: CupertinoButton(
                     minSize: 30,
                     padding: EdgeInsets.zero,
                     borderRadius: BorderRadius.circular(50.0),
                     child: Icon(
-                        widget.character.isFavorite
+                        widget.character!.isFavorite
                             ? CupertinoIcons.heart_fill
                             : CupertinoIcons.heart,
                         size: 28),
                     onPressed: () => setState(
                           () => _charactersController
-                              .setFavorite(widget.character.id),
+                              .setFavorite(widget.character!.id),
                         )))),
       ),
       body: LayoutBuilder(builder: (context, dimens) {
@@ -169,7 +158,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                             image: DecorationImage(
                                 image: NetworkImage(
                                     ImageGenerator.generateImage(
-                                        id: widget.character.id,
+                                        id: widget.character!.id,
                                         type: 'characters')),
                                 alignment: Alignment.topCenter,
                                 fit: BoxFit.cover)),
@@ -186,7 +175,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.character.name,
+                                    widget.character!.name,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
@@ -206,14 +195,14 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                 Opacity(
                                   opacity: 0.8,
                                   child: Text(
-                                    widget.character.gender,
+                                    widget.character!.gender,
                                     style:
                                         Theme.of(context).textTheme.subtitle2,
                                   ),
                                 ),
                                 SizedBox(width: 2.0),
                                 Converters()
-                                    .setGender(widget.character.gender, 12.0)
+                                    .setGender(widget.character!.gender, 12.0)
                               ],
                             ),
                             Flexible(
@@ -272,7 +261,9 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                     children: info.map((item) {
                   return Container(
                     height: 70.0,
-                    width: 140.0,
+                    width: MediaQuery.of(context).size.width <= sm
+                        ? MediaQuery.of(context).size.width * 0.46 - 16.0
+                        : 140.0,
                     decoration: new BoxDecoration(
                         color: Color(0x12cfcfcf),
                         border: Border.all(color: Theme.of(context).focusColor),
@@ -299,7 +290,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                               ),
                               Text(
                                 item.value,
-                                style: Theme.of(context).textTheme.subtitle2,
+                                style: Theme.of(context).textTheme.subtitle1,
                               ),
                             ],
                           ),

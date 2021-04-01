@@ -33,11 +33,10 @@ List<Vehicle> vehicles = [];
 List<Specie> species = [];
 
 class FilmDetailsPage extends StatefulWidget {
-  final Film film;
+  final Film? film;
   final int backButton;
 
-  const FilmDetailsPage(
-      {Key? key, required this.film, required this.backButton})
+  const FilmDetailsPage({Key? key, this.film, required this.backButton})
       : super(key: key);
   @override
   _FilmDetailsPageState createState() => _FilmDetailsPageState();
@@ -81,7 +80,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.film.title,
+          widget.film!.title,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87
@@ -108,7 +107,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                             color: CupertinoColors.darkBackgroundGray,
                             image: DecorationImage(
                               image: NetworkImage(ImageGenerator.generateImage(
-                                  id: widget.film.id, type: 'films')),
+                                  id: widget.film!.id, type: 'films')),
                               alignment: Alignment.topCenter,
                               fit: BoxFit.cover,
                               colorFilter: new ColorFilter.mode(
@@ -126,14 +125,14 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.film.title,
+                              widget.film!.title,
                               style: Theme.of(context).textTheme.headline5,
                             ),
                             SizedBox(height: 4.0),
                             Opacity(
                               opacity: 0.8,
                               child: Text(
-                                'Episode ${Converters().setRoman(widget.film.episodeId)}',
+                                'Episode ${Converters().setRoman(widget.film!.episodeId)}',
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                             ),
@@ -149,7 +148,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                               ),
                             ),
                             Text(
-                              widget.film.director,
+                              widget.film!.director,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                             SizedBox(height: 12.0),
@@ -161,7 +160,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                               ),
                             ),
                             Text(
-                              widget.film.producer,
+                              widget.film!.producer,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                             SizedBox(height: 12.0),
@@ -174,7 +173,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                             ),
                             Text(
                               DateFormat('yyyy').format(
-                                  DateTime.parse(widget.film.releaseDate)),
+                                  DateTime.parse(widget.film!.releaseDate)),
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ],

@@ -12,14 +12,13 @@ import 'package:starwarswiki/code/breakpoints.dart';
 StorageUtil _prefs = StorageUtil();
 late FocusNode _focus;
 TextEditingController _buscar = TextEditingController();
+late ScrollController _scrollController;
+double _scrollPosition = 0.0;
 
 bool selectable = false;
 
 class DefaultListPage extends StatefulWidget {
   final String title;
-  final ScrollController scrollController;
-  final double? scrollPosition;
-  final Function(double)? setScrollPosition;
   final double searchSize;
   final Function(double) setSearchSize;
   final String searchText;
@@ -45,9 +44,6 @@ class DefaultListPage extends StatefulWidget {
       {Key? key,
       required this.title,
       required this.backButton,
-      required this.scrollController,
-      this.scrollPosition,
-      this.setScrollPosition,
       required this.searchSize,
       required this.setSearchSize,
       required this.searchText,
@@ -76,14 +72,28 @@ class _DefaultListPageState extends State<DefaultListPage> {
   @override
   void initState() {
     _focus = FocusNode();
+    _scrollController = ScrollController();
     _focus.addListener(_onFocusChange);
-    if (widget.setScrollPosition != null)
-      widget.scrollController.addListener(_scrollListener);
+    _scrollController.addListener(_scrollListener);
+    _scrollPosition = 0.0;
     super.initState();
   }
 
+  @override
+  dispose() {
+    _focus.dispose();
+    _scrollController.dispose();
+    _scrollPosition = 0.0;
+    super.dispose();
+  }
+
   _scrollListener() {
-    widget.setScrollPosition!(widget.scrollController.position.pixels);
+    if (_scrollController.position.pixels >= -10.0 &&
+        _scrollController.position.pixels <= 60.0) {
+      setState(() {
+        _scrollPosition = _scrollController.position.pixels;
+      });
+    }
   }
 
   _onFocusChange() {
@@ -118,7 +128,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
                     ? 380.0
                     : dimens.maxWidth,
                 child: NestedScrollView(
-                    controller: widget.scrollController,
+                    controller: _scrollController,
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     body: Scrollbar(
@@ -151,10 +161,28 @@ class _DefaultListPageState extends State<DefaultListPage> {
                       return <Widget>[
                         if (!_focus.hasFocus ||
                             MediaQuery.of(context).size.width > md)
-                          _sliverAppBar(),
+                          CupertinoSliverAppBarWidget(
+                            context: context,
+                            title: widget.title,
+                            backButton: widget.backButton,
+                            position: _scrollPosition,
+                            titleActions: _scrollPosition <= 35.0
+                                ? widget.titleActions
+                                : [],
+                            actions:
+                                _scrollPosition > 35.0 ? widget.actions : [],
+                          ),
                         if (_focus.hasFocus &&
                             MediaQuery.of(context).size.width <= md)
-                          _appBar(),
+                          SliverPersistentHeader(
+                              pinned: true,
+                              floating: false,
+                              delegate: CupertinoAppBarWidget(
+                                context: context,
+                                title: widget.title,
+                                backButton: widget.backButton,
+                                actions: widget.actions,
+                              )),
                         SliverPersistentHeader(
                             pinned: true,
                             floating: false,
@@ -223,30 +251,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
     );
   }
 
-  _sliverAppBar() {
-    return CupertinoSliverAppBarWidget(
-      context: context,
-      title: widget.title,
-      backButton: widget.backButton,
-      position: widget.scrollPosition,
-      titleActions: widget.titleActions,
-      actions: widget.actions,
-    );
-  }
-
-  _appBar() {
-    return SliverPersistentHeader(
-        pinned: true,
-        floating: false,
-        delegate: CupertinoAppBarWidget(
-          context: context,
-          title: widget.title,
-          backButton: widget.backButton,
-          actions: widget.actions,
-        ));
-  }
-
-  _sliverBody(List itens, BoxConstraints dimens) {
+  Widget _sliverBody(List itens, BoxConstraints dimens) {
     return widget.res || widget.list.isNotEmpty
         ? widget.listTile
         : SliverToBoxAdapter(

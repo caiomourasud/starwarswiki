@@ -9,7 +9,7 @@ import 'package:starwarswiki/code/breakpoints.dart';
 Converters conversores = Converters();
 
 class VehicleListTileWidget extends StatelessWidget {
-  final Vehicle vehicleSelected;
+  final int vehicleSelected;
   final Vehicle vehicle;
   final Function(Vehicle) onTap;
 
@@ -24,7 +24,7 @@ class VehicleListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        selected: vehicleSelected == vehicle &&
+        selected: vehicleSelected == vehicle.id &&
             MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),

@@ -17,22 +17,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
               name: '_FilmsControllerBase.filterFilms'))
           .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_FilmsControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_filmsBoxAtom = Atom(name: '_FilmsControllerBase._filmsBox');
 
   @override
@@ -141,13 +125,13 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   final _$filmSelectedAtom = Atom(name: '_FilmsControllerBase.filmSelected');
 
   @override
-  Film get filmSelected {
+  int get filmSelected {
     _$filmSelectedAtom.reportRead();
     return super.filmSelected;
   }
 
   @override
-  set filmSelected(Film value) {
+  set filmSelected(int value) {
     _$filmSelectedAtom.reportWrite(value, super.filmSelected, () {
       super.filmSelected = value;
     });
@@ -282,17 +266,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
-  dynamic setFavorite(int id) {
-    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
-        name: '_FilmsControllerBase.setFavorite');
-    try {
-      return super.setFavorite(id);
-    } finally {
-      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setSearchSize(dynamic newValue) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setSearchSize');
@@ -304,7 +277,18 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
-  dynamic setFilmSelected(dynamic newValue) {
+  dynamic filmById(int id) {
+    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
+        name: '_FilmsControllerBase.filmById');
+    try {
+      return super.filmById(id);
+    } finally {
+      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setFilmSelected(int newValue) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setFilmSelected');
     try {
@@ -317,7 +301,6 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 films: ${films},
 res: ${res},
 searchText: ${searchText},

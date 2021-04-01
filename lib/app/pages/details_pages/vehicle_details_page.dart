@@ -13,7 +13,7 @@ final _filmsController = Modular.get<FilmsController>();
 List<Film> films = [];
 
 class VehicleDetailsPage extends StatefulWidget {
-  final Vehicle vehicle;
+  final Vehicle? vehicle;
   final int backButton;
 
   const VehicleDetailsPage(
@@ -42,7 +42,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.vehicle.name,
+          widget.vehicle!.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87

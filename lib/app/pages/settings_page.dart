@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starwarswiki/app/models/setting_list.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -104,7 +103,30 @@ class _SettingsPageState extends State<SettingsPage> {
                       headerSliverBuilder:
                           (BuildContext context, bool innerBoxIsScrolled) {
                         return <Widget>[
-                          _sliverAppBar(),
+                          CupertinoSliverNavigationBar(
+                            automaticallyImplyLeading: false,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            largeTitle: Text('Settings',
+                                style: TextStyle(
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black87
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary)),
+                            // leading: CupertinoButton(
+                            //   minSize: 34,
+                            //   padding: EdgeInsets.zero,
+                            //   borderRadius: BorderRadius.circular(50.0),
+                            //   child: Icon(Theme.of(context).brightness ==
+                            //           Brightness.light
+                            //       ? FontAwesomeIcons.jediOrder
+                            //       : FontAwesomeIcons.galacticRepublic),
+                            //   onPressed: () {},
+                            // ),
+                            border: Border.all(color: Colors.transparent),
+                          )
                         ];
                       }),
                 ),
@@ -145,28 +167,6 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
       ),
-    );
-  }
-
-  _sliverAppBar() {
-    return CupertinoSliverNavigationBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      largeTitle: Text('Settings',
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary)),
-      leading: CupertinoButton(
-        minSize: 34,
-        padding: EdgeInsets.zero,
-        borderRadius: BorderRadius.circular(50.0),
-        child: Icon(Theme.of(context).brightness == Brightness.light
-            ? FontAwesomeIcons.jediOrder
-            : FontAwesomeIcons.galacticRepublic),
-        onPressed: () {},
-      ),
-      border: Border.all(color: Colors.transparent),
     );
   }
 }

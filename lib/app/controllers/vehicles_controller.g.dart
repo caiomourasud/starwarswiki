@@ -17,22 +17,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
               name: '_VehiclesControllerBase.filterVehicles'))
       .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_VehiclesControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_vehiclesBoxAtom = Atom(name: '_VehiclesControllerBase._vehiclesBox');
 
   @override
@@ -143,13 +127,13 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
       Atom(name: '_VehiclesControllerBase.vehicleSelected');
 
   @override
-  Vehicle get vehicleSelected {
+  int get vehicleSelected {
     _$vehicleSelectedAtom.reportRead();
     return super.vehicleSelected;
   }
 
   @override
-  set vehicleSelected(Vehicle value) {
+  set vehicleSelected(int value) {
     _$vehicleSelectedAtom.reportWrite(value, super.vehicleSelected, () {
       super.vehicleSelected = value;
     });
@@ -296,7 +280,18 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   }
 
   @override
-  dynamic setVehicleSelected(dynamic newValue) {
+  dynamic vehicleById(int id) {
+    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
+        name: '_VehiclesControllerBase.vehicleById');
+    try {
+      return super.vehicleById(id);
+    } finally {
+      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setVehicleSelected(int newValue) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setVehicleSelected');
     try {
@@ -309,7 +304,6 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 vehicles: ${vehicles},
 res: ${res},
 searchText: ${searchText},

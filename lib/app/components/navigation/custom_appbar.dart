@@ -38,7 +38,7 @@ class CupertinoSliverAppBarWidget extends StatelessWidget {
                           : Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
-        previousPageTitle: 'Home',
+        previousPageTitle: '',
         automaticallyImplyTitle: position == null ? true : false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         largeTitle: position == null
@@ -96,7 +96,7 @@ class CupertinoAppBarWidget extends SliverPersistentHeaderDelegate {
     return CupertinoNavigationBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         border: Border.all(color: Colors.transparent),
-        previousPageTitle: 'Home',
+        previousPageTitle: '',
         middle: Text(
           title,
           style: TextStyle(

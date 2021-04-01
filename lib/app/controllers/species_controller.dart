@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/utils/api.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
 part 'species_controller.g.dart';
@@ -18,9 +18,6 @@ final _appController = Modular.get<AppController>();
 class SpeciesController = _SpeciesControllerBase with _$SpeciesController;
 
 abstract class _SpeciesControllerBase with Store {
-  @observable
-  ScrollController scrollController = ScrollController();
-
   @observable
   Box<Specie> _speciesBox = Hive.box<Specie>(speciesBox);
 
@@ -71,48 +68,22 @@ abstract class _SpeciesControllerBase with Store {
   @action
   setSearchSize(newValue) => searchSize = newValue;
 
+  @action
+  specieById(int id) {
+    if (id == 0) {
+      return null;
+    } else {
+      var specie = species.where((specie) => specie.id == id);
+      return specie.first;
+    }
+  }
+
   @observable
-  Specie specieSelected = Specie(
-      averageHeight: '',
-      averageLifespan: '',
-      classification: '',
-      created: '',
-      designation: '',
-      edited: '',
-      eyeColors: '',
-      films: [],
-      hairColors: '',
-      id: 0,
-      homeworld: '',
-      language: '',
-      name: '',
-      people: [],
-      skinColors: '',
-      url: '');
+  int specieSelected = 0;
 
   @action
-  setSpecieSelected(newValue) {
-    if (newValue != null) {
-      specieSelected = newValue;
-    } else {
-      specieSelected = Specie(
-          averageHeight: '',
-          averageLifespan: '',
-          classification: '',
-          created: '',
-          designation: '',
-          edited: '',
-          eyeColors: '',
-          films: [],
-          hairColors: '',
-          id: 0,
-          homeworld: '',
-          language: '',
-          name: '',
-          people: [],
-          skinColors: '',
-          url: '');
-    }
+  setSpecieSelected(int newValue) {
+    specieSelected = newValue;
   }
 
   API? api;
@@ -121,7 +92,7 @@ abstract class _SpeciesControllerBase with Store {
   getSpecies() async {
     clearSpeciesBox();
     clearListSpecies();
-    setSpecieSelected(null);
+    setSpecieSelected(0);
     if (api != null) api!.cancel();
     api = API();
     api!.getApi('https://swapi.dev/api/species/', successGetSpecies, error,
@@ -196,28 +167,9 @@ abstract class _SpeciesControllerBase with Store {
       return species;
     } else {
       return species
-          .where((specie) => specie.name
-              .toLowerCase()
-              .replaceAll('á', 'a')
-              .replaceAll('é', 'e')
-              .replaceAll('í', 'i')
-              .replaceAll('ó', 'o')
-              .replaceAll('ú', 'u')
-              .replaceAll('ê', 'e')
-              .replaceAll('ã', 'a')
-              .replaceAll('õ', 'o')
-              .replaceAll('ç', 'c')
-              .contains(searchText
-                  .toLowerCase()
-                  .replaceAll('á', 'a')
-                  .replaceAll('é', 'e')
-                  .replaceAll('í', 'i')
-                  .replaceAll('ó', 'o')
-                  .replaceAll('ú', 'u')
-                  .replaceAll('ê', 'e')
-                  .replaceAll('ã', 'a')
-                  .replaceAll('õ', 'o')
-                  .replaceAll('ç', 'c')))
+          .where((specie) => Converters()
+              .simplifyString(specie.name)
+              .contains(Converters().simplifyString(searchText)))
           .toList();
     }
   }

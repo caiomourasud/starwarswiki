@@ -13,7 +13,7 @@ final _filmsController = Modular.get<FilmsController>();
 List<Film> films = [];
 
 class StarshipDetailsPage extends StatefulWidget {
-  final Starship starship;
+  final Starship? starship;
   final int backButton;
 
   const StarshipDetailsPage(
@@ -42,7 +42,7 @@ class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         middle: Text(
-          widget.starship.name,
+          widget.starship!.name,
           style: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black87

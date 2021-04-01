@@ -9,7 +9,7 @@ import 'package:starwarswiki/code/breakpoints.dart';
 Converters conversores = Converters();
 
 class SpecieListTileWidget extends StatelessWidget {
-  final Specie specieSelected;
+  final int specieSelected;
   final Specie specie;
   final Function(Specie) onTap;
 
@@ -24,8 +24,8 @@ class SpecieListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        selected:
-            specieSelected == specie && MediaQuery.of(context).size.width > md,
+        selected: specieSelected == specie.id &&
+            MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),
         onTap: () {

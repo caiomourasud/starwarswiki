@@ -17,22 +17,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
               name: '_SpeciesControllerBase.filterSpecies'))
       .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_SpeciesControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_speciesBoxAtom = Atom(name: '_SpeciesControllerBase._speciesBox');
 
   @override
@@ -127,13 +111,13 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
       Atom(name: '_SpeciesControllerBase.specieSelected');
 
   @override
-  Specie get specieSelected {
+  int get specieSelected {
     _$specieSelectedAtom.reportRead();
     return super.specieSelected;
   }
 
   @override
-  set specieSelected(Specie value) {
+  set specieSelected(int value) {
     _$specieSelectedAtom.reportWrite(value, super.specieSelected, () {
       super.specieSelected = value;
     });
@@ -269,7 +253,18 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   }
 
   @override
-  dynamic setSpecieSelected(dynamic newValue) {
+  dynamic specieById(int id) {
+    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
+        name: '_SpeciesControllerBase.specieById');
+    try {
+      return super.specieById(id);
+    } finally {
+      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setSpecieSelected(int newValue) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSpecieSelected');
     try {
@@ -282,7 +277,6 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 species: ${species},
 res: ${res},
 searchText: ${searchText},

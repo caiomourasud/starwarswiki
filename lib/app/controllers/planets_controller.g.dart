@@ -17,22 +17,6 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
               name: '_PlanetsControllerBase.filterPlanets'))
       .value;
 
-  final _$scrollControllerAtom =
-      Atom(name: '_PlanetsControllerBase.scrollController');
-
-  @override
-  ScrollController get scrollController {
-    _$scrollControllerAtom.reportRead();
-    return super.scrollController;
-  }
-
-  @override
-  set scrollController(ScrollController value) {
-    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
-      super.scrollController = value;
-    });
-  }
-
   final _$_planetsBoxAtom = Atom(name: '_PlanetsControllerBase._planetsBox');
 
   @override
@@ -143,13 +127,13 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
       Atom(name: '_PlanetsControllerBase.planetSelected');
 
   @override
-  Planet get planetSelected {
+  int get planetSelected {
     _$planetSelectedAtom.reportRead();
     return super.planetSelected;
   }
 
   @override
-  set planetSelected(Planet value) {
+  set planetSelected(int value) {
     _$planetSelectedAtom.reportWrite(value, super.planetSelected, () {
       super.planetSelected = value;
     });
@@ -296,7 +280,18 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
   }
 
   @override
-  dynamic setPlanetSelected(dynamic newValue) {
+  dynamic planetById(int id) {
+    final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
+        name: '_PlanetsControllerBase.planetById');
+    try {
+      return super.planetById(id);
+    } finally {
+      _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPlanetSelected(int newValue) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setPlanetSelected');
     try {
@@ -309,7 +304,6 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
   @override
   String toString() {
     return '''
-scrollController: ${scrollController},
 planets: ${planets},
 res: ${res},
 searchText: ${searchText},

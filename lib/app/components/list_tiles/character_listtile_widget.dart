@@ -10,7 +10,7 @@ import '../line_content.dart';
 Converters conversores = Converters();
 
 class CharacterListTileWidget extends StatelessWidget {
-  final People personSelected;
+  final int personSelected;
   final People person;
   final Function(People) onTap;
   final Function(int) onFavoriteTap;
@@ -27,8 +27,8 @@ class CharacterListTileWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        selected:
-            personSelected == person && MediaQuery.of(context).size.width > md,
+        selected: personSelected == person.id &&
+            MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),
         onTap: () {

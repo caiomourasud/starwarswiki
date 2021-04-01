@@ -9,7 +9,7 @@ import 'package:starwarswiki/code/breakpoints.dart';
 Converters conversores = Converters();
 
 class FilmListTileWidget extends StatelessWidget {
-  final Film filmSelected;
+  final int filmSelected;
   final Film film;
   final Function(Film) onTap;
 
@@ -25,7 +25,7 @@ class FilmListTileWidget extends StatelessWidget {
       color: Colors.transparent,
       child: ListTile(
         selected:
-            filmSelected == film && MediaQuery.of(context).size.width > md,
+            filmSelected == film.id && MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),
         onTap: () {
