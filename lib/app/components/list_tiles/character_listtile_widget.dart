@@ -32,7 +32,7 @@ class _CharacterListTileWidgetState extends State<CharacterListTileWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
         selected: widget.personSelected == widget.person.id &&
             MediaQuery.of(context).size.width > md,

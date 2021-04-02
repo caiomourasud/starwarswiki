@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: LayoutBuilder(builder: (context, dimens) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
                     MediaQuery.of(context).size.width <= md
                 ? CupertinoTabBar(

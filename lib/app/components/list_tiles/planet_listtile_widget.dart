@@ -22,7 +22,7 @@ class PlanetListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
         selected: planetSelected == planet.id &&
             MediaQuery.of(context).size.width > md,

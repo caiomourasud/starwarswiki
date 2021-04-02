@@ -22,7 +22,7 @@ class SpecieListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
         selected: specieSelected == specie.id &&
             MediaQuery.of(context).size.width > md,

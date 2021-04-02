@@ -22,7 +22,7 @@ class FilmListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
         selected:
             filmSelected == film.id && MediaQuery.of(context).size.width > md,

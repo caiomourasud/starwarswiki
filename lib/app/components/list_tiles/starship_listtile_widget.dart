@@ -22,7 +22,7 @@ class StarshipListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
         selected: starshipSelected == starship.id &&
             MediaQuery.of(context).size.width > md,

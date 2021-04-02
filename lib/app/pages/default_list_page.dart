@@ -128,113 +128,111 @@ class _DefaultListPageState extends State<DefaultListPage> {
     double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints dimens) {
-          return Row(
-            children: [
-              Container(
-                height: double.infinity,
-                width: width > md ? 380.0 : dimens.maxWidth,
-                child: NestedScrollView(
-                    controller: _scrollController,
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    body: Scrollbar(
-                      child: CustomScrollView(
-                        physics: BouncingScrollPhysics(),
-                        slivers: [
-                          CupertinoSliverRefreshControl(
-                            refreshTriggerPullDistance: 100.0,
-                            refreshIndicatorExtent: 60.0,
-                            onRefresh: () async {
-                              await Future<void>.delayed(
-                                  const Duration(milliseconds: 1000));
-                              widget.getList();
-                            },
-                          ),
-                          _sliverBody(widget.filterList, dimens),
-                        ],
-                      ),
-                    ),
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        CustomSliverAppBar(
-                          context: context,
-                          title: widget.title,
-                          backButton: widget.backButton,
-                          position: _scrollPosition,
-                          titleActions: _scrollPosition <= 35.0
-                              ? widget.titleActions
-                              : [],
-                          actions: _scrollPosition > 35.0 ? widget.actions : [],
+      child:
+          LayoutBuilder(builder: (BuildContext context, BoxConstraints dimens) {
+        return Row(
+          children: [
+            Container(
+              height: double.infinity,
+              width: width > md ? 380.0 : dimens.maxWidth,
+              child: NestedScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  body: Scrollbar(
+                    child: CustomScrollView(
+                      // keyboardDismissBehavior:
+                      //     ScrollViewKeyboardDismissBehavior.onDrag,
+                      physics: BouncingScrollPhysics(),
+                      slivers: [
+                        CupertinoSliverRefreshControl(
+                          refreshTriggerPullDistance: 100.0,
+                          refreshIndicatorExtent: 60.0,
+                          onRefresh: () async {
+                            await Future<void>.delayed(
+                                const Duration(milliseconds: 1000));
+                            widget.getList();
+                          },
                         ),
+                        _sliverBody(widget.filterList, dimens),
+                      ],
+                    ),
+                  ),
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      CustomSliverAppBar(
+                        context: context,
+                        title: widget.title,
+                        backButton: widget.backButton,
+                        position: _scrollPosition,
+                        titleActions:
+                            _scrollPosition <= 35.0 ? widget.titleActions : [],
+                        actions: _scrollPosition > 35.0 ? widget.actions : [],
+                      ),
+                      SliverPersistentHeader(
+                          pinned: true,
+                          floating: false,
+                          delegate: SearchBarWidget(
+                              size: searchSize,
+                              buscar: _buscar,
+                              focus: _focus,
+                              backButton: widget.backButton,
+                              onChange: (text) {
+                                widget.setSearchText(text);
+                              },
+                              cancelar: _cancelar,
+                              texto: 'Search...',
+                              fullDimens: dimens)),
+                      if (widget.showFavorites != null)
                         SliverPersistentHeader(
                             pinned: true,
                             floating: false,
-                            delegate: SearchBarWidget(
-                                size: searchSize,
-                                buscar: _buscar,
-                                focus: _focus,
-                                backButton: widget.backButton,
-                                onChange: (text) {
-                                  widget.setSearchText(text);
-                                },
-                                cancelar: _cancelar,
-                                texto: 'Search...',
-                                fullDimens: dimens)),
-                        if (widget.showFavorites != null)
-                          SliverPersistentHeader(
-                              pinned: true,
-                              floating: false,
-                              delegate: SliverFixedItem(
-                                  widget.showFavorites! &&
-                                          widget.searchText == ''
-                                      ? 'Favorites'
-                                      : widget.searchText == ''
-                                          ? 'All'
-                                          : 'Search result',
-                                  Theme.of(context).scaffoldBackgroundColor,
-                                  true)),
-                        if (widget.showFavorites == null)
-                          SliverPersistentHeader(
-                              pinned: true,
-                              floating: false,
-                              delegate: SliverFixedItem(
-                                  widget.searchText == ''
-                                      ? 'All'
-                                      : 'Search result',
-                                  Theme.of(context).scaffoldBackgroundColor,
-                                  true))
-                      ];
-                    }),
+                            delegate: SliverFixedItem(
+                                widget.showFavorites! && widget.searchText == ''
+                                    ? 'Favorites'
+                                    : widget.searchText == ''
+                                        ? 'All'
+                                        : 'Search result',
+                                Theme.of(context).scaffoldBackgroundColor,
+                                true)),
+                      if (widget.showFavorites == null)
+                        SliverPersistentHeader(
+                            pinned: true,
+                            floating: false,
+                            delegate: SliverFixedItem(
+                                widget.searchText == ''
+                                    ? 'All'
+                                    : 'Search result',
+                                Theme.of(context).scaffoldBackgroundColor,
+                                true))
+                    ];
+                  }),
+            ),
+            if (width > md)
+              VerticalDivider(
+                width: 0.1,
               ),
-              if (width > md)
-                VerticalDivider(
-                  width: 0.1,
+            if (width > md)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: Container(
+                  height: double.infinity,
+                  width: 0.08,
+                  color: Colors.grey,
                 ),
-              if (width > md)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Container(
-                    height: double.infinity,
-                    width: 0.08,
-                    color: Colors.grey,
+              ),
+            widget.itemSelectedId > 0 && width > md
+                ? Expanded(
+                    child: ClipRect(child: widget.detailsPage),
+                  )
+                : Expanded(
+                    child: Scaffold(
+                        body: Center(child: Text(widget.noItemSelected))),
                   ),
-                ),
-              widget.itemSelectedId > 0 && width > md
-                  ? Expanded(
-                      child: ClipRect(child: widget.detailsPage),
-                    )
-                  : Expanded(
-                      child: Scaffold(
-                          body: Center(child: Text(widget.noItemSelected))),
-                    ),
-            ],
-          );
-        }),
-      ),
+          ],
+        );
+      }),
     );
   }
 
