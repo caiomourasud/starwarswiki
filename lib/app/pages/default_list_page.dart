@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
-import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
+import 'package:starwarswiki/app/components/navigation/custom_sliver_appbar.dart';
 import 'package:starwarswiki/app/components/sliver_fixed_item.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -160,7 +160,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
-                        CupertinoSliverAppBarWidget(
+                        CustomSliverAppBar(
                           context: context,
                           title: widget.title,
                           backButton: widget.backButton,

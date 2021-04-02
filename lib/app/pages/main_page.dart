@@ -73,26 +73,34 @@ class _MainPageState extends State<MainPage> {
     switch (index) {
       case 0:
         if (indexSelected == 0) {
-          _animateToTop(_homeController.scrollController);
-          allDestinations[0].navigatorKey.currentState!.maybePop();
+          allDestinations[0].navigatorKey.currentState!.maybePop().then(
+              (value) => !value
+                  ? _animateToTop(_homeController.scrollController)
+                  : null);
         }
         break;
       case 1:
         if (indexSelected == 1) {
-          _animateToTop(_settingsController.scrollController);
-          allDestinations[1].navigatorKey.currentState!.maybePop();
+          allDestinations[1].navigatorKey.currentState!.maybePop().then(
+              (value) => !value
+                  ? _animateToTop(_settingsController.scrollController)
+                  : null);
         }
         break;
       case 2:
         if (indexSelected == 2) {
-          _animateToTop(_settingsController.scrollController);
-          allDestinations[2].navigatorKey.currentState!.maybePop();
+          allDestinations[2].navigatorKey.currentState!.maybePop().then(
+              (value) => !value
+                  ? _animateToTop(_settingsController.scrollController)
+                  : null);
         }
         break;
       case 3:
         if (indexSelected == 3) {
-          _animateToTop(_settingsController.scrollController);
-          allDestinations[3].navigatorKey.currentState!.maybePop();
+          allDestinations[3].navigatorKey.currentState!.maybePop().then(
+              (value) => !value
+                  ? _animateToTop(_settingsController.scrollController)
+                  : null);
         }
         break;
       default:
@@ -132,6 +140,6 @@ class _MainPageState extends State<MainPage> {
 
   _animateToTop(ScrollController controller) {
     controller.animateTo(0.0,
-        duration: Duration(milliseconds: 400), curve: Curves.linear);
+        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 }

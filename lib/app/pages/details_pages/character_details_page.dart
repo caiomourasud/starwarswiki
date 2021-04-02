@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
+import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/models/characteristics_list.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/planet.dart';
@@ -113,37 +114,25 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
     ];
 
     return Scaffold(
-      appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading:
-            width <= md || (width > md && widget.backButton == 2),
-        brightness: Theme.of(context).brightness,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        transitionBetweenRoutes: widget.backButton == 1,
-        middle: Text(
-          widget.character!.name,
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary),
-        ),
-        trailing: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Tooltip(
-                message: widget.character!.isFavorite ? 'Remover' : 'Favoritar',
-                child: CupertinoButton(
-                    minSize: 30,
-                    padding: EdgeInsets.zero,
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Icon(
-                        widget.character!.isFavorite
-                            ? CupertinoIcons.heart_fill
-                            : CupertinoIcons.heart,
-                        size: 28),
-                    onPressed: () => setState(
-                          () => _charactersRepository
-                              .setFavorite(widget.character!.id),
-                        )))),
-      ),
+      appBar: CustomAppBar(
+          title: widget.character!.name,
+          backButton: widget.backButton,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          trailing: Tooltip(
+              message: widget.character!.isFavorite ? 'Remover' : 'Favoritar',
+              child: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.character!.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => setState(
+                        () => _charactersRepository
+                            .setFavorite(widget.character!.id),
+                      )))),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(
@@ -263,52 +252,58 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
                 child: Wrap(
+                    spacing: 8.0,
+                    runSpacing: 8.0,
                     children: info.map((item) {
-                  return Container(
-                    height: 70.0,
-                    width: width <= sm ? width * 0.46 - 16.0 : 140.0,
-                    decoration: new BoxDecoration(
-                        color: Color(0x12cfcfcf),
-                        border: Border.all(color: Theme.of(context).focusColor),
-                        borderRadius: new BorderRadius.all(
-                          const Radius.circular(6.0),
-                        )),
-                    margin: EdgeInsets.only(left: 0.0, top: 8.0, right: 8.0),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-                      child: Stack(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      return Container(
+                        height: 70.0,
+                        width: width <= sm ? (width - 7.0) * 0.45 : 140.0,
+                        decoration: new BoxDecoration(
+                            color: Color(0x12cfcfcf),
+                            border:
+                                Border.all(color: Theme.of(context).focusColor),
+                            borderRadius: new BorderRadius.all(
+                              const Radius.circular(6.0),
+                            )),
+                        // margin: EdgeInsets.only(left: 0.0, top: 8.0, right: 8.0),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+                          child: Stack(
                             children: [
-                              Opacity(
-                                opacity: 0.8,
-                                child: Text(
-                                  item.title,
-                                  style: Theme.of(context).textTheme.overline,
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Opacity(
+                                    opacity: 0.8,
+                                    child: Text(
+                                      item.title,
+                                      style:
+                                          Theme.of(context).textTheme.overline,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 6.0,
+                                  ),
+                                  Text(
+                                    item.value,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 6.0,
-                              ),
-                              Text(
-                                item.value,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(flex: 2, child: Container()),
+                                  Opacity(opacity: 0.1, child: Icon(item.icon)),
+                                ],
+                              )
                             ],
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(flex: 2, child: Container()),
-                              Opacity(opacity: 0.1, child: Icon(item.icon)),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList()),
+                        ),
+                      );
+                    }).toList()),
               ),
               SizedBox(height: 18.0),
               if (!isAllEmpty)

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
+import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/models/film.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/controllers/films_controller.dart';
-import 'package:starwarswiki/code/breakpoints.dart';
 
 final _charactersController = Modular.get<CharactersController>();
 final _filmsController = Modular.get<FilmsController>();
@@ -48,22 +48,12 @@ class SpecieDetailsPage extends StatefulWidget {
 class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     setList(widget);
     return Scaffold(
-      appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading:
-            width <= md || (width > md && widget.backButton == 2),
-        brightness: Theme.of(context).brightness,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        middle: Text(
-          widget.specie!.name,
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary),
-        ),
-      ),
+      appBar: CustomAppBar(
+          title: widget.specie!.name,
+          backButton: widget.backButton,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(

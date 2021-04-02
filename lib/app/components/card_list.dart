@@ -154,6 +154,7 @@ class CustomCardList {
                     return FilmListTileWidget(
                         film: _filmsController.filterFilms[index],
                         onTap: (item) {
+                          FocusScope.of(context).unfocus();
                           if (width <= md) {
                             Navigator.push(context,
                                 CupertinoPageRoute(builder: (context) {
@@ -259,6 +260,7 @@ class CustomCardList {
                       return CharacterListTileWidget(
                           person: _charactersController.filterCharacters[index],
                           onTap: (item) {
+                            FocusScope.of(context).unfocus();
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
@@ -347,6 +349,7 @@ class CustomCardList {
                       return PlanetListTileWidget(
                           planet: _planetsController.filterPlanets[index],
                           onTap: (item) {
+                            FocusScope.of(context).unfocus();
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
@@ -429,6 +432,7 @@ class CustomCardList {
                       return SpecieListTileWidget(
                           specie: _speciesController.filterSpecies[index],
                           onTap: (item) {
+                            FocusScope.of(context).unfocus();
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
@@ -510,6 +514,7 @@ class CustomCardList {
                       return StarshipListTileWidget(
                           starship: _starshipsController.filterStarships[index],
                           onTap: (item) {
+                            FocusScope.of(context).unfocus();
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
@@ -595,6 +600,7 @@ class CustomCardList {
                       return VehicleListTileWidget(
                           vehicle: _vehiclesController.filterVehicles[index],
                           onTap: (item) {
+                            FocusScope.of(context).unfocus();
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {

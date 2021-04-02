@@ -22,18 +22,26 @@ class SettingDetailsPage extends StatefulWidget {
 class _SettingDetailsPageState extends State<SettingDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= md,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        middle: Text(
-          widget.title,
-          style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black87
-                  : Theme.of(context).colorScheme.onPrimary),
-        ),
-      ),
+          automaticallyImplyLeading: width <= md,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          transitionBetweenRoutes: width <= md,
+          middle: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.title,
+                style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black87
+                        : Theme.of(context).colorScheme.onPrimary),
+              ),
+            ],
+          ),
+          trailing: SizedBox(width: 30.0)),
       body: Container(),
     );
   }
