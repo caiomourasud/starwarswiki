@@ -1,7 +1,8 @@
 <h1 align=center> StarWars Wiki </h3>
 
 <p align=center>
-  This application is being created for me redeem myself from a Flutter challenge that I did recently and did not do very well. 😅
+  This application is being created for me <br>
+  redeem myself from a Flutter challenge that I did recently and did not do very well. 😅
 </p>
 
 # Flutter
