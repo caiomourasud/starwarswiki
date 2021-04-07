@@ -5,6 +5,8 @@ import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 class VehicleCardWidget extends StatelessWidget {
   final Vehicle vehicle;
   final Function onTap;
@@ -29,12 +31,8 @@ class VehicleCardWidget extends StatelessWidget {
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Container(
-                  height: width <= sm
-                      ? width * 0.28
-                      : 110.0,
-                  width: width <= sm
-                      ? width * 0.30
-                      : 130.0,
+                  height: width <= sm ? width * 0.28 : 110.0,
+                  width: width <= sm ? width * 0.30 : 130.0,
                   decoration: BoxDecoration(
                       color: CupertinoColors.darkBackgroundGray,
                       image: DecorationImage(
@@ -62,7 +60,7 @@ class VehicleCardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(vehicle.model,
+                          child: Text(vehicle.model.capitalize(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.overline),

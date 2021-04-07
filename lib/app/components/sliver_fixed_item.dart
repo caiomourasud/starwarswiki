@@ -17,7 +17,7 @@ class SliverFixedItem extends SliverPersistentHeaderDelegate {
             boxShadow: <BoxShadow>[
               BoxShadow(
                 offset: Offset(0.0, 0.0),
-                blurRadius: shrinkOffset > 0.0 && sombra ? 4.0 : 0.0,
+                blurRadius: overlapsContent && sombra ? 4.0 : 0.0,
                 spreadRadius: -1.0,
                 color: Colors.black54,
               ),

@@ -5,6 +5,8 @@ import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 class PlanetCardWidget extends StatelessWidget {
   final Planet planet;
   final Function onTap;
@@ -78,7 +80,7 @@ class PlanetCardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(planet.terrain,
+                          child: Text(planet.terrain.capitalize(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.overline),

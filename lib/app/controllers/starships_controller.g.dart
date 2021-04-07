@@ -94,6 +94,21 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
     });
   }
 
+  final _$filmsAtom = Atom(name: '_StarshipsControllerBase.films');
+
+  @override
+  List<Film> get films {
+    _$filmsAtom.reportRead();
+    return super.films;
+  }
+
+  @override
+  set films(List<Film> value) {
+    _$filmsAtom.reportWrite(value, super.films, () {
+      super.films = value;
+    });
+  }
+
   final _$getStarshipsAsyncAction =
       AsyncAction('_StarshipsControllerBase.getStarships');
 
@@ -146,6 +161,7 @@ starships: ${starships},
 res: ${res},
 searchText: ${searchText},
 starshipSelected: ${starshipSelected},
+films: ${films},
 filterStarships: ${filterStarships}
     ''';
   }

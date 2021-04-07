@@ -10,7 +10,7 @@ import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
-import 'package:starwarswiki/app/pages/details_pages/character_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/character_details_page.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/components/cards/character_card_widget.dart';
 import 'package:starwarswiki/app/components/cards/film_card_widget.dart';
@@ -23,26 +23,26 @@ import 'package:starwarswiki/app/pages/default_list_page.dart';
 import 'package:starwarswiki/app/components/list_tiles/film_listtile_widget.dart';
 import 'package:starwarswiki/app/controllers/films_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/planet_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/planet_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/planet_details_page.dart';
 import 'package:starwarswiki/app/controllers/planets_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/specie_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/specie_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/specie_details_page.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/starship_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/starship_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/starship_details_page.dart';
 import 'package:starwarswiki/app/controllers/starships_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/vehicle_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/vehicle_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/vehicle_details_page.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
-import 'package:starwarswiki/app/repository/characters_repository.dart';
-import 'package:starwarswiki/app/repository/films_repository.dart';
-import 'package:starwarswiki/app/repository/planets_repository.dart';
-import 'package:starwarswiki/app/repository/species_repository.dart';
-import 'package:starwarswiki/app/repository/starships_repository.dart';
-import 'package:starwarswiki/app/repository/vehicles_repository.dart';
+import 'package:starwarswiki/app/repositories/characters_repository.dart';
+import 'package:starwarswiki/app/repositories/films_repository.dart';
+import 'package:starwarswiki/app/repositories/planets_repository.dart';
+import 'package:starwarswiki/app/repositories/species_repository.dart';
+import 'package:starwarswiki/app/repositories/starships_repository.dart';
+import 'package:starwarswiki/app/repositories/vehicles_repository.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import '../pages/details_pages/film_details_page.dart';
+import '../pages/details_pages/home/film_details_page.dart';
 import 'custom_card_dialog.dart';
 
 final _filmsRepository = FilmsRepositiry();
@@ -194,8 +194,8 @@ class CustomCardList {
           card: (context, dimens, index) {
             return CharacterCardWidget(
                 character: characters[index],
-                onIconPressed: (id) =>
-                    _charactersRepository.setFavorite(characters[index].id),
+                onIconPressed: (id) => _charactersRepository.setFavorite(
+                    context: context, id: characters[index].id),
                 onTap: () => width > md && charactersBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
@@ -279,7 +279,8 @@ class CustomCardList {
                           },
                           personSelected: _charactersController.personSelected,
                           onFavoriteTap: (index) {
-                            _charactersRepository.setFavorite(index);
+                            _charactersRepository.setFavorite(
+                                context: context, id: index);
                           });
                     },
                             childCount:

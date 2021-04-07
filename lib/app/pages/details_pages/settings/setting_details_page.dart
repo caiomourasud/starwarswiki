@@ -41,7 +41,8 @@ class _SettingDetailsPageState extends State<SettingDetailsPage> {
               ),
             ],
           ),
-          trailing: SizedBox(width: 30.0)),
+          trailing: SizedBox(width: 30.0),
+          border: Border.all(color: Colors.transparent)),
       body: Container(),
     );
   }

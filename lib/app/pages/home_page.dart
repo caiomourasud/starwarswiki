@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints dimens) {
             return Row(
@@ -56,65 +57,73 @@ class _HomePageState extends State<HomePage> {
                       controller: _homeController.scrollController,
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
-                      body: Scrollbar(
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: Observer(builder: (_) {
-                                return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: CustomCardList()
-                                        .cardList(
-                                            context: context,
-                                            films: _filmsController.films,
-                                            filmsBackButton: 2,
-                                            filmsHasDivider: false,
-                                            characters:
-                                                _charactersController.people,
-                                            charactersBackButton: 2,
-                                            charactersLines: 3,
-                                            planets: _planetsController.planets,
-                                            planetsBackButton: 2,
-                                            planetsLines: 2,
-                                            species: _speciesController.species,
-                                            speciesBackButton: 2,
-                                            speciesLines: 2,
-                                            starships:
-                                                _starshipsController.starships,
-                                            starshipsBackButton: 2,
-                                            starshipsLines: _starshipsController
-                                                        .starships.length >
-                                                    4
-                                                ? 3
-                                                : 1,
-                                            vehicles:
-                                                _vehiclesController.vehicles,
-                                            vehiclesBackButton:
-                                                MediaQuery.of(context).size.width > md
-                                                    ? 2
-                                                    : 1,
-                                            vehiclesLines: 2)
-                                        .map((item) => CustomHorizontalList().list(
-                                            context: context,
-                                            title: item.title,
-                                            height: item.height *
-                                                (item.list.length > 12
-                                                    ? item.rows
-                                                    : 1),
-                                            width: item.width *
-                                                (item.list.length > 12 ? item.rows : 1),
-                                            rows: item.list.length > 12 ? item.rows : 1,
-                                            cards: item.list,
-                                            card: (index) => item.card(context, dimens, index),
-                                            viewportFraction: item.viewportFraction,
-                                            hasDivider: item.hasDivider,
-                                            seeAll: true,
-                                            onTap: () => item.onSeeAllTap(context)))
-                                        .toList());
-                              }),
-                            ),
-                            SliverToBoxAdapter(child: SizedBox(height: 52.0))
-                          ],
+                      body: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        removeBottom: true,
+                        child: Scrollbar(
+                          child: CustomScrollView(
+                            slivers: [
+                              SliverToBoxAdapter(
+                                child: Observer(builder: (_) {
+                                  return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: CustomCardList()
+                                          .cardList(
+                                              context: context,
+                                              films: _filmsController.films,
+                                              filmsBackButton: 2,
+                                              filmsHasDivider: false,
+                                              characters:
+                                                  _charactersController.people,
+                                              charactersBackButton: 2,
+                                              charactersLines: 3,
+                                              planets:
+                                                  _planetsController.planets,
+                                              planetsBackButton: 2,
+                                              planetsLines: 2,
+                                              species:
+                                                  _speciesController.species,
+                                              speciesBackButton: 2,
+                                              speciesLines: 2,
+                                              starships: _starshipsController
+                                                  .starships,
+                                              starshipsBackButton: 2,
+                                              starshipsLines:
+                                                  _starshipsController.starships.length > 4
+                                                      ? 3
+                                                      : 1,
+                                              vehicles:
+                                                  _vehiclesController.vehicles,
+                                              vehiclesBackButton:
+                                                  MediaQuery.of(context).size.width > md
+                                                      ? 2
+                                                      : 1,
+                                              vehiclesLines: 2)
+                                          .map((item) => CustomHorizontalList().list(
+                                              context: context,
+                                              title: item.title,
+                                              height: item.height *
+                                                  (item.list.length > 12
+                                                      ? item.rows
+                                                      : 1),
+                                              width: item.width *
+                                                  (item.list.length > 12
+                                                      ? item.rows
+                                                      : 1),
+                                              rows: item.list.length > 12 ? item.rows : 1,
+                                              cards: item.list,
+                                              card: (index) => item.card(context, dimens, index),
+                                              viewportFraction: item.viewportFraction,
+                                              hasDivider: item.hasDivider,
+                                              seeAll: true,
+                                              onTap: () => item.onSeeAllTap(context)))
+                                          .toList());
+                                }),
+                              ),
+                              SliverToBoxAdapter(child: SizedBox(height: 52.0))
+                            ],
+                          ),
                         ),
                       ),
                       headerSliverBuilder:

@@ -92,6 +92,81 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
     });
   }
 
+  final _$charactersAtom = Atom(name: '_FilmsControllerBase.characters');
+
+  @override
+  List<People> get characters {
+    _$charactersAtom.reportRead();
+    return super.characters;
+  }
+
+  @override
+  set characters(List<People> value) {
+    _$charactersAtom.reportWrite(value, super.characters, () {
+      super.characters = value;
+    });
+  }
+
+  final _$planetsAtom = Atom(name: '_FilmsControllerBase.planets');
+
+  @override
+  List<Planet> get planets {
+    _$planetsAtom.reportRead();
+    return super.planets;
+  }
+
+  @override
+  set planets(List<Planet> value) {
+    _$planetsAtom.reportWrite(value, super.planets, () {
+      super.planets = value;
+    });
+  }
+
+  final _$starshipsAtom = Atom(name: '_FilmsControllerBase.starships');
+
+  @override
+  List<Starship> get starships {
+    _$starshipsAtom.reportRead();
+    return super.starships;
+  }
+
+  @override
+  set starships(List<Starship> value) {
+    _$starshipsAtom.reportWrite(value, super.starships, () {
+      super.starships = value;
+    });
+  }
+
+  final _$vehiclesAtom = Atom(name: '_FilmsControllerBase.vehicles');
+
+  @override
+  List<Vehicle> get vehicles {
+    _$vehiclesAtom.reportRead();
+    return super.vehicles;
+  }
+
+  @override
+  set vehicles(List<Vehicle> value) {
+    _$vehiclesAtom.reportWrite(value, super.vehicles, () {
+      super.vehicles = value;
+    });
+  }
+
+  final _$speciesAtom = Atom(name: '_FilmsControllerBase.species');
+
+  @override
+  List<Specie> get species {
+    _$speciesAtom.reportRead();
+    return super.species;
+  }
+
+  @override
+  set species(List<Specie> value) {
+    _$speciesAtom.reportWrite(value, super.species, () {
+      super.species = value;
+    });
+  }
+
   final _$getFilmsAsyncAction = AsyncAction('_FilmsControllerBase.getFilms');
 
   @override
@@ -136,12 +211,39 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
+  dynamic clearAll() {
+    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
+        name: '_FilmsControllerBase.clearAll');
+    try {
+      return super.clearAll();
+    } finally {
+      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setList(dynamic widget) {
+    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
+        name: '_FilmsControllerBase.setList');
+    try {
+      return super.setList(widget);
+    } finally {
+      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 films: ${films},
 res: ${res},
 searchText: ${searchText},
 filmSelected: ${filmSelected},
+characters: ${characters},
+planets: ${planets},
+starships: ${starships},
+vehicles: ${vehicles},
+species: ${species},
 filterFilms: ${filterFilms}
     ''';
   }

@@ -1,12 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
+import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/repository/species_repository.dart';
+import 'package:starwarswiki/app/repositories/species_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
+
+import 'characters_controller.dart';
+import 'films_controller.dart';
 part 'species_controller.g.dart';
+
+final _charactersController = Modular.get<CharactersController>();
+final _filmsController = Modular.get<FilmsController>();
 
 final _speciesRepository = SpeciesRepositiry();
 
@@ -62,6 +71,30 @@ abstract class _SpeciesControllerBase with Store {
               .simplifyString(specie.name)
               .contains(Converters().simplifyString(searchText)))
           .toList();
+    }
+  }
+
+  @observable
+  List<People> characters = [];
+  @observable
+  List<Film> films = [];
+
+  @action
+  clearAll() {
+    characters.clear();
+    films.clear();
+  }
+
+  @action
+  setList(widget) {
+    clearAll();
+
+    for (var person in widget.specie.people) {
+      characters.addAll(_charactersController.people
+          .where((character) => person == character.url));
+    }
+    for (var film in widget.specie.films) {
+      films.addAll(_filmsController.films.where((pl) => film == pl.url));
     }
   }
 }

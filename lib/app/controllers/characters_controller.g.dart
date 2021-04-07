@@ -109,6 +109,66 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
     });
   }
 
+  final _$planetAtom = Atom(name: '_CharactersControllerBase.planet');
+
+  @override
+  Planet? get planet {
+    _$planetAtom.reportRead();
+    return super.planet;
+  }
+
+  @override
+  set planet(Planet? value) {
+    _$planetAtom.reportWrite(value, super.planet, () {
+      super.planet = value;
+    });
+  }
+
+  final _$starshipsAtom = Atom(name: '_CharactersControllerBase.starships');
+
+  @override
+  List<Starship> get starships {
+    _$starshipsAtom.reportRead();
+    return super.starships;
+  }
+
+  @override
+  set starships(List<Starship> value) {
+    _$starshipsAtom.reportWrite(value, super.starships, () {
+      super.starships = value;
+    });
+  }
+
+  final _$vehiclesAtom = Atom(name: '_CharactersControllerBase.vehicles');
+
+  @override
+  List<Vehicle> get vehicles {
+    _$vehiclesAtom.reportRead();
+    return super.vehicles;
+  }
+
+  @override
+  set vehicles(List<Vehicle> value) {
+    _$vehiclesAtom.reportWrite(value, super.vehicles, () {
+      super.vehicles = value;
+    });
+  }
+
+  final _$speciesAtom = Atom(name: '_CharactersControllerBase.species');
+
+  @override
+  List<Specie> get species {
+    _$speciesAtom.reportRead();
+    return super.species;
+  }
+
+  @override
+  set species(List<Specie> value) {
+    _$speciesAtom.reportWrite(value, super.species, () {
+      super.species = value;
+    });
+  }
+
   final _$getPeopleAsyncAction =
       AsyncAction('_CharactersControllerBase.getPeople');
 
@@ -166,6 +226,28 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
   }
 
   @override
+  dynamic clearAll() {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.clearAll');
+    try {
+      return super.clearAll();
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setList(dynamic widget) {
+    final _$actionInfo = _$_CharactersControllerBaseActionController
+        .startAction(name: '_CharactersControllerBase.setList');
+    try {
+      return super.setList(widget);
+    } finally {
+      _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 people: ${people},
@@ -173,6 +255,10 @@ res: ${res},
 searchText: ${searchText},
 showFavorites: ${showFavorites},
 personSelected: ${personSelected},
+planet: ${planet},
+starships: ${starships},
+vehicles: ${vehicles},
+species: ${species},
 filterCharacters: ${filterCharacters}
     ''';
   }

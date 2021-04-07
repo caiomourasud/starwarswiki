@@ -23,19 +23,23 @@ class CustomSliverAppBar extends StatelessWidget {
   @override
   Widget build(context) {
     return CupertinoSliverNavigationBar(
-        stretch: true,
-        // heroTag: 'test',
         middle: position == null
             ? null
             : AnimatedOpacity(
                 opacity: position! > 35.0 ? 1.0 : 0.0,
                 duration: Duration(milliseconds: 100),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black87
-                          : Theme.of(context).colorScheme.onPrimary),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black87
+                                  : Theme.of(context).colorScheme.onPrimary),
+                    ),
+                  ],
                 ),
               ),
         previousPageTitle: '',

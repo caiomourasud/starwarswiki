@@ -5,7 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/models/setting_list.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import 'details_pages/setting_details_page.dart';
+import 'details_pages/settings/setting_details_page.dart';
 import '../controllers/settings_controller.dart';
 
 final _settingsController = Modular.get<SettingsController>();
@@ -147,10 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           )
                         : Expanded(
-                            child: Scaffold(
-                                body:
-                                    Center(child: Text('No setting selected'))),
-                          );
+                            child: Center(child: Text('No setting selected')));
                   },
                 ),
               ],

@@ -1,38 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
+import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/people.dart';
+import 'package:starwarswiki/app/controllers/species_controller.dart';
 import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/controllers/characters_controller.dart';
-import 'package:starwarswiki/app/controllers/films_controller.dart';
 
-final _charactersController = Modular.get<CharactersController>();
-final _filmsController = Modular.get<FilmsController>();
-
-List<People> characters = [];
-List<Film> films = [];
-
-bool get isAllEmpty => characters.isEmpty && films.isEmpty;
-
-clearAll() {
-  characters.clear();
-  films.clear();
-}
-
-setList(widget) {
-  clearAll();
-  for (var specie in widget.specie.people) {
-    characters.addAll(_charactersController.people
-        .where((character) => specie == character.url));
-  }
-  for (var film in widget.specie.films) {
-    films.addAll(_filmsController.films.where((pl) => film == pl.url));
-  }
-}
+final _speciesController = Modular.get<SpeciesController>();
 
 class SpecieDetailsPage extends StatefulWidget {
   final Specie? specie;
@@ -48,7 +25,7 @@ class SpecieDetailsPage extends StatefulWidget {
 class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    setList(widget);
+    _speciesController.setList(widget);
     return Scaffold(
       appBar: CustomAppBar(
           title: widget.specie!.name,
@@ -59,16 +36,28 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
           child: ListView(
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
+              CustomDetails(
+                id: widget.specie!.id,
+                type: 'species',
+                name: widget.specie!.name,
+                firstDetailText: 'Classification',
+                firstDetailValue: widget.specie!.classification,
+                secondDetailText: 'Language',
+                secondDetailValue: widget.specie!.language,
+              ),
               SizedBox(height: 24.0),
-              if (!isAllEmpty)
-                Column(
+              Observer(builder: (_) {
+                return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()
                         .cardList(
                             context: context,
-                            characters:
-                                characters.isNotEmpty ? characters : null,
-                            films: films.isNotEmpty ? films : null)
+                            characters: _speciesController.characters.isNotEmpty
+                                ? _speciesController.characters
+                                : null,
+                            films: _speciesController.films.isNotEmpty
+                                ? _speciesController.films
+                                : null)
                         .map((item) => CustomHorizontalList().list(
                             context: context,
                             title: item.title,
@@ -82,7 +71,8 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
                             card: (index) => item.card(context, dimens, index),
                             seeAll: false,
                             onTap: () => item.onSeeAllTap(context)))
-                        .toList()),
+                        .toList());
+              }),
             ],
           ),
         );

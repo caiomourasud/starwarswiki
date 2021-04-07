@@ -6,6 +6,8 @@ import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 Converters conversores = Converters();
 
 class SpecieListTileWidget extends StatelessWidget {
@@ -41,7 +43,7 @@ class SpecieListTileWidget extends StatelessWidget {
                   children: [
                     Opacity(
                       opacity: 0.8,
-                      child: Text(specie.classification,
+                      child: Text(specie.classification.capitalize(),
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
                   ],

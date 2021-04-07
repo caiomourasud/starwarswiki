@@ -63,6 +63,87 @@ mixin _$AppController on _AppControllerBase, Store {
     });
   }
 
+  final _$indexSelectedAtom = Atom(name: '_AppControllerBase.indexSelected');
+
+  @override
+  int get indexSelected {
+    _$indexSelectedAtom.reportRead();
+    return super.indexSelected;
+  }
+
+  @override
+  set indexSelected(int value) {
+    _$indexSelectedAtom.reportWrite(value, super.indexSelected, () {
+      super.indexSelected = value;
+    });
+  }
+
+  final _$homeNavigatorKeyAtom =
+      Atom(name: '_AppControllerBase.homeNavigatorKey');
+
+  @override
+  GlobalKey<NavigatorState> get homeNavigatorKey {
+    _$homeNavigatorKeyAtom.reportRead();
+    return super.homeNavigatorKey;
+  }
+
+  @override
+  set homeNavigatorKey(GlobalKey<NavigatorState> value) {
+    _$homeNavigatorKeyAtom.reportWrite(value, super.homeNavigatorKey, () {
+      super.homeNavigatorKey = value;
+    });
+  }
+
+  final _$searchNavigatorKeyAtom =
+      Atom(name: '_AppControllerBase.searchNavigatorKey');
+
+  @override
+  GlobalKey<NavigatorState> get searchNavigatorKey {
+    _$searchNavigatorKeyAtom.reportRead();
+    return super.searchNavigatorKey;
+  }
+
+  @override
+  set searchNavigatorKey(GlobalKey<NavigatorState> value) {
+    _$searchNavigatorKeyAtom.reportWrite(value, super.searchNavigatorKey, () {
+      super.searchNavigatorKey = value;
+    });
+  }
+
+  final _$favoritesNavigatorKeyAtom =
+      Atom(name: '_AppControllerBase.favoritesNavigatorKey');
+
+  @override
+  GlobalKey<NavigatorState> get favoritesNavigatorKey {
+    _$favoritesNavigatorKeyAtom.reportRead();
+    return super.favoritesNavigatorKey;
+  }
+
+  @override
+  set favoritesNavigatorKey(GlobalKey<NavigatorState> value) {
+    _$favoritesNavigatorKeyAtom.reportWrite(value, super.favoritesNavigatorKey,
+        () {
+      super.favoritesNavigatorKey = value;
+    });
+  }
+
+  final _$settingsNavigatorKeyAtom =
+      Atom(name: '_AppControllerBase.settingsNavigatorKey');
+
+  @override
+  GlobalKey<NavigatorState> get settingsNavigatorKey {
+    _$settingsNavigatorKeyAtom.reportRead();
+    return super.settingsNavigatorKey;
+  }
+
+  @override
+  set settingsNavigatorKey(GlobalKey<NavigatorState> value) {
+    _$settingsNavigatorKeyAtom.reportWrite(value, super.settingsNavigatorKey,
+        () {
+      super.settingsNavigatorKey = value;
+    });
+  }
+
   final _$_AppControllerBaseActionController =
       ActionController(name: '_AppControllerBase');
 
@@ -105,6 +186,11 @@ mixin _$AppController on _AppControllerBase, Store {
 appThemeMode: ${appThemeMode},
 context: ${context},
 connectionStatus: ${connectionStatus},
+indexSelected: ${indexSelected},
+homeNavigatorKey: ${homeNavigatorKey},
+searchNavigatorKey: ${searchNavigatorKey},
+favoritesNavigatorKey: ${favoritesNavigatorKey},
+settingsNavigatorKey: ${settingsNavigatorKey},
 noInternet: ${noInternet}
     ''';
   }

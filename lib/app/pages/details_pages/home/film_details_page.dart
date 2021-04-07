@@ -1,73 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
+import 'package:starwarswiki/app/controllers/films_controller.dart';
 import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/people.dart';
-import 'package:starwarswiki/app/models/planet.dart';
-import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/models/starship.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
-import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
-import 'package:starwarswiki/app/controllers/planets_controller.dart';
-import 'package:starwarswiki/app/controllers/species_controller.dart';
-import 'package:starwarswiki/app/controllers/starships_controller.dart';
-import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 
-final _charactersController = Modular.get<CharactersController>();
-final _planetsController = Modular.get<PlanetsController>();
-final _speciesController = Modular.get<SpeciesController>();
-final _starshipsController = Modular.get<StarshipsController>();
-final _vehiclesController = Modular.get<VehiclesController>();
-
-List<People> characters = [];
-List<Planet> planets = [];
-List<Starship> starships = [];
-List<Vehicle> vehicles = [];
-List<Specie> species = [];
-
-bool get isAllEmpty =>
-    characters.isEmpty &&
-    planets.isEmpty &&
-    species.isEmpty &&
-    starships.isEmpty &&
-    vehicles.isEmpty;
-
-clearAll() {
-  characters.clear();
-  planets.clear();
-  starships.clear();
-  vehicles.clear();
-  species.clear();
-}
-
-setList(widget) {
-  clearAll();
-  for (var person in widget.film.characters) {
-    characters.addAll(_charactersController.people
-        .where((character) => person == character.url));
-  }
-  for (var planet in widget.film.planets) {
-    planets.addAll(_planetsController.planets.where((pl) => planet == pl.url));
-  }
-  for (var specie in widget.film.species) {
-    species.addAll(_speciesController.species.where((sp) => specie == sp.url));
-  }
-  for (var starship in widget.film.starships) {
-    starships.addAll(
-        _starshipsController.starships.where((st) => starship == st.url));
-  }
-  for (var vehicle in widget.film.vehicles) {
-    vehicles
-        .addAll(_vehiclesController.vehicles.where((ve) => vehicle == ve.url));
-  }
-}
+final _filmsController = Modular.get<FilmsController>();
 
 class FilmDetailsPage extends StatefulWidget {
   final Film? film;
@@ -82,7 +27,8 @@ class FilmDetailsPage extends StatefulWidget {
 class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    setList(widget);
+    _filmsController.setList(widget);
+    print('setList');
     return Scaffold(
       appBar: CustomAppBar(
           title: widget.film!.title,
@@ -185,25 +131,27 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                 ),
               ),
               SizedBox(height: 24.0),
-              if (!isAllEmpty)
-                Column(
+              Observer(builder: (_) {
+                return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()
                         .cardList(
                             context: context,
-                            characters: characters,
+                            characters: _filmsController.characters,
                             charactersBackButton:
                                 widget.backButton == 2 ? 1 : 2,
-                            charactersLines: characters.length > 6 ? 3 : 2,
-                            planets: planets,
+                            charactersLines:
+                                _filmsController.characters.length > 6 ? 3 : 2,
+                            planets: _filmsController.planets,
                             planetsBackButton: widget.backButton == 2 ? 1 : 2,
-                            species: species,
+                            species: _filmsController.species,
                             speciesBackButton: widget.backButton == 2 ? 1 : 2,
                             speciesLines: 2,
-                            starships: starships,
+                            starships: _filmsController.starships,
                             starshipsBackButton: widget.backButton == 2 ? 1 : 2,
-                            starshipsLines: starships.length > 4 ? 2 : 1,
-                            vehicles: vehicles,
+                            starshipsLines:
+                                _filmsController.starships.length > 4 ? 2 : 1,
+                            vehicles: _filmsController.vehicles,
                             vehiclesBackButton: widget.backButton == 2 ? 1 : 2)
                         .map((item) => CustomHorizontalList().list(
                             context: context,
@@ -219,7 +167,8 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                             hasDivider: item.hasDivider,
                             seeAll: false,
                             onTap: () => item.onSeeAllTap(context)))
-                        .toList()),
+                        .toList());
+              }),
               SizedBox(height: 48.0),
             ],
           ),

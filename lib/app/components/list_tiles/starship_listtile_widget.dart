@@ -41,7 +41,7 @@ class StarshipListTileWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(starship.model,
+                        child: Text(starship.starshipClass,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.overline),
                       ),
@@ -54,7 +54,7 @@ class StarshipListTileWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(starship.manufacturer,
+                        child: Text(starship.model,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodyText2),

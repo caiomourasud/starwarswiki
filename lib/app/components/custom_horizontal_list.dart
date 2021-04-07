@@ -31,7 +31,7 @@ class CustomHorizontalList {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(fontSize: 18)),
+              Text(title, style: Theme.of(context).textTheme.headline6),
               if (seeAll)
                 MouseRegion(
                   cursor: SystemMouseCursors.click,

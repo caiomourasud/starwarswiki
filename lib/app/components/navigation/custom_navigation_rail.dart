@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/models/destination.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class CustomNavigationRail extends StatelessWidget {
   final BoxConstraints dimens;
@@ -41,19 +42,33 @@ class CustomNavigationRail extends StatelessWidget {
                               vertical: 28.0, horizontal: 20.0),
                           child: Row(
                             children: [
-                              Icon(
-                                destination.value.icon,
-                                color: indexSelected != destination.key
-                                    ? CupertinoColors.inactiveGray
-                                    : null,
-                              ),
-                              SizedBox(width: 16.0),
-                              Text(destination.value.tooltip,
-                                  style: TextStyle(
-                                      color: indexSelected != destination.key
-                                          ? CupertinoColors.inactiveGray
-                                          : null)),
-                              SizedBox(width: 48.0),
+                              if (MediaQuery.of(context).size.width <= lg)
+                                Tooltip(
+                                  message: destination.value.tooltip,
+                                  child: Icon(
+                                    destination.value.icon,
+                                    color: indexSelected != destination.key
+                                        ? CupertinoColors.inactiveGray
+                                        : null,
+                                  ),
+                                ),
+                              if (MediaQuery.of(context).size.width > lg)
+                                Icon(
+                                  destination.value.icon,
+                                  color: indexSelected != destination.key
+                                      ? CupertinoColors.inactiveGray
+                                      : null,
+                                ),
+                              if (MediaQuery.of(context).size.width > lg)
+                                SizedBox(width: 16.0),
+                              if (MediaQuery.of(context).size.width > lg)
+                                Text(destination.value.tooltip,
+                                    style: TextStyle(
+                                        color: indexSelected != destination.key
+                                            ? CupertinoColors.inactiveGray
+                                            : null)),
+                              if (MediaQuery.of(context).size.width > lg)
+                                SizedBox(width: 48.0),
                             ],
                           ),
                           onPressed: () => onTap(destination.key)),

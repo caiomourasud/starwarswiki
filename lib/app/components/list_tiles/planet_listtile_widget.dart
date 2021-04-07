@@ -6,6 +6,8 @@ import 'package:starwarswiki/app/models/planet.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 Converters conversores = Converters();
 
 class PlanetListTileWidget extends StatelessWidget {
@@ -41,7 +43,7 @@ class PlanetListTileWidget extends StatelessWidget {
                   children: [
                     Opacity(
                       opacity: 0.8,
-                      child: Text(planet.climate,
+                      child: Text(planet.climate.capitalize(),
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
                   ],

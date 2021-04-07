@@ -93,6 +93,36 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
     });
   }
 
+  final _$charactersAtom = Atom(name: '_PlanetsControllerBase.characters');
+
+  @override
+  List<People> get characters {
+    _$charactersAtom.reportRead();
+    return super.characters;
+  }
+
+  @override
+  set characters(List<People> value) {
+    _$charactersAtom.reportWrite(value, super.characters, () {
+      super.characters = value;
+    });
+  }
+
+  final _$filmsAtom = Atom(name: '_PlanetsControllerBase.films');
+
+  @override
+  List<Film> get films {
+    _$filmsAtom.reportRead();
+    return super.films;
+  }
+
+  @override
+  set films(List<Film> value) {
+    _$filmsAtom.reportWrite(value, super.films, () {
+      super.films = value;
+    });
+  }
+
   final _$getPlanetsAsyncAction =
       AsyncAction('_PlanetsControllerBase.getPlanets');
 
@@ -139,12 +169,36 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
   }
 
   @override
+  dynamic clearAll() {
+    final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
+        name: '_PlanetsControllerBase.clearAll');
+    try {
+      return super.clearAll();
+    } finally {
+      _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setList(dynamic widget) {
+    final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
+        name: '_PlanetsControllerBase.setList');
+    try {
+      return super.setList(widget);
+    } finally {
+      _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 planets: ${planets},
 res: ${res},
 searchText: ${searchText},
 planetSelected: ${planetSelected},
+characters: ${characters},
+films: ${films},
 filterPlanets: ${filterPlanets}
     ''';
   }

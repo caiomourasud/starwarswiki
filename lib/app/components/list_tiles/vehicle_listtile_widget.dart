@@ -6,6 +6,8 @@ import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 Converters conversores = Converters();
 
 class VehicleListTileWidget extends StatelessWidget {
@@ -41,7 +43,7 @@ class VehicleListTileWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(vehicle.model,
+                        child: Text(vehicle.model.capitalize(),
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.overline),
                       ),

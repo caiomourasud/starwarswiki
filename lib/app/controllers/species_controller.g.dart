@@ -93,6 +93,36 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
     });
   }
 
+  final _$charactersAtom = Atom(name: '_SpeciesControllerBase.characters');
+
+  @override
+  List<People> get characters {
+    _$charactersAtom.reportRead();
+    return super.characters;
+  }
+
+  @override
+  set characters(List<People> value) {
+    _$charactersAtom.reportWrite(value, super.characters, () {
+      super.characters = value;
+    });
+  }
+
+  final _$filmsAtom = Atom(name: '_SpeciesControllerBase.films');
+
+  @override
+  List<Film> get films {
+    _$filmsAtom.reportRead();
+    return super.films;
+  }
+
+  @override
+  set films(List<Film> value) {
+    _$filmsAtom.reportWrite(value, super.films, () {
+      super.films = value;
+    });
+  }
+
   final _$getSpeciesAsyncAction =
       AsyncAction('_SpeciesControllerBase.getSpecies');
 
@@ -139,12 +169,36 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   }
 
   @override
+  dynamic clearAll() {
+    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
+        name: '_SpeciesControllerBase.clearAll');
+    try {
+      return super.clearAll();
+    } finally {
+      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setList(dynamic widget) {
+    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
+        name: '_SpeciesControllerBase.setList');
+    try {
+      return super.setList(widget);
+    } finally {
+      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 species: ${species},
 res: ${res},
 searchText: ${searchText},
 specieSelected: ${specieSelected},
+characters: ${characters},
+films: ${films},
 filterSpecies: ${filterSpecies}
     ''';
   }

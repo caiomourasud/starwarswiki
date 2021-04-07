@@ -93,6 +93,21 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
     });
   }
 
+  final _$filmsAtom = Atom(name: '_VehiclesControllerBase.films');
+
+  @override
+  List<Film> get films {
+    _$filmsAtom.reportRead();
+    return super.films;
+  }
+
+  @override
+  set films(List<Film> value) {
+    _$filmsAtom.reportWrite(value, super.films, () {
+      super.films = value;
+    });
+  }
+
   final _$getVehiclesAsyncAction =
       AsyncAction('_VehiclesControllerBase.getVehicles');
 
@@ -145,6 +160,7 @@ vehicles: ${vehicles},
 res: ${res},
 searchText: ${searchText},
 vehicleSelected: ${vehicleSelected},
+films: ${films},
 filterVehicles: ${filterVehicles}
     ''';
   }

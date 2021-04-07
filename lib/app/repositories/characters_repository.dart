@@ -1,15 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:starwarswiki/app/components/snack_bar_widget.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/code/config.dart';
 
 StorageUtil _prefs = StorageUtil();
+
 final _charactersController = Modular.get<CharactersController>();
 
 class CharactersRepositiry {
@@ -42,6 +45,7 @@ class CharactersRepositiry {
 
       for (var json in list) {
         final character = People.fromJson(json);
+        character.name = character.name.replaceAll('Ã©', 'é');
         _characters.add(character);
         _peopleBox.add(character);
       }
@@ -65,12 +69,19 @@ class CharactersRepositiry {
     }
   }
 
-  setFavorite(int id) {
+  setFavorite({required BuildContext context, required int id}) {
     var foundIndex =
         _charactersController.people.indexWhere((person) => person.id == id);
     _charactersController.people[foundIndex].isFavorite =
         !_charactersController.people[foundIndex].isFavorite;
     _peopleBox.putAt(foundIndex, _charactersController.people[foundIndex]);
     _charactersController.people = _peopleBox.values.toList();
+    SnackBarWidget().show(
+        context: context,
+        mensagem: _charactersController.people[foundIndex].isFavorite
+            ? '${_charactersController.people[foundIndex].name} foi adicionado à lista de favoritos'
+            : '${_charactersController.people[foundIndex].name} foi removido da lista de favoritos',
+        action: 'Desfazer',
+        onPressed: () => setFavorite(context: context, id: id));
   }
 }

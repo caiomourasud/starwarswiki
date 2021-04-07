@@ -14,7 +14,6 @@ final _appController = Modular.get<AppController>();
 final _homeController = Modular.get<HomeController>();
 final _settingsController = Modular.get<SettingsController>();
 
-int indexSelected = 0;
 bool isMenuOpen = false;
 
 class MainPage extends StatefulWidget {
@@ -35,12 +34,13 @@ class _MainPageState extends State<MainPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: LayoutBuilder(builder: (context, dimens) {
           return Scaffold(
-            resizeToAvoidBottomInset: false,
+            // resizeToAvoidBottomInset: false,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
                     MediaQuery.of(context).size.width <= md
                 ? CupertinoTabBar(
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    currentIndex: indexSelected,
+                    currentIndex: _appController.indexSelected,
                     onTap: (index) {
                       FocusScope.of(context).unfocus();
                       _onTap(index);
@@ -62,7 +62,18 @@ class _MainPageState extends State<MainPage> {
                 VerticalDivider(
                   width: 0.1,
                 ),
-                Expanded(child: _buildBody()),
+                Expanded(
+                    child: ClipRect(
+                  child: SafeArea(
+                    top: false,
+                    child: IndexedStack(
+                      index: _appController.indexSelected,
+                      children: allDestinations.map<Widget>((destination) {
+                        return destination.pagina;
+                      }).toList(),
+                    ),
+                  ),
+                )),
               ],
             ),
           );
@@ -73,7 +84,7 @@ class _MainPageState extends State<MainPage> {
     FocusScope.of(context).unfocus();
     switch (index) {
       case 0:
-        if (indexSelected == 0) {
+        if (_appController.indexSelected == 0) {
           allDestinations[0].navigatorKey.currentState!.maybePop().then(
               (value) => !value
                   ? _animateToTop(_homeController.scrollController)
@@ -81,7 +92,7 @@ class _MainPageState extends State<MainPage> {
         }
         break;
       case 1:
-        if (indexSelected == 1) {
+        if (_appController.indexSelected == 1) {
           allDestinations[1].navigatorKey.currentState!.maybePop().then(
               (value) => !value
                   ? _animateToTop(_settingsController.scrollController)
@@ -89,7 +100,7 @@ class _MainPageState extends State<MainPage> {
         }
         break;
       case 2:
-        if (indexSelected == 2) {
+        if (_appController.indexSelected == 2) {
           allDestinations[2].navigatorKey.currentState!.maybePop().then(
               (value) => !value
                   ? _animateToTop(_settingsController.scrollController)
@@ -97,7 +108,7 @@ class _MainPageState extends State<MainPage> {
         }
         break;
       case 3:
-        if (indexSelected == 3) {
+        if (_appController.indexSelected == 3) {
           allDestinations[3].navigatorKey.currentState!.maybePop().then(
               (value) => !value
                   ? _animateToTop(_settingsController.scrollController)
@@ -108,30 +119,16 @@ class _MainPageState extends State<MainPage> {
     }
     if (mounted)
       setState(() {
-        indexSelected = index;
+        _appController.indexSelected = index;
       });
   }
 
-  _buildBody() {
-    return ClipRect(
-      child: SafeArea(
-        top: false,
-        child: IndexedStack(
-          index: indexSelected,
-          children: allDestinations.map<Widget>((destination) {
-            return destination.pagina;
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  _leftMenu(BoxConstraints dimens) {
+  Widget _leftMenu(BoxConstraints dimens) {
     if (dimens.maxWidth > dimens.maxHeight &&
         MediaQuery.of(context).size.width > md) {
       return CustomNavigationRail(
           dimens: dimens,
-          indexSelected: indexSelected,
+          indexSelected: _appController.indexSelected,
           itens: allDestinations,
           onTap: (index) => _onTap(index));
     } else {
@@ -139,7 +136,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  _animateToTop(ScrollController controller) {
+  void _animateToTop(ScrollController controller) {
     controller.animateTo(0.0,
         duration: Duration(milliseconds: 300), curve: Curves.linear);
   }

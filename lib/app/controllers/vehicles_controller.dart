@@ -1,13 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
+import 'package:starwarswiki/app/models/film.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
-import 'package:starwarswiki/app/repository/vehicles_repository.dart';
+import 'package:starwarswiki/app/repositories/vehicles_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
 
+import 'films_controller.dart';
+
 part 'vehicles_controller.g.dart';
+
+final _filmsController = Modular.get<FilmsController>();
 
 final _vehiclesRepository = VehiclesRepositiry();
 
@@ -63,6 +69,17 @@ abstract class _VehiclesControllerBase with Store {
               .simplifyString(vehicle.name)
               .contains(Converters().simplifyString(searchText)))
           .toList();
+    }
+  }
+
+  @observable
+  List<Film> films = [];
+
+  setList(widget) {
+    films.clear();
+
+    for (var starship in widget.vehicle.films) {
+      films.addAll(_filmsController.films.where((st) => starship == st.url));
     }
   }
 }

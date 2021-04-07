@@ -32,4 +32,19 @@ abstract class _AppControllerBase with Store {
   bool get noInternet =>
       connectionStatus == 'ConnectivityResult.none' ||
       connectionStatus == 'Unknown';
+
+  @observable
+  int indexSelected = 0;
+
+  @observable
+  GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey<NavigatorState>();
+
+  @observable
+  GlobalKey<NavigatorState> searchNavigatorKey = GlobalKey<NavigatorState>();
+
+  @observable
+  GlobalKey<NavigatorState> favoritesNavigatorKey = GlobalKey<NavigatorState>();
+
+  @observable
+  GlobalKey<NavigatorState> settingsNavigatorKey = GlobalKey<NavigatorState>();
 }

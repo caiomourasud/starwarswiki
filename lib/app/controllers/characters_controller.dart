@@ -1,13 +1,28 @@
 import 'dart:async';
 
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:starwarswiki/app/repository/characters_repository.dart';
+import 'package:starwarswiki/app/models/planet.dart';
+import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/app/models/starship.dart';
+import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/repositories/characters_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
 import 'package:starwarswiki/app/models/people.dart';
 
+import 'planets_controller.dart';
+import 'species_controller.dart';
+import 'starships_controller.dart';
+import 'vehicles_controller.dart';
+
 part 'characters_controller.g.dart';
+
+final _planetsController = Modular.get<PlanetsController>();
+final _speciesController = Modular.get<SpeciesController>();
+final _starshipsController = Modular.get<StarshipsController>();
+final _vehiclesController = Modular.get<VehiclesController>();
 
 final _charactersRepository = CharactersRepositiry();
 
@@ -90,6 +105,52 @@ abstract class _CharactersControllerBase with Store {
                 .contains(Converters().simplifyString(searchText)))
             .toList();
       }
+    }
+  }
+
+  @observable
+  Planet? planet;
+
+  @observable
+  List<Starship> starships = [];
+  @observable
+  List<Vehicle> vehicles = [];
+  @observable
+  List<Specie> species = [];
+
+  @action
+  clearAll() {
+    starships.clear();
+    vehicles.clear();
+    species.clear();
+  }
+
+  @action
+  setList(widget) {
+    clearAll();
+    if (widget.character.homeworld != '') {
+      List<Planet> planetTemp = _planetsController.planets
+          .where((pl) => pl.url == widget.character.homeworld)
+          .toList();
+      planet = planetTemp[0];
+    }
+
+    if (widget.character.species.isEmpty) {
+      species.addAll(_speciesController.species
+          .where((sp) => sp.url == 'http://swapi.dev/api/species/1/'));
+    } else {
+      for (var specie in widget.character.species) {
+        species
+            .addAll(_speciesController.species.where((sp) => specie == sp.url));
+      }
+    }
+    for (var starship in widget.character.starships) {
+      starships.addAll(
+          _starshipsController.starships.where((st) => starship == st.url));
+    }
+    for (var vehicle in widget.character.vehicles) {
+      vehicles.addAll(
+          _vehiclesController.vehicles.where((ve) => vehicle == ve.url));
     }
   }
 }

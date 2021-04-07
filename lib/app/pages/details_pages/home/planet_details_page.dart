@@ -1,43 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
+import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
-import 'package:starwarswiki/app/controllers/films_controller.dart';
+import 'package:starwarswiki/app/controllers/planets_controller.dart';
+import 'package:starwarswiki/app/models/planet.dart';
 
-final _filmsController = Modular.get<FilmsController>();
+final _planetsController = Modular.get<PlanetsController>();
 
-List<Film> films = [];
-
-class VehicleDetailsPage extends StatefulWidget {
-  final Vehicle? vehicle;
+class PlanetDetailsPage extends StatefulWidget {
+  final Planet? planet;
   final int backButton;
 
-  const VehicleDetailsPage(
-      {Key? key, required this.vehicle, required this.backButton})
+  const PlanetDetailsPage(
+      {Key? key, required this.planet, required this.backButton})
       : super(key: key);
   @override
-  _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
+  _PlanetDetailsPageState createState() => _PlanetDetailsPageState();
 }
 
-setList(widget) {
-  films.clear();
-
-  for (var vehicle in widget.vehicle.films) {
-    films.addAll(_filmsController.films.where((ve) => vehicle == ve.url));
-  }
-}
-
-class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
+class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    setList(widget);
+    _planetsController.setList(widget);
     return Scaffold(
       appBar: CustomAppBar(
-          title: widget.vehicle!.name,
+          title: widget.planet!.name,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor),
       body: LayoutBuilder(builder: (context, dimens) {
@@ -45,14 +37,32 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           child: ListView(
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
+              CustomDetails(
+                id: widget.planet!.id,
+                type: 'planets',
+                name: widget.planet!.name,
+                firstDetailText: 'Climate',
+                firstDetailValue: widget.planet!.climate,
+                secondDetailText: 'Terrain',
+                secondDetailValue: widget.planet!.terrain,
+              ),
               SizedBox(height: 24.0),
-              if (films.isNotEmpty)
-                Column(
+              Observer(builder: (_) {
+                return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()
                         .cardList(
-                            context: context,
-                            films: films.isNotEmpty ? films : null)
+                          context: context,
+                          characters: _planetsController.characters.isNotEmpty
+                              ? _planetsController.characters
+                              : null,
+                          charactersTitle: 'Residents',
+                          charactersLines:
+                              _planetsController.characters.length > 6 ? 2 : 1,
+                          films: _planetsController.films.isNotEmpty
+                              ? _planetsController.films
+                              : null,
+                        )
                         .map((item) => CustomHorizontalList().list(
                             context: context,
                             title: item.title,
@@ -66,7 +76,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                             card: (index) => item.card(context, dimens, index),
                             seeAll: false,
                             onTap: () => item.onSeeAllTap(context)))
-                        .toList()),
+                        .toList());
+              }),
             ],
           ),
         );

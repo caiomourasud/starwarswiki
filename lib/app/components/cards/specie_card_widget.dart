@@ -5,6 +5,8 @@ import 'package:starwarswiki/app/models/specie.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../../utils/capitalize.dart';
+
 class SpecieCardWidget extends StatelessWidget {
   final Specie specie;
   final Function onTap;
@@ -57,7 +59,7 @@ class SpecieCardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(specie.classification,
+                          child: Text(specie.classification.capitalize(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.overline),

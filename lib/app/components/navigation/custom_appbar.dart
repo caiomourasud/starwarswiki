@@ -21,27 +21,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return CupertinoNavigationBar(
-      automaticallyImplyLeading: width <= md || (width > md && backButton == 2),
-      brightness: Theme.of(context).brightness,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      transitionBetweenRoutes: width <= md,
-      middle: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black87
-                    : Theme.of(context).colorScheme.onPrimary),
-          ),
-        ],
-      ),
-      trailing: trailing == null
-          ? SizedBox(width: 30.0)
-          : MouseRegion(cursor: SystemMouseCursors.click, child: trailing),
-    );
+        automaticallyImplyLeading:
+            width <= md || (width > md && backButton == 2),
+        brightness: Theme.of(context).brightness,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        transitionBetweenRoutes: width <= md,
+        middle: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.black87
+                      : Theme.of(context).colorScheme.onPrimary),
+            ),
+          ],
+        ),
+        trailing: trailing == null
+            ? null
+            : MouseRegion(cursor: SystemMouseCursors.click, child: trailing),
+        border: Border.all(color: Colors.transparent));
   }
 
   @override

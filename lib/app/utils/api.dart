@@ -11,8 +11,6 @@ import 'package:http/http.dart' as http;
 
 final _appController = Modular.get<AppController>();
 
-SnackBarWidget snackBarWidget = SnackBarWidget();
-
 Map<String, String> get headers =>
     {"Content-Type": "application/json; charset=UTF-8"};
 
@@ -49,13 +47,14 @@ class API {
       }
 
       if (_appController.noInternet) {
-        snackBarWidget.show(context, 'No internet.');
+        SnackBarWidget().show(context: context, mensagem: 'No internet.');
       } else {
         get(link);
       }
     } on SocketException catch (_) {
-      snackBarWidget.show(
-          context, 'Error connecting to the server, please try again later.');
+      SnackBarWidget().show(
+          context: context,
+          mensagem: 'Error connecting to the server, please try again later.');
     }
   }
 }
