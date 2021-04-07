@@ -79,8 +79,8 @@ class CharactersRepositiry {
     SnackBarWidget().show(
         context: context,
         mensagem: _charactersController.people[foundIndex].isFavorite
-            ? '${_charactersController.people[foundIndex].name} foi adicionado à lista de favoritos'
-            : '${_charactersController.people[foundIndex].name} foi removido da lista de favoritos',
+            ? '${_charactersController.people[foundIndex].name} has been added to the favorites list'
+            : '${_charactersController.people[foundIndex].name} has been removed from the favorites list',
         action: 'Desfazer',
         onPressed: () => setFavorite(context: context, id: id));
   }

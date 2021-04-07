@@ -28,7 +28,6 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   Widget build(BuildContext context) {
     _filmsController.setList(widget);
-    print('setList');
     return Scaffold(
       appBar: CustomAppBar(
           title: widget.film!.title,
