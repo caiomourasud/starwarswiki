@@ -2,13 +2,13 @@
 
 <p align=center>
   This application is being created for me <br>
-  redeem myself from a Flutter challenge that I did recently and did not do very well. 😅
+  redeem myself from a <a href="https://flutter.dev/" target="_blank">Flutter</a> challenge that I did recently and did not do very well. 😅
 </p>
 </br>
 </br>
 
 # Flutter
-<p>This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses Hive to store data locally.</p>
+<p>This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses <a href="https://pub.dev/packages/hive" target="_blank">Hive</a> to store data locally.</p>
 </br>
 
 # SWAPI
