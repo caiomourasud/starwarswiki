@@ -14,7 +14,7 @@ This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> 
 </br>
 
 # Images
-<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within this application.</p>
+<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within this application, because StarWars without photos is not the same.</p>
 </br>
 
 # Screenshots
@@ -28,3 +28,5 @@ This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> 
 # Creators
 <p>Caio Moura</p>
 - <a href="https://github.com/caiomourasud" target="_blank">https://github.com/caiomourasud</a>
+</br>
+I hope you enjoy 🤘
