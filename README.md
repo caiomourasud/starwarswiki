@@ -6,6 +6,6 @@
 </br>
 <p>This is the first part of the application running on an ios emulator and MacOS</p>
 <p>
-  <img src="screens/ios_presentation.gif" height="480" alt="">
-  <img src="screens/mac_presentation.gif" height="480" alt="">
+  <img src="screens/ios_presentation.gif" height="420" alt="">
+  <img src="screens/mac_presentation.gif" height="420" alt="">
 </p>
