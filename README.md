@@ -1,8 +1,7 @@
 <h1 align=center> StarWars Wiki </h3>
 
 # Flutter
-This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses Hive to store data locally..
-</br>
+<p>This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses Hive to store data locally.</p>
 </br>
 
 # SWAPI
@@ -29,4 +28,4 @@ This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> 
 <p>Caio Moura</p>
 - <a href="https://github.com/caiomourasud" target="_blank">https://github.com/caiomourasud</a>
 </br>
-I hope you enjoy 🤘
+<p>I hope you enjoy 🤘</p>
