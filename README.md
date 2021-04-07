@@ -1,19 +1,31 @@
 <h1 align=center> StarWars Wiki </h3>
 
+<p align=center>
+  This application is being created to <br>
+  redeem myself from a challenge that I did not do very well. 😅
+</p>
+
 # Flutter
-<p>This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses Hive to store data locally.</p>
+<p>This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed <br>
+  for devices with different screen sizes and <br>
+  types of interaction and it uses Hive to store data locally.</p>
 </br>
 
 # SWAPI
-<p>This application uses <a href="https://swapi.dev/" target="_blank">swapi.dev</a> to fill in its data. This application can show "planets, spaceships, vehicles, characters, movies, species" and their respective interactions.</p>
+<p>This application uses <a href="https://swapi.dev/" target="_blank">swapi.dev</a> to fill in its data. <br>
+  This application can show "planets, spaceships, vehicles, <br>
+  characters, movies, species" and their respective interactions.</p>
 </br>
 
 # Hive Database
-<p>It saves this data using the <a href="https://pub.dev/packages/hive" target="_blank">Hive</a>, it is a "NoSQL database fast, pleasant and secure", I chose this database because it is "Cross platform: mobile, desktop, browser".</p>
+<p>It saves this data using the <a href="https://pub.dev/packages/hive" target="_blank">Hive</a>, it is a "NoSQL database fast, <br>
+  pleasant and secure", I chose this database because <br>
+  it is "Cross platform: mobile, desktop, browser".</p>
 </br>
 
 # Images
-<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within this application, because StarWars without photos is not the same.</p>
+<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within <br>
+  this application, because StarWars without photos is not the same.</p>
 </br>
 
 # Screenshots
@@ -27,5 +39,6 @@
 # Creators
 <p>Caio Moura</p>
 - <a href="https://github.com/caiomourasud" target="_blank">https://github.com/caiomourasud</a>
+</br>
 </br>
 <p>I hope you enjoy 🤘</p>
