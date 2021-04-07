@@ -1,7 +1,8 @@
-# StarWars Wiki
+<h1 align=center> StarWars Wiki </h3>
 
 # Flutter
-This is a responsive flutter app, designed for devices with different screen sizes and types of interaction.
+This is a responsive <a href="https://flutter.dev/" target="_blank">Flutter</a> app, designed for devices with different screen sizes and types of interaction and it uses Hive to store data locally..
+</br>
 </br>
 
 # SWAPI
