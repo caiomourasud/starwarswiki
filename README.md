@@ -1,8 +1,8 @@
 <h1 align=center> StarWars Wiki </h3>
 
 <p align=center>
-  This application is being created to <br>
-  redeem myself from a challenge that I did not do very well. 😅
+  This application is being created for me redeem myself <br>
+  from a Flutter challenge that I did recently and did not do very well. 😅
 </p>
 
 # Flutter
@@ -24,8 +24,8 @@
 # Screenshots
 <p>This is the first part of the application running on an iOS Emulator and MacOS App</p>
 <p>
-  <img src="screens/ios_presentation.gif" height="420" alt="iOS screenshot">
-  <img src="screens/mac_presentation.gif" height="420" alt="MacOS screenshot">
+  <img src="screens/ios_presentation.gif" height="360" alt="iOS screenshot">
+  <img src="screens/mac_presentation.gif" alt="MacOS screenshot">
 </p>
 </br>
 
