@@ -34,7 +34,6 @@ class _MainPageState extends State<MainPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: LayoutBuilder(builder: (context, dimens) {
           return Scaffold(
-            // resizeToAvoidBottomInset: false,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
                     MediaQuery.of(context).size.width <= md
@@ -47,9 +46,6 @@ class _MainPageState extends State<MainPage> {
                     },
                     items: allDestinations.asMap().entries.map((destination) {
                       return BottomNavigationBarItem(
-                        // label: indexSelected == destination.key
-                        //     ? destination.value.tooltip
-                        //     : null,
                         icon: Icon(destination.value.icon, size: 24),
                         tooltip: destination.value.tooltip,
                       );

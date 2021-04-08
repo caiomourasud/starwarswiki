@@ -1,24 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:starwarswiki/app/models/planet.dart';
-import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import '../../utils/capitalize.dart';
+import '../../../utils/capitalize.dart';
 
-class PlanetCardWidget extends StatelessWidget {
-  final Planet planet;
+class HalfCardWidget extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String image;
+  final double? height;
+  final double? width;
+  final double? viewportFractionHeight;
   final Function onTap;
 
-  const PlanetCardWidget({
-    Key? key,
-    required this.planet,
-    required this.onTap,
-  }) : super(key: key);
+  const HalfCardWidget(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.image,
+      this.height = 200.0,
+      this.width = 200.0,
+      this.viewportFractionHeight = 0.45,
+      required this.onTap})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double widthPage = MediaQuery.of(context).size.width;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: CupertinoButton(
@@ -29,27 +38,28 @@ class PlanetCardWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Card(
-                    semanticContainer: true,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Container(
-                      height: width <= sm ? width * 0.28 : 110.0,
-                      width: width <= sm ? width * 0.30 : 120.0,
-                      decoration: BoxDecoration(
-                          color: CupertinoColors.darkBackgroundGray,
-                          image: planet.id != 28 && planet.id != 46
-                              ? DecorationImage(
-                                  image: NetworkImage(
-                                      ImageGenerator.generateImage(
-                                          id: planet.id, type: 'planets')),
-                                  alignment: Alignment.topCenter,
-                                  fit: BoxFit.cover)
-                              : null),
-                    )),
-                if (planet.id == 28 || planet.id == 46)
+                if (image != '')
+                  Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Container(
+                        height: widthPage <= sm
+                            ? widthPage * viewportFractionHeight!
+                            : height,
+                        width: widthPage <= sm ? widthPage * 0.45 : width,
+                        decoration: BoxDecoration(
+                            color: CupertinoColors.darkBackgroundGray,
+                            image: DecorationImage(
+                                image: NetworkImage(image),
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover)),
+                      )),
+                if (image == '')
                   Container(
-                    height: width <= sm ? width * 0.27 : 110.0,
-                    width: width <= sm ? width * 0.30 : 110.0,
+                    height: widthPage <= sm
+                        ? widthPage * viewportFractionHeight!
+                        : height,
+                    width: widthPage <= sm ? widthPage * 0.45 : width,
                     child: Center(
                       child: Text('no image',
                           textAlign: TextAlign.center,
@@ -69,7 +79,7 @@ class PlanetCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text(planet.name,
+                        child: Text(title,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.subtitle2),
                       ),
@@ -80,7 +90,7 @@ class PlanetCardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(planet.terrain.capitalize(),
+                          child: Text(subtitle.capitalize(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.overline),

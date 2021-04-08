@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/components/horizontal_list/cards/half_card_widget.dart';
+import 'package:starwarswiki/app/components/horizontal_list/cards/small_line_widget.dart';
+import 'package:starwarswiki/app/components/horizontal_list/cards/third_card_widget.dart';
 import 'package:starwarswiki/app/models/card_list.dart';
 import 'package:starwarswiki/app/models/film.dart';
 import 'package:starwarswiki/app/models/people.dart';
@@ -12,12 +15,6 @@ import 'package:starwarswiki/app/models/starship.dart';
 import 'package:starwarswiki/app/models/vehicle.dart';
 import 'package:starwarswiki/app/pages/details_pages/home/character_details_page.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
-import 'package:starwarswiki/app/components/cards/character_card_widget.dart';
-import 'package:starwarswiki/app/components/cards/film_card_widget.dart';
-import 'package:starwarswiki/app/components/cards/planet_card_widget.dart';
-import 'package:starwarswiki/app/components/cards/specie_card_widget.dart';
-import 'package:starwarswiki/app/components/cards/starship_card_widget.dart';
-import 'package:starwarswiki/app/components/cards/vehicle_card_widget.dart';
 import 'package:starwarswiki/app/components/list_tiles/character_listtile_widget.dart';
 import 'package:starwarswiki/app/pages/default_list_page.dart';
 import 'package:starwarswiki/app/components/list_tiles/film_listtile_widget.dart';
@@ -40,10 +37,14 @@ import 'package:starwarswiki/app/repositories/planets_repository.dart';
 import 'package:starwarswiki/app/repositories/species_repository.dart';
 import 'package:starwarswiki/app/repositories/starships_repository.dart';
 import 'package:starwarswiki/app/repositories/vehicles_repository.dart';
+import 'package:starwarswiki/app/utils/converters.dart';
+import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 import '../pages/details_pages/home/film_details_page.dart';
 import 'custom_card_dialog.dart';
+
+import '../utils/capitalize.dart';
 
 final _filmsRepository = FilmsRepositiry();
 final _filmsController = Modular.get<FilmsController>();
@@ -111,20 +112,25 @@ class CustomCardList {
           viewportFraction: filmsViewportFraction,
           hasDivider: filmsHasDivider,
           card: (context, dimens, index) {
-            return FilmCardWidget(
-              film: films[index],
-              onTap: () => width > md && filmsBackButton == 2
-                  ? CustomCardDialog().open(
-                      context: context,
-                      item: FilmDetailsPage(
-                          film: films[index], backButton: filmsBackButton),
-                    )
-                  : Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) {
-                      return FilmDetailsPage(
-                          film: films[index], backButton: width > md ? 2 : 1);
-                    })),
-            );
+            return HalfCardWidget(
+                title: films[index].title,
+                subtitle:
+                    'Episode ${Converters().setRoman(films[index].episodeId)}',
+                image: ImageGenerator.generateImage(
+                    id: films[index].id, type: 'films'),
+                height: 240.0,
+                viewportFractionHeight: 0.65,
+                onTap: () => width > md && filmsBackButton == 2
+                    ? CustomCardDialog().open(
+                        context: context,
+                        item: FilmDetailsPage(
+                            film: films[index], backButton: filmsBackButton),
+                      )
+                    : Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) {
+                        return FilmDetailsPage(
+                            film: films[index], backButton: width > md ? 2 : 1);
+                      })));
           },
           onSeeAllTap: (context) =>
               Navigator.push(context, CupertinoPageRoute(builder: (context) {
@@ -192,10 +198,80 @@ class CustomCardList {
           viewportFraction: charactersViewportFraction,
           hasDivider: charactersHasDivider,
           card: (context, dimens, index) {
-            return CharacterCardWidget(
-                character: characters[index],
-                onIconPressed: (id) => _charactersRepository.setFavorite(
-                    context: context, id: characters[index].id),
+            return SmallLineWidget(
+                topText: Row(
+                  children: [
+                    Opacity(
+                      opacity: 0.8,
+                      child: Text(
+                        Converters().setSpecie(characters[index].species),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.overline,
+                      ),
+                    ),
+                    SizedBox(width: 2.0),
+                    Converters().setGender(characters[index].gender, 9.0)
+                  ],
+                ),
+                title: characters[index].name,
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Opacity(
+                            opacity: 0.8,
+                            child: Text('Height',
+                                style: Theme.of(context).textTheme.overline),
+                          ),
+                          Text(
+                              Converters()
+                                  .toDouble(characters[index].height, 1),
+                              style: Converters().toDouble(
+                                          characters[index].height, 1) ==
+                                      'unknown'
+                                  ? Theme.of(context).textTheme.overline
+                                  : Theme.of(context).textTheme.subtitle2),
+                        ],
+                      ),
+                      SizedBox(width: 12.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Opacity(
+                            opacity: 0.8,
+                            child: Text('Mass',
+                                style: Theme.of(context).textTheme.overline),
+                          ),
+                          Text(
+                            Converters().toDouble(characters[index].mass, 0),
+                            style: Converters()
+                                        .toDouble(characters[index].mass, 0) ==
+                                    'unknown'
+                                ? Theme.of(context).textTheme.overline
+                                : Theme.of(context).textTheme.subtitle2,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                button: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      characters[index].isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => _charactersRepository.setFavorite(
+                      context: context, id: characters[index].id),
+                ),
+                image: ImageGenerator.generateImage(
+                    id: characters[index].id, type: 'characters'),
                 onTap: () => width > md && charactersBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
@@ -306,8 +382,11 @@ class CustomCardList {
           viewportFraction: planetsViewportFraction,
           hasDivider: planetsHasDivider,
           card: (context, dimens, index) {
-            return PlanetCardWidget(
-                planet: planets[index],
+            return ThirdCardWidget(
+                title: planets[index].name,
+                subtitle: planets[index].terrain.capitalize(),
+                image: ImageGenerator.generateImage(
+                    id: planets[index].id, type: 'planets'),
                 onTap: () => width > md && planetsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
@@ -383,14 +462,19 @@ class CustomCardList {
         CardList(
           title: speciesTitle,
           list: species,
-          height: 126.0,
-          width: width <= sm ? width * 0.45 : 150.0,
+          height: width <= sm ? width * 0.225 + 54.0 : 100.0 + 54.0,
+          width: width <= sm ? width * 0.45 : 200.0,
           rows: speciesLines,
           viewportFraction: speciesViewportFraction,
           hasDivider: speciesHasDivider,
           card: (context, dimens, index) {
-            return SpecieCardWidget(
-                specie: species[index],
+            return HalfCardWidget(
+                title: species[index].name,
+                subtitle: species[index].classification.capitalize(),
+                image: ImageGenerator.generateImage(
+                    id: species[index].id, type: 'species'),
+                height: 100.0,
+                viewportFractionHeight: 0.225,
                 onTap: () => width > md && speciesBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
@@ -471,8 +555,43 @@ class CustomCardList {
           viewportFraction: starshipsViewportFraction,
           hasDivider: starshipsHasDivider,
           card: (context, dimens, index) {
-            return StarshipCardWidget(
-                starship: starships[index],
+            return SmallLineWidget(
+                topText: Row(
+                  children: [
+                    Expanded(
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: Text(
+                          starships[index].model,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.overline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                title: starships[index].name,
+                subtitle: Row(
+                  children: [
+                    SizedBox(width: 1.0),
+                    Expanded(
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: Text(
+                          starships[index].manufacturer,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(height: 1.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                image: ImageGenerator.generateImage(
+                    id: starships[index].id, type: 'starships'),
                 onTap: () => width > md && starshipsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
@@ -557,8 +676,11 @@ class CustomCardList {
           viewportFraction: vehiclesViewportFraction,
           hasDivider: vehiclesHasDivider,
           card: (context, dimens, index) {
-            return VehicleCardWidget(
-                vehicle: vehicles[index],
+            return ThirdCardWidget(
+                title: vehicles[index].name,
+                subtitle: vehicles[index].model.capitalize(),
+                image: ImageGenerator.generateImage(
+                    id: vehicles[index].id, type: 'vehicles'),
                 onTap: () => width > md && vehiclesBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,

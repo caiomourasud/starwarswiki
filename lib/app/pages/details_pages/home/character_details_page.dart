@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
-import 'package:starwarswiki/app/components/custom_horizontal_list.dart';
+import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/models/characteristics_list.dart';
@@ -223,7 +223,6 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                               borderRadius: new BorderRadius.all(
                                 const Radius.circular(6.0),
                               )),
-                          // margin: EdgeInsets.only(left: 0.0, top: 8.0, right: 8.0),
                           child: Padding(
                             padding:
                                 const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
