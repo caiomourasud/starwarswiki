@@ -1,21 +1,30 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:starwarswiki/app/components/snack_bar_widget.dart';
+import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/models/database/vehicle.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
 
 StorageUtil _prefs = StorageUtil();
+
+final _appController = Modular.get<AppController>();
 final _vehiclesController = Modular.get<VehiclesController>();
 
 class VehiclesRepositiry {
   Box<Vehicle> _vehiclesBox = Hive.box<Vehicle>(vehiclesBox);
 
   Future<List<Vehicle>> fecthVehicles({String? nextPage}) async {
+    if (_appController.noInternet)
+      SnackBarWidget()
+          .show(context: _appController.context!, mensagem: 'No internet.');
+
     List<Vehicle> _vehicles = [];
     bool charge = true;
     String _url = 'https://swapi.dev/api/vehicles/?page=';
@@ -62,5 +71,20 @@ class VehiclesRepositiry {
           _vehiclesController.vehicles.where((vehicle) => vehicle.id == id);
       return vehicles.first;
     }
+  }
+
+  setFavorite({required BuildContext context, required int id}) {
+    var foundIndex =
+        _vehiclesController.vehicles.indexWhere((vehicle) => vehicle.id == id);
+    _vehiclesController.vehicles[foundIndex].isFavorite =
+        !_vehiclesController.vehicles[foundIndex].isFavorite;
+    _vehiclesBox.putAt(foundIndex, _vehiclesController.vehicles[foundIndex]);
+    _vehiclesController.vehicles = _vehiclesBox.values.toList();
+    SnackBarWidget().show(
+        context: context,
+        mensagem:
+            '${_vehiclesController.vehicles[foundIndex].name} has been ${_vehiclesController.vehicles[foundIndex].isFavorite ? 'added to' : 'removed from'} the favorites list',
+        action: 'Undo',
+        onPressed: () => setFavorite(context: context, id: id));
   }
 }

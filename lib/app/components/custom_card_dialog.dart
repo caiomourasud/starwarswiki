@@ -19,10 +19,7 @@ class CustomCardDialog {
                   minWidth: MediaQuery.of(context).size.width / 1.5),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6.0),
-                child: DefaultView(
-                  page: item,
-                  actionList: [],
-                ),
+                child: DefaultView(page: item),
               ),
             ));
       },

@@ -6,13 +6,17 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/controllers/films_controller.dart';
-import 'package:starwarswiki/app/models/film.dart';
+import 'package:starwarswiki/app/models/database/film.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
+import 'package:starwarswiki/app/repositories/films_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 
 final _filmsController = Modular.get<FilmsController>();
+final _charactersController = Modular.get<CharactersController>();
+final _filmsRepository = FilmsRepositiry();
 
 class FilmDetailsPage extends StatefulWidget {
   final Film? film;
@@ -32,7 +36,22 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
       appBar: CustomAppBar(
           title: widget.film!.title,
           backButton: widget.backButton,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          trailing: Tooltip(
+              message: widget.film!.isFavorite ? 'Remover' : 'Favoritar',
+              child: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.film!.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => setState(
+                        () => _filmsRepository.setFavorite(
+                            context: context, id: widget.film!.id),
+                      )))),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(
@@ -131,6 +150,8 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
               ),
               SizedBox(height: 24.0),
               Observer(builder: (_) {
+                _charactersController.people.where(
+                    (character) => widget.film!.characters[0] == character.url);
                 return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()

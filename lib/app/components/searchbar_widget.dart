@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class SearchBarWidget extends SliverPersistentHeaderDelegate {
-  final size;
-  final buscar;
-  final focus;
-  final onChange;
+  final double size;
+  final TextEditingController buscar;
+  final FocusNode focus;
+  final Function(String) onChange;
   final Function() cancelar;
-  final texto;
-  final fullDimens;
+  final String? texto;
+  final BoxConstraints fullDimens;
   final int backButton;
   SearchBarWidget(
-      {this.size,
-      this.buscar,
-      this.focus,
-      this.onChange,
+      {required this.size,
+      required this.buscar,
+      required this.focus,
+      required this.onChange,
       required this.cancelar,
-      this.texto = 'Buscar',
-      this.fullDimens,
+      this.texto = 'Search',
+      required this.fullDimens,
       required this.backButton});
 
   @override

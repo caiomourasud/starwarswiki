@@ -32,13 +32,15 @@ class FilmAdapter extends TypeAdapter<Film> {
       created: fields[12] as String,
       edited: fields[13] as String,
       url: fields[14] as String,
+      isFavorite: fields[15] as bool,
+      image: fields[16] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Film obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -68,7 +70,11 @@ class FilmAdapter extends TypeAdapter<Film> {
       ..writeByte(13)
       ..write(obj.edited)
       ..writeByte(14)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(15)
+      ..write(obj.isFavorite)
+      ..writeByte(16)
+      ..write(obj.image);
   }
 
   @override

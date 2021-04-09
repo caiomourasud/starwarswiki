@@ -36,13 +36,15 @@ class StarshipAdapter extends TypeAdapter<Starship> {
       created: fields[16] as String,
       edited: fields[17] as String,
       url: fields[18] as String,
+      isFavorite: fields[19] as bool,
+      image: fields[20] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Starship obj) {
     writer
-      ..writeByte(19)
+      ..writeByte(21)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -80,7 +82,11 @@ class StarshipAdapter extends TypeAdapter<Starship> {
       ..writeByte(17)
       ..write(obj.edited)
       ..writeByte(18)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(19)
+      ..write(obj.isFavorite)
+      ..writeByte(20)
+      ..write(obj.image);
   }
 
   @override

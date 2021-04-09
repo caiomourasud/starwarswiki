@@ -41,6 +41,8 @@ class People extends HiveObject {
   String url = '';
   @HiveField(17)
   bool isFavorite = false;
+  @HiveField(18)
+  String image = '';
 
   People(
       {required this.id,
@@ -60,7 +62,8 @@ class People extends HiveObject {
       required this.created,
       required this.edited,
       required this.url,
-      this.isFavorite = false});
+      this.isFavorite = false,
+      this.image = ''});
 
   People.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'people');
@@ -81,6 +84,7 @@ class People extends HiveObject {
     edited = json['edited'];
     url = json['url'];
     isFavorite = false;
+    image = '';
   }
 
   Map<String, dynamic> toJson() {
@@ -103,6 +107,7 @@ class People extends HiveObject {
     data['edited'] = this.edited;
     data['url'] = this.url;
     data['is_favorite'] = this.isFavorite;
+    data['image'] = this.image;
     return data;
   }
 }

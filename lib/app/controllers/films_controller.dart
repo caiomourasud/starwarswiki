@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/people.dart';
-import 'package:starwarswiki/app/models/planet.dart';
-import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/models/starship.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/models/database/film.dart';
+import 'package:starwarswiki/app/models/database/people.dart';
+import 'package:starwarswiki/app/models/database/planet.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
+import 'package:starwarswiki/app/models/database/starship.dart';
+import 'package:starwarswiki/app/models/database/vehicle.dart';
 import 'package:starwarswiki/app/repositories/films_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
@@ -64,6 +64,18 @@ abstract class _FilmsControllerBase with Store {
   setSearchText(newValue) => searchText = newValue;
 
   @observable
+  bool showFavorites = false;
+
+  @action
+  setShowFavorites(newValue) {
+    if (newValue == null) {
+      showFavorites = !showFavorites;
+    } else {
+      showFavorites = newValue;
+    }
+  }
+
+  @observable
   int filmSelected = 0;
 
   @action
@@ -73,14 +85,27 @@ abstract class _FilmsControllerBase with Store {
 
   @computed
   List<Film> get filterFilms {
-    if (searchText == '') {
-      return films;
+    if (showFavorites) {
+      var favorites = films.where((film) => film.isFavorite).toList();
+      if (searchText == '') {
+        return favorites;
+      } else {
+        return favorites
+            .where((film) => Converters()
+                .simplifyString(film.title)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     } else {
-      return films
-          .where((film) => Converters()
-              .simplifyString(film.title)
-              .contains(Converters().simplifyString(searchText)))
-          .toList();
+      if (searchText == '') {
+        return films;
+      } else {
+        return films
+            .where((film) => Converters()
+                .simplifyString(film.title)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     }
   }
 

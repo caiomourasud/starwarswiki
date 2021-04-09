@@ -7,12 +7,12 @@ import 'package:starwarswiki/app/components/horizontal_list/cards/half_card_widg
 import 'package:starwarswiki/app/components/horizontal_list/cards/small_line_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/cards/third_card_widget.dart';
 import 'package:starwarswiki/app/models/card_list.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/people.dart';
-import 'package:starwarswiki/app/models/planet.dart';
-import 'package:starwarswiki/app/models/specie.dart';
-import 'package:starwarswiki/app/models/starship.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/models/database/film.dart';
+import 'package:starwarswiki/app/models/database/people.dart';
+import 'package:starwarswiki/app/models/database/planet.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
+import 'package:starwarswiki/app/models/database/starship.dart';
+import 'package:starwarswiki/app/models/database/vehicle.dart';
 import 'package:starwarswiki/app/pages/details_pages/home/character_details_page.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/character_listtile_widget.dart';
@@ -150,9 +150,13 @@ class CustomCardList {
                   nextText: 'next_films',
                   list: _filmsController.films,
                   filterList: _filmsController.filterFilms,
-                  actions: [],
-                  titleActions: [],
-                  appBarActions: [],
+                  actions: [
+                    _listFavorites(
+                        paddingTop: 4.0,
+                        paddingRight: 10.0,
+                        isSelected: _filmsController.showFavorites,
+                        onTap: () => _filmsController.setShowFavorites(null))
+                  ],
                   showFavorites: null,
                   listTile: SliverList(
                       delegate: SliverChildBuilderDelegate(
@@ -176,7 +180,11 @@ class CustomCardList {
                           _filmsController.setFilmSelected(
                               _filmsController.filterFilms[index].id);
                         },
-                        filmSelected: _filmsController.filmSelected);
+                        filmSelected: _filmsController.filmSelected,
+                        onFavoriteTap: (index) {
+                          _filmsRepository.setFavorite(
+                              context: context, id: index);
+                        });
                   }, childCount: _filmsController.filterFilms.length)),
                   detailsPage: FilmDetailsPage(
                     backButton: 0,
@@ -204,7 +212,7 @@ class CustomCardList {
                     Opacity(
                       opacity: 0.8,
                       child: Text(
-                        Converters().setSpecie(characters[index].species),
+                        Converters().getSpecie(characters[index].species),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.overline,
                       ),
@@ -308,24 +316,8 @@ class CustomCardList {
                     actions: [
                       _listFavorites(
                           paddingTop: 4.0,
-                          paddingRight: 0.0,
-                          disable: false,
-                          onTap: () =>
-                              _charactersController.setShowFavorites(null))
-                    ],
-                    titleActions: [
-                      _listFavorites(
-                          paddingTop: 4.0,
-                          paddingRight: 16.0,
-                          disable: false,
-                          onTap: () =>
-                              _charactersController.setShowFavorites(null))
-                    ],
-                    appBarActions: [
-                      _listFavorites(
-                          paddingTop: 4.0,
-                          paddingRight: 0.0,
-                          disable: false,
+                          paddingRight: 10.0,
+                          isSelected: _charactersController.showFavorites,
                           onTap: () =>
                               _charactersController.setShowFavorites(null))
                     ],
@@ -419,9 +411,14 @@ class CustomCardList {
                     nextText: 'next_planets',
                     list: _planetsController.planets,
                     filterList: _planetsController.filterPlanets,
-                    actions: [],
-                    titleActions: [],
-                    appBarActions: [],
+                    actions: [
+                      _listFavorites(
+                          paddingTop: 4.0,
+                          paddingRight: 10.0,
+                          isSelected: _planetsController.showFavorites,
+                          onTap: () =>
+                              _planetsController.setShowFavorites(null))
+                    ],
                     showFavorites: null,
                     listTile: SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -445,7 +442,11 @@ class CustomCardList {
                             _planetsController.setPlanetSelected(
                                 _planetsController.filterPlanets[index].id);
                           },
-                          planetSelected: _planetsController.planetSelected);
+                          planetSelected: _planetsController.planetSelected,
+                          onFavoriteTap: (index) {
+                            _planetsRepository.setFavorite(
+                                context: context, id: index);
+                          });
                     }, childCount: _planetsController.filterPlanets.length)),
                     detailsPage: PlanetDetailsPage(
                       backButton: 0,
@@ -507,9 +508,14 @@ class CustomCardList {
                     nextText: 'next_species',
                     list: _speciesController.species,
                     filterList: _speciesController.filterSpecies,
-                    actions: [],
-                    titleActions: [],
-                    appBarActions: [],
+                    actions: [
+                      _listFavorites(
+                          paddingTop: 4.0,
+                          paddingRight: 10.0,
+                          isSelected: _speciesController.showFavorites,
+                          onTap: () =>
+                              _speciesController.setShowFavorites(null))
+                    ],
                     showFavorites: null,
                     listTile: SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -533,7 +539,11 @@ class CustomCardList {
                             _speciesController.setSpecieSelected(
                                 _speciesController.filterSpecies[index].id);
                           },
-                          specieSelected: _speciesController.specieSelected);
+                          specieSelected: _speciesController.specieSelected,
+                          onFavoriteTap: (index) {
+                            _speciesRepository.setFavorite(
+                                context: context, id: index);
+                          });
                     }, childCount: _speciesController.filterSpecies.length)),
                     detailsPage: SpecieDetailsPage(
                         backButton: 0,
@@ -624,9 +634,14 @@ class CustomCardList {
                     nextText: 'next_starships',
                     list: _starshipsController.starships,
                     filterList: _starshipsController.filterStarships,
-                    actions: [],
-                    titleActions: [],
-                    appBarActions: [],
+                    actions: [
+                      _listFavorites(
+                          paddingTop: 4.0,
+                          paddingRight: 10.0,
+                          isSelected: _starshipsController.showFavorites,
+                          onTap: () =>
+                              _starshipsController.setShowFavorites(null))
+                    ],
                     showFavorites: null,
                     listTile: SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -651,7 +666,11 @@ class CustomCardList {
                                 _starshipsController.filterStarships[index].id);
                           },
                           starshipSelected:
-                              _starshipsController.starshipSelected);
+                              _starshipsController.starshipSelected,
+                          onFavoriteTap: (index) {
+                            _starshipsRepository.setFavorite(
+                                context: context, id: index);
+                          });
                     },
                             childCount:
                                 _starshipsController.filterStarships.length)),
@@ -713,9 +732,14 @@ class CustomCardList {
                     nextText: 'next_vehicles',
                     list: _vehiclesController.vehicles,
                     filterList: _vehiclesController.filterVehicles,
-                    actions: [],
-                    titleActions: [],
-                    appBarActions: [],
+                    actions: [
+                      _listFavorites(
+                          paddingTop: 4.0,
+                          paddingRight: 10.0,
+                          isSelected: _vehiclesController.showFavorites,
+                          onTap: () =>
+                              _vehiclesController.setShowFavorites(null))
+                    ],
                     showFavorites: null,
                     listTile: SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -739,7 +763,11 @@ class CustomCardList {
                             _vehiclesController.setVehicleSelected(
                                 _vehiclesController.filterVehicles[index].id);
                           },
-                          vehicleSelected: _vehiclesController.vehicleSelected);
+                          vehicleSelected: _vehiclesController.vehicleSelected,
+                          onFavoriteTap: (index) {
+                            _vehiclesRepository.setFavorite(
+                                context: context, id: index);
+                          });
                     }, childCount: _vehiclesController.filterVehicles.length)),
                     detailsPage: VehicleDetailsPage(
                       backButton: 0,
@@ -759,36 +787,23 @@ class CustomCardList {
 _listFavorites(
     {required double paddingTop,
     required double paddingRight,
-    required bool disable,
+    required bool isSelected,
     required Function() onTap}) {
   return MouseRegion(
-      cursor: disable ? MouseCursor.defer : SystemMouseCursors.click,
+      cursor: SystemMouseCursors.click,
       child: Padding(
         padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-        child: disable
-            ? Opacity(
-                opacity: 0,
-                child: CupertinoButton(
-                    minSize: 34,
-                    padding: EdgeInsets.zero,
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Icon(CupertinoIcons.square_favorites_alt_fill,
-                        size: 28),
-                    onPressed: null),
-              )
-            : Tooltip(
-                message: _charactersController.showFavorites
-                    ? 'List all'
-                    : 'List favorites',
-                child: CupertinoButton(
-                    minSize: 34,
-                    padding: EdgeInsets.zero,
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Icon(
-                        _charactersController.showFavorites
-                            ? CupertinoIcons.square_favorites_alt_fill
-                            : CupertinoIcons.square_favorites_alt,
-                        size: 28),
-                    onPressed: () => onTap())),
+        child: Tooltip(
+            message: isSelected ? 'List all' : 'List favorites',
+            child: CupertinoButton(
+                minSize: 34,
+                padding: EdgeInsets.zero,
+                borderRadius: BorderRadius.circular(50.0),
+                child: Icon(
+                    isSelected
+                        ? CupertinoIcons.square_favorites_alt_fill
+                        : CupertinoIcons.square_favorites_alt,
+                    size: 28),
+                onPressed: () => onTap())),
       ));
 }

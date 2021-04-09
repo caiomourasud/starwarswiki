@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:starwarswiki/code/breakpoints.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   final BuildContext context;
   final String title;
-  final List<Widget> titleActions;
   final List<Widget> actions;
+  final bool? showActionListOnLargeSize;
   final double? position;
   final int backButton;
 
@@ -14,7 +15,7 @@ class CustomSliverAppBar extends StatelessWidget {
     Key? key,
     required this.context,
     required this.title,
-    required this.titleActions,
+    this.showActionListOnLargeSize = true,
     required this.actions,
     this.position,
     required this.backButton,
@@ -22,7 +23,9 @@ class CustomSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(context) {
+    double width = MediaQuery.of(context).size.width;
     return CupertinoSliverNavigationBar(
+        leading: null,
         middle: position == null
             ? null
             : AnimatedOpacity(
@@ -67,18 +70,29 @@ class CustomSliverAppBar extends StatelessWidget {
                                     : Theme.of(context).colorScheme.onPrimary),
                       ),
                     ),
-                  if (position! <= 35.0)
-                    Row(
-                      children: titleActions,
-                    )
+                  if (position! <= 35.0 &&
+                      (width <= md || showActionListOnLargeSize!))
+                    Padding(
+                      padding: EdgeInsets.only(right: width > md ? 6.0 : 4.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: actions,
+                      ),
+                    ),
                 ],
               ),
         trailing: position == null
             ? null
-            : AnimatedOpacity(
-                opacity: position! > 35.0 ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 100),
-                child: Row(mainAxisSize: MainAxisSize.min, children: actions)),
+            : width > md && !showActionListOnLargeSize!
+                ? null
+                : AnimatedOpacity(
+                    opacity: position! > 35.0 ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 100),
+                    child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: position! > 35.0 ? actions : [])),
+        padding: EdgeInsetsDirectional.only(
+            start: 0.0, top: 0.0, end: width > md ? 6.0 : 4.0, bottom: 0.0),
         border: Border.all(color: Colors.transparent));
   }
 }

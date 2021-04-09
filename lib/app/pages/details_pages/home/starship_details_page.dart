@@ -6,9 +6,11 @@ import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/starships_controller.dart';
-import 'package:starwarswiki/app/models/starship.dart';
+import 'package:starwarswiki/app/models/database/starship.dart';
+import 'package:starwarswiki/app/repositories/starships_repository.dart';
 
 final _starshipsController = Modular.get<StarshipsController>();
+final _starshipsRepository = StarshipsRepositiry();
 
 class StarshipDetailsPage extends StatefulWidget {
   final Starship? starship;
@@ -29,7 +31,22 @@ class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
       appBar: CustomAppBar(
           title: widget.starship!.name,
           backButton: widget.backButton,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          trailing: Tooltip(
+              message: widget.starship!.isFavorite ? 'Remover' : 'Favoritar',
+              child: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.starship!.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => setState(
+                        () => _starshipsRepository.setFavorite(
+                            context: context, id: widget.starship!.id),
+                      )))),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(

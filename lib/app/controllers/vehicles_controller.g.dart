@@ -77,6 +77,22 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
     });
   }
 
+  final _$showFavoritesAtom =
+      Atom(name: '_VehiclesControllerBase.showFavorites');
+
+  @override
+  bool get showFavorites {
+    _$showFavoritesAtom.reportRead();
+    return super.showFavorites;
+  }
+
+  @override
+  set showFavorites(bool value) {
+    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
+      super.showFavorites = value;
+    });
+  }
+
   final _$vehicleSelectedAtom =
       Atom(name: '_VehiclesControllerBase.vehicleSelected');
 
@@ -143,6 +159,17 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
   }
 
   @override
+  dynamic setShowFavorites(dynamic newValue) {
+    final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
+        name: '_VehiclesControllerBase.setShowFavorites');
+    try {
+      return super.setShowFavorites(newValue);
+    } finally {
+      _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setVehicleSelected(int newValue) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setVehicleSelected');
@@ -159,6 +186,7 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
 vehicles: ${vehicles},
 res: ${res},
 searchText: ${searchText},
+showFavorites: ${showFavorites},
 vehicleSelected: ${vehicleSelected},
 films: ${films},
 filterVehicles: ${filterVehicles}

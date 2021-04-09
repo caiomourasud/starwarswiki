@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/vehicle.dart';
+import 'package:starwarswiki/app/models/database/film.dart';
+import 'package:starwarswiki/app/models/database/vehicle.dart';
 import 'package:starwarswiki/app/repositories/vehicles_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
@@ -52,6 +52,18 @@ abstract class _VehiclesControllerBase with Store {
   setSearchText(newValue) => searchText = newValue;
 
   @observable
+  bool showFavorites = false;
+
+  @action
+  setShowFavorites(newValue) {
+    if (newValue == null) {
+      showFavorites = !showFavorites;
+    } else {
+      showFavorites = newValue;
+    }
+  }
+
+  @observable
   int vehicleSelected = 0;
 
   @action
@@ -61,14 +73,27 @@ abstract class _VehiclesControllerBase with Store {
 
   @computed
   List<Vehicle> get filterVehicles {
-    if (searchText == '') {
-      return vehicles;
+    if (showFavorites) {
+      var favorites = vehicles.where((vehicle) => vehicle.isFavorite).toList();
+      if (searchText == '') {
+        return favorites;
+      } else {
+        return favorites
+            .where((vehicle) => Converters()
+                .simplifyString(vehicle.name)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     } else {
-      return vehicles
-          .where((vehicle) => Converters()
-              .simplifyString(vehicle.name)
-              .contains(Converters().simplifyString(searchText)))
-          .toList();
+      if (searchText == '') {
+        return vehicles;
+      } else {
+        return vehicles
+            .where((vehicle) => Converters()
+                .simplifyString(vehicle.name)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     }
   }
 

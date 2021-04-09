@@ -8,7 +8,7 @@ import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_li
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/models/characteristics_list.dart';
-import 'package:starwarswiki/app/models/people.dart';
+import 'package:starwarswiki/app/models/database/people.dart';
 import 'package:starwarswiki/app/pages/details_pages/home/planet_details_page.dart';
 import 'package:starwarswiki/app/repositories/characters_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
@@ -107,6 +107,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                           width: 130.0,
                           decoration: BoxDecoration(
                               color: CupertinoColors.darkBackgroundGray,
+                              // ignore: unnecessary_null_comparison
                               image: DecorationImage(
                                   image: NetworkImage(
                                       ImageGenerator.generateImage(

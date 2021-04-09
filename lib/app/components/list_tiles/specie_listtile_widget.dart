@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/components/line_content.dart';
-import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -10,43 +10,65 @@ import '../../utils/capitalize.dart';
 
 Converters conversores = Converters();
 
-class SpecieListTileWidget extends StatelessWidget {
+class SpecieListTileWidget extends StatefulWidget {
   final int specieSelected;
   final Specie specie;
   final Function(Specie) onTap;
+  final Function(int) onFavoriteTap;
 
   const SpecieListTileWidget(
       {Key? key,
       required this.specieSelected,
       required this.specie,
-      required this.onTap})
+      required this.onTap,
+      required this.onFavoriteTap})
       : super(key: key);
+
+  @override
+  _SpecieListTileWidgetState createState() => _SpecieListTileWidgetState();
+}
+
+class _SpecieListTileWidgetState extends State<SpecieListTileWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: ListTile(
-        selected: specieSelected == specie.id &&
+        selected: widget.specieSelected == widget.specie.id &&
             MediaQuery.of(context).size.width > md,
         selectedTileColor: Theme.of(context).focusColor,
         contentPadding: EdgeInsets.fromLTRB(14.0, 2.0, 12.0, 2.0),
         onTap: () {
-          onTap(specie);
+          widget.onTap(widget.specie);
         },
         subtitle: Container(
             height: 50.0,
             child: LineContent(
-                id: specie.id,
+                id: widget.specie.id,
                 type: 'species',
-                title: specie.name,
+                title: widget.specie.name,
                 subtitle: Row(
                   children: [
                     Opacity(
                       opacity: 0.8,
-                      child: Text(specie.classification.capitalize(),
+                      child: Text(widget.specie.classification.capitalize(),
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
                   ],
+                ),
+                tooltipButton:
+                    widget.specie.isFavorite ? 'Remove' : 'Make favorite',
+                button: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.specie.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () =>
+                      setState(() => widget.onFavoriteTap(widget.specie.id)),
                 ))),
       ),
     );

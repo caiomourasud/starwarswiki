@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   title: Text(settings[index].title,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle1),
+                                          .headline6),
                                   subtitle: Text(settings[index].subtitle,
                                       style: Theme.of(context)
                                           .textTheme

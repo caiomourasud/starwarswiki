@@ -77,6 +77,22 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
     });
   }
 
+  final _$showFavoritesAtom =
+      Atom(name: '_PlanetsControllerBase.showFavorites');
+
+  @override
+  bool get showFavorites {
+    _$showFavoritesAtom.reportRead();
+    return super.showFavorites;
+  }
+
+  @override
+  set showFavorites(bool value) {
+    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
+      super.showFavorites = value;
+    });
+  }
+
   final _$planetSelectedAtom =
       Atom(name: '_PlanetsControllerBase.planetSelected');
 
@@ -158,6 +174,17 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
   }
 
   @override
+  dynamic setShowFavorites(dynamic newValue) {
+    final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
+        name: '_PlanetsControllerBase.setShowFavorites');
+    try {
+      return super.setShowFavorites(newValue);
+    } finally {
+      _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setPlanetSelected(int newValue) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setPlanetSelected');
@@ -196,6 +223,7 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
 planets: ${planets},
 res: ${res},
 searchText: ${searchText},
+showFavorites: ${showFavorites},
 planetSelected: ${planetSelected},
 characters: ${characters},
 films: ${films},

@@ -16,7 +16,6 @@ List<Destination> allDestinations = <Destination>[
       pagina: DefaultView(
         navigatorKey: _appController.homeNavigatorKey,
         page: HomePage(),
-        actionList: [],
       ),
       navigatorKey: _appController.homeNavigatorKey,
       icon: CupertinoIcons.today,
@@ -25,7 +24,6 @@ List<Destination> allDestinations = <Destination>[
       pagina: DefaultView(
         navigatorKey: _appController.searchNavigatorKey,
         page: Container(),
-        actionList: [],
       ),
       navigatorKey: _appController.searchNavigatorKey,
       icon: CupertinoIcons.search,
@@ -34,7 +32,6 @@ List<Destination> allDestinations = <Destination>[
       pagina: DefaultView(
         navigatorKey: _appController.favoritesNavigatorKey,
         page: Scaffold(),
-        actionList: [],
       ),
       navigatorKey: _appController.favoritesNavigatorKey,
       icon: CupertinoIcons.suit_heart_fill,
@@ -43,7 +40,6 @@ List<Destination> allDestinations = <Destination>[
       pagina: DefaultView(
         navigatorKey: _appController.settingsNavigatorKey,
         page: SettingsPage(),
-        actionList: [],
       ),
       navigatorKey: _appController.settingsNavigatorKey,
       icon: FontAwesomeIcons.jediOrder,

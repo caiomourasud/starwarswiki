@@ -33,13 +33,15 @@ class SpecieAdapter extends TypeAdapter<Specie> {
       created: fields[13] as String,
       edited: fields[14] as String,
       url: fields[15] as String,
+      isFavorite: fields[16] as bool,
+      image: fields[17] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Specie obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(18)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -71,7 +73,11 @@ class SpecieAdapter extends TypeAdapter<Specie> {
       ..writeByte(14)
       ..write(obj.edited)
       ..writeByte(15)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(16)
+      ..write(obj.isFavorite)
+      ..writeByte(17)
+      ..write(obj.image);
   }
 
   @override

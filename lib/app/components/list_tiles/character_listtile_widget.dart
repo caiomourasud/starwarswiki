@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:starwarswiki/app/models/database/people.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
-import 'package:starwarswiki/app/models/people.dart';
 
 import '../line_content.dart';
 
@@ -50,7 +50,7 @@ class _CharacterListTileWidgetState extends State<CharacterListTileWidget> {
                   children: [
                     Opacity(
                       opacity: 0.8,
-                      child: Text(Converters().setSpecie(widget.person.species),
+                      child: Text(Converters().getSpecie(widget.person.species),
                           style: Theme.of(context).textTheme.overline),
                     ),
                     SizedBox(width: 2.0),
@@ -101,7 +101,7 @@ class _CharacterListTileWidgetState extends State<CharacterListTileWidget> {
                   ),
                 ),
                 tooltipButton:
-                    widget.person.isFavorite ? 'Remover' : 'Favoritar',
+                    widget.person.isFavorite ? 'Remove' : 'Make favorite',
                 button: CupertinoButton(
                   minSize: 30,
                   padding: EdgeInsets.zero,

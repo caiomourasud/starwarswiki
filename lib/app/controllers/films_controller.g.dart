@@ -77,6 +77,21 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
     });
   }
 
+  final _$showFavoritesAtom = Atom(name: '_FilmsControllerBase.showFavorites');
+
+  @override
+  bool get showFavorites {
+    _$showFavoritesAtom.reportRead();
+    return super.showFavorites;
+  }
+
+  @override
+  set showFavorites(bool value) {
+    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
+      super.showFavorites = value;
+    });
+  }
+
   final _$filmSelectedAtom = Atom(name: '_FilmsControllerBase.filmSelected');
 
   @override
@@ -200,6 +215,17 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
   }
 
   @override
+  dynamic setShowFavorites(dynamic newValue) {
+    final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
+        name: '_FilmsControllerBase.setShowFavorites');
+    try {
+      return super.setShowFavorites(newValue);
+    } finally {
+      _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setFilmSelected(int newValue) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setFilmSelected');
@@ -238,6 +264,7 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
 films: ${films},
 res: ${res},
 searchText: ${searchText},
+showFavorites: ${showFavorites},
 filmSelected: ${filmSelected},
 characters: ${characters},
 planets: ${planets},

@@ -35,13 +35,14 @@ class PeopleAdapter extends TypeAdapter<People> {
       edited: fields[15] as String,
       url: fields[16] as String,
       isFavorite: fields[17] as bool,
+      image: fields[18] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, People obj) {
     writer
-      ..writeByte(18)
+      ..writeByte(19)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -77,7 +78,9 @@ class PeopleAdapter extends TypeAdapter<People> {
       ..writeByte(16)
       ..write(obj.url)
       ..writeByte(17)
-      ..write(obj.isFavorite);
+      ..write(obj.isFavorite)
+      ..writeByte(18)
+      ..write(obj.image);
   }
 
   @override

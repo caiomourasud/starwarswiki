@@ -7,10 +7,14 @@ import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/controllers/planets_controller.dart';
-import 'package:starwarswiki/app/models/planet.dart';
+import 'package:starwarswiki/app/models/database/planet.dart';
+import 'package:starwarswiki/app/repositories/planets_repository.dart';
 
 final _planetsController = Modular.get<PlanetsController>();
+final _charactersController = Modular.get<CharactersController>();
+final _planetsRepository = PlanetsRepositiry();
 
 class PlanetDetailsPage extends StatefulWidget {
   final Planet? planet;
@@ -31,7 +35,22 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
       appBar: CustomAppBar(
           title: widget.planet!.name,
           backButton: widget.backButton,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          trailing: Tooltip(
+              message: widget.planet!.isFavorite ? 'Remover' : 'Favoritar',
+              child: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.planet!.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => setState(
+                        () => _planetsRepository.setFavorite(
+                            context: context, id: widget.planet!.id),
+                      )))),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(
@@ -48,6 +67,8 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
               ),
               SizedBox(height: 24.0),
               Observer(builder: (_) {
+                _charactersController.people.where((character) =>
+                    widget.planet!.residents[0] == character.url);
                 return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()

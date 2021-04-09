@@ -6,10 +6,14 @@ import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
-import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
+import 'package:starwarswiki/app/repositories/species_repository.dart';
 
 final _speciesController = Modular.get<SpeciesController>();
+final _charactersController = Modular.get<CharactersController>();
+final _speciesRepository = SpeciesRepositiry();
 
 class SpecieDetailsPage extends StatefulWidget {
   final Specie? specie;
@@ -30,7 +34,22 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
       appBar: CustomAppBar(
           title: widget.specie!.name,
           backButton: widget.backButton,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          trailing: Tooltip(
+              message: widget.specie!.isFavorite ? 'Remover' : 'Favoritar',
+              child: CupertinoButton(
+                  minSize: 30,
+                  padding: EdgeInsets.zero,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Icon(
+                      widget.specie!.isFavorite
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      size: 28),
+                  onPressed: () => setState(
+                        () => _speciesRepository.setFavorite(
+                            context: context, id: widget.specie!.id),
+                      )))),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(
@@ -47,6 +66,8 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
               ),
               SizedBox(height: 24.0),
               Observer(builder: (_) {
+                _charactersController.people.where(
+                    (character) => widget.specie!.people[0] == character.url);
                 return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()

@@ -20,6 +20,7 @@ dependencies:
   flutter_mobx: ^2.0.0
   flutter_modular: ^3.0.2+1
   http: ^0.13.1
+  dio: ^4.0.0
   hive: ^2.0.2
   hive_flutter: ^1.0.0
   path_provider: ^2.0.1
@@ -29,7 +30,7 @@ dependencies:
   pull_to_refresh: ^1.6.4
 
 dev_dependencies:
-  # hive_generator:
+  hive_generator:
   mobx_codegen:
   build_runner: 
   flutter_test:

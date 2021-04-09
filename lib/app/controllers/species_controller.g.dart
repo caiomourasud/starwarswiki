@@ -77,6 +77,22 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
     });
   }
 
+  final _$showFavoritesAtom =
+      Atom(name: '_SpeciesControllerBase.showFavorites');
+
+  @override
+  bool get showFavorites {
+    _$showFavoritesAtom.reportRead();
+    return super.showFavorites;
+  }
+
+  @override
+  set showFavorites(bool value) {
+    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
+      super.showFavorites = value;
+    });
+  }
+
   final _$specieSelectedAtom =
       Atom(name: '_SpeciesControllerBase.specieSelected');
 
@@ -158,6 +174,17 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
   }
 
   @override
+  dynamic setShowFavorites(dynamic newValue) {
+    final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
+        name: '_SpeciesControllerBase.setShowFavorites');
+    try {
+      return super.setShowFavorites(newValue);
+    } finally {
+      _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setSpecieSelected(int newValue) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSpecieSelected');
@@ -196,6 +223,7 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
 species: ${species},
 res: ${res},
 searchText: ${searchText},
+showFavorites: ${showFavorites},
 specieSelected: ${specieSelected},
 characters: ${characters},
 films: ${films},

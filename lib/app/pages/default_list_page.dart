@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/app/components/searchbar_widget.dart';
 import 'package:starwarswiki/app/components/navigation/custom_sliver_appbar.dart';
-import 'package:starwarswiki/app/components/sliver_fixed_item.dart';
+import 'package:starwarswiki/app/components/sliver_fixed_widget.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 late FocusNode _focus;
-TextEditingController _buscar = TextEditingController();
+late TextEditingController _buscar;
 late ScrollController _scrollController;
 double _scrollPosition = 0.0;
 
@@ -34,8 +34,6 @@ class DefaultListPage extends StatefulWidget {
   final int itemSelectedId;
   final String noItemSelected;
   final List<Widget> actions;
-  final List<Widget> titleActions;
-  final List<Widget> appBarActions;
   final int backButton;
 
   const DefaultListPage(
@@ -55,9 +53,7 @@ class DefaultListPage extends StatefulWidget {
       required this.detailsPage,
       required this.itemSelectedId,
       required this.noItemSelected,
-      required this.actions,
-      required this.titleActions,
-      required this.appBarActions})
+      required this.actions})
       : super(key: key);
   @override
   _DefaultListPageState createState() => _DefaultListPageState();
@@ -67,6 +63,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
   @override
   void initState() {
     _focus = FocusNode();
+    _buscar = TextEditingController();
     _scrollController = ScrollController();
     _focus.addListener(_onFocusChange);
     _scrollController.addListener(_scrollListener);
@@ -77,8 +74,8 @@ class _DefaultListPageState extends State<DefaultListPage> {
   @override
   dispose() {
     _focus.dispose();
+    _buscar.dispose();
     _scrollController.dispose();
-    _scrollPosition = 0.0;
     super.dispose();
   }
 
@@ -139,8 +136,6 @@ class _DefaultListPageState extends State<DefaultListPage> {
                       removeBottom: true,
                       child: Scrollbar(
                         child: CustomScrollView(
-                          // keyboardDismissBehavior:
-                          //     ScrollViewKeyboardDismissBehavior.onDrag,
                           physics: BouncingScrollPhysics(),
                           slivers: [
                             CupertinoSliverRefreshControl(
@@ -165,10 +160,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
                           title: widget.title,
                           backButton: widget.backButton,
                           position: _scrollPosition,
-                          titleActions: _scrollPosition <= 35.0
-                              ? widget.titleActions
-                              : [],
-                          actions: _scrollPosition > 35.0 ? widget.actions : [],
+                          actions: widget.actions,
                         ),
                         SliverPersistentHeader(
                             pinned: true,
@@ -182,7 +174,6 @@ class _DefaultListPageState extends State<DefaultListPage> {
                                   widget.setSearchText(text);
                                 },
                                 cancelar: _cancelar,
-                                texto: 'Search...',
                                 fullDimens: dimens)),
                         if (widget.showFavorites != null)
                           SliverPersistentHeader(
@@ -238,13 +229,20 @@ class _DefaultListPageState extends State<DefaultListPage> {
   Widget _sliverBody(List itens, BoxConstraints dimens) {
     return widget.res || widget.list.isNotEmpty
         ? widget.listTile
-        : SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(top: dimens.maxHeight / 3),
-              child: Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-            ),
-          );
+        : widget.list.isEmpty
+            ? SliverToBoxAdapter(
+                child: Padding(
+                padding: EdgeInsets.only(top: dimens.maxHeight / 3),
+                child: Center(
+                    child: Opacity(opacity: 0.4, child: Text('Nothing here'))),
+              ))
+            : SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: dimens.maxHeight / 3),
+                  child: Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                ),
+              );
   }
 }

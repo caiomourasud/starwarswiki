@@ -78,6 +78,22 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
     });
   }
 
+  final _$showFavoritesAtom =
+      Atom(name: '_StarshipsControllerBase.showFavorites');
+
+  @override
+  bool get showFavorites {
+    _$showFavoritesAtom.reportRead();
+    return super.showFavorites;
+  }
+
+  @override
+  set showFavorites(bool value) {
+    _$showFavoritesAtom.reportWrite(value, super.showFavorites, () {
+      super.showFavorites = value;
+    });
+  }
+
   final _$starshipSelectedAtom =
       Atom(name: '_StarshipsControllerBase.starshipSelected');
 
@@ -144,6 +160,17 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
   }
 
   @override
+  dynamic setShowFavorites(dynamic newValue) {
+    final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
+        name: '_StarshipsControllerBase.setShowFavorites');
+    try {
+      return super.setShowFavorites(newValue);
+    } finally {
+      _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setStarshipSelected(int newValue) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setStarshipSelected');
@@ -160,6 +187,7 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
 starships: ${starships},
 res: ${res},
 searchText: ${searchText},
+showFavorites: ${showFavorites},
 starshipSelected: ${starshipSelected},
 films: ${films},
 filterStarships: ${filterStarships}

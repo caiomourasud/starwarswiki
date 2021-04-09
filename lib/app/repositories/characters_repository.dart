@@ -6,19 +6,25 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:starwarswiki/app/components/snack_bar_widget.dart';
+import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
+import 'package:starwarswiki/app/models/database/people.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
-import 'package:starwarswiki/app/models/people.dart';
 import 'package:starwarswiki/code/config.dart';
 
 StorageUtil _prefs = StorageUtil();
 
+final _appController = Modular.get<AppController>();
 final _charactersController = Modular.get<CharactersController>();
 
 class CharactersRepositiry {
   Box<People> _peopleBox = Hive.box<People>(peopleBox);
 
   Future<List<People>> fecthCharacters({String? nextPage}) async {
+    if (_appController.noInternet)
+      SnackBarWidget()
+          .show(context: _appController.context!, mensagem: 'No internet.');
+
     List<People> _characters = [];
     bool charge = true;
     String _url = 'https://swapi.dev/api/people/?page=';
@@ -44,8 +50,11 @@ class CharactersRepositiry {
       _characters = _peopleBox.values.toList();
 
       for (var json in list) {
-        final character = People.fromJson(json);
+        // ignore: await_only_futures
+        final character = await People.fromJson(json);
         character.name = character.name.replaceAll('Ã©', 'é');
+        // await setImage(id: character.id)
+        //     .then((value) => character.image = value);
         _characters.add(character);
         _peopleBox.add(character);
       }
@@ -78,10 +87,29 @@ class CharactersRepositiry {
     _charactersController.people = _peopleBox.values.toList();
     SnackBarWidget().show(
         context: context,
-        mensagem: _charactersController.people[foundIndex].isFavorite
-            ? '${_charactersController.people[foundIndex].name} has been added to the favorites list'
-            : '${_charactersController.people[foundIndex].name} has been removed from the favorites list',
-        action: 'Desfazer',
+        mensagem:
+            '${_charactersController.people[foundIndex].name} has been ${_charactersController.people[foundIndex].isFavorite ? 'added to' : 'removed from'} the favorites list',
+        action: 'Undo',
         onPressed: () => setFavorite(context: context, id: id));
   }
+
+  // Future<String> setImage({required int id}) async {
+  //   Dio dio = Dio();
+  //   dio.interceptors.add(LogInterceptor(error: false));
+
+  //   Response response = await dio.postUri(
+  //     Uri.parse(ImageGenerator.generateImage(id: id, type: 'characters')),
+  //     options: Options(
+  //         responseType: ResponseType.bytes,
+  //         followRedirects: false,
+  //         validateStatus: (status) {
+  //           return status! < 500;
+  //         }),
+  //   );
+  //   Uint8List fileBytes = await response.data;
+
+  //   return base64.encode(fileBytes);
+  // }
+
+  // getImage({required int id}) {}
 }

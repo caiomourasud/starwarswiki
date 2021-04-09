@@ -34,13 +34,15 @@ class VehicleAdapter extends TypeAdapter<Vehicle> {
       created: fields[14] as String,
       edited: fields[15] as String,
       url: fields[16] as String,
+      isFavorite: fields[17] as bool,
+      image: fields[18] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Vehicle obj) {
     writer
-      ..writeByte(17)
+      ..writeByte(19)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -74,7 +76,11 @@ class VehicleAdapter extends TypeAdapter<Vehicle> {
       ..writeByte(15)
       ..write(obj.edited)
       ..writeByte(16)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(17)
+      ..write(obj.isFavorite)
+      ..writeByte(18)
+      ..write(obj.image);
   }
 
   @override

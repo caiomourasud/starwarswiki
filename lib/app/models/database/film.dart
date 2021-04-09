@@ -35,6 +35,10 @@ class Film extends HiveObject {
   String edited = '';
   @HiveField(14)
   String url = '';
+  @HiveField(15)
+  bool isFavorite = false;
+  @HiveField(16)
+  String image = '';
 
   Film(
       {required this.id,
@@ -51,7 +55,9 @@ class Film extends HiveObject {
       required this.species,
       required this.created,
       required this.edited,
-      required this.url});
+      required this.url,
+      this.isFavorite = false,
+      required this.image});
 
   Film.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'films');
@@ -69,6 +75,8 @@ class Film extends HiveObject {
     created = json['created'];
     edited = json['edited'];
     url = json['url'];
+    isFavorite = false;
+    image = '';
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +96,8 @@ class Film extends HiveObject {
     data['created'] = this.created;
     data['edited'] = this.edited;
     data['url'] = this.url;
+    data['is_favorite'] = this.isFavorite;
+    data['image'] = this.image;
     return data;
   }
 }

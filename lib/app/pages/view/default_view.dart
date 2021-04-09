@@ -7,10 +7,8 @@ final _appController = Modular.get<AppController>();
 
 class DefaultView extends StatelessWidget {
   final Widget page;
-  final List<Widget> actionList;
   final GlobalKey<NavigatorState>? navigatorKey;
-  const DefaultView(
-      {required this.page, required this.actionList, this.navigatorKey});
+  const DefaultView({required this.page, this.navigatorKey});
 
   @override
   Widget build(BuildContext context) {

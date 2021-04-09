@@ -8,12 +8,12 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
-import 'app/models/film.dart';
-import 'app/models/people.dart';
-import 'app/models/planet.dart';
-import 'app/models/specie.dart';
-import 'app/models/starship.dart';
-import 'app/models/vehicle.dart';
+import 'app/models/database/film.dart';
+import 'app/models/database/people.dart';
+import 'app/models/database/planet.dart';
+import 'app/models/database/specie.dart';
+import 'app/models/database/starship.dart';
+import 'app/models/database/vehicle.dart';
 
 import 'code/config.dart';
 

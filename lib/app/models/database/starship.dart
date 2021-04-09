@@ -43,6 +43,10 @@ class Starship extends HiveObject {
   String edited = '';
   @HiveField(18)
   String url = '';
+  @HiveField(19)
+  bool isFavorite = false;
+  @HiveField(20)
+  String image = '';
 
   Starship(
       {required this.id,
@@ -63,7 +67,9 @@ class Starship extends HiveObject {
       required this.films,
       required this.created,
       required this.edited,
-      required this.url});
+      required this.url,
+      this.isFavorite = false,
+      required this.image});
 
   Starship.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'starships');
@@ -85,6 +91,8 @@ class Starship extends HiveObject {
     created = json['created'];
     edited = json['edited'];
     url = json['url'];
+    isFavorite = false;
+    image = '';
   }
 
   Map<String, dynamic> toJson() {
@@ -108,6 +116,8 @@ class Starship extends HiveObject {
     data['created'] = this.created;
     data['edited'] = this.edited;
     data['url'] = this.url;
+    data['is_favorite'] = this.isFavorite;
+    data['image'] = this.image;
     return data;
   }
 }

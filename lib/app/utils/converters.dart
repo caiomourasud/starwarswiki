@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
 import 'package:starwarswiki/code/config.dart';
 
 class Converters {
@@ -55,7 +55,7 @@ class Converters {
     }
   }
 
-  setSpecie(List<String>? url) {
+  getSpecie(List<String>? url) {
     if (url!.isNotEmpty) {
       List<Specie> specie = Hive.box<Specie>(speciesBox)
           .values

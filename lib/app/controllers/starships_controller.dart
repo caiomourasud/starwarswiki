@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:starwarswiki/app/models/film.dart';
-import 'package:starwarswiki/app/models/starship.dart';
+import 'package:starwarswiki/app/models/database/film.dart';
+import 'package:starwarswiki/app/models/database/starship.dart';
 import 'package:starwarswiki/app/repositories/starships_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/config.dart';
@@ -52,6 +52,18 @@ abstract class _StarshipsControllerBase with Store {
   setSearchText(newValue) => searchText = newValue;
 
   @observable
+  bool showFavorites = false;
+
+  @action
+  setShowFavorites(newValue) {
+    if (newValue == null) {
+      showFavorites = !showFavorites;
+    } else {
+      showFavorites = newValue;
+    }
+  }
+
+  @observable
   int starshipSelected = 0;
 
   @action
@@ -61,14 +73,28 @@ abstract class _StarshipsControllerBase with Store {
 
   @computed
   List<Starship> get filterStarships {
-    if (searchText == '') {
-      return starships;
+    if (showFavorites) {
+      var favorites =
+          starships.where((starship) => starship.isFavorite).toList();
+      if (searchText == '') {
+        return favorites;
+      } else {
+        return favorites
+            .where((starship) => Converters()
+                .simplifyString(starship.name)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     } else {
-      return starships
-          .where((starship) => Converters()
-              .simplifyString(starship.name)
-              .contains(Converters().simplifyString(searchText)))
-          .toList();
+      if (searchText == '') {
+        return starships;
+      } else {
+        return starships
+            .where((starship) => Converters()
+                .simplifyString(starship.name)
+                .contains(Converters().simplifyString(searchText)))
+            .toList();
+      }
     }
   }
 

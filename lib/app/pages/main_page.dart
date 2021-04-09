@@ -60,14 +60,11 @@ class _MainPageState extends State<MainPage> {
                 ),
                 Expanded(
                     child: ClipRect(
-                  child: SafeArea(
-                    top: false,
-                    child: IndexedStack(
-                      index: _appController.indexSelected,
-                      children: allDestinations.map<Widget>((destination) {
-                        return destination.pagina;
-                      }).toList(),
-                    ),
+                  child: IndexedStack(
+                    index: _appController.indexSelected,
+                    children: allDestinations.map<Widget>((destination) {
+                      return destination.pagina;
+                    }).toList(),
                   ),
                 )),
               ],

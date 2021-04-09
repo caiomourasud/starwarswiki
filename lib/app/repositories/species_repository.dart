@@ -1,21 +1,30 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:starwarswiki/app/components/snack_bar_widget.dart';
+import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
-import 'package:starwarswiki/app/models/specie.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
 import 'package:starwarswiki/app/utils/preferences.dart';
 import 'package:starwarswiki/code/config.dart';
 
 StorageUtil _prefs = StorageUtil();
+
+final _appController = Modular.get<AppController>();
 final _speciesController = Modular.get<SpeciesController>();
 
 class SpeciesRepositiry {
   Box<Specie> _speciesBox = Hive.box<Specie>(speciesBox);
 
   Future<List<Specie>> fecthSpecies({String? nextPage}) async {
+    if (_appController.noInternet)
+      SnackBarWidget()
+          .show(context: _appController.context!, mensagem: 'No internet.');
+
     List<Specie> _species = [];
     bool charge = true;
     String _url = 'https://swapi.dev/api/species/?page=';
@@ -62,5 +71,20 @@ class SpeciesRepositiry {
           _speciesController.species.where((specie) => specie.id == id);
       return species.first;
     }
+  }
+
+  setFavorite({required BuildContext context, required int id}) {
+    var foundIndex =
+        _speciesController.species.indexWhere((specie) => specie.id == id);
+    _speciesController.species[foundIndex].isFavorite =
+        !_speciesController.species[foundIndex].isFavorite;
+    _speciesBox.putAt(foundIndex, _speciesController.species[foundIndex]);
+    _speciesController.species = _speciesBox.values.toList();
+    SnackBarWidget().show(
+        context: context,
+        mensagem:
+            '${_speciesController.species[foundIndex].name} has been ${_speciesController.species[foundIndex].isFavorite ? 'added to' : 'removed from'} the favorites list',
+        action: 'Undo',
+        onPressed: () => setFavorite(context: context, id: id));
   }
 }
