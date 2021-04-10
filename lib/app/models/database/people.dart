@@ -42,7 +42,7 @@ class People extends HiveObject {
   @HiveField(17)
   bool isFavorite = false;
   @HiveField(18)
-  String image = '';
+  String? image = '';
 
   People(
       {required this.id,

@@ -33,7 +33,7 @@ class FilmAdapter extends TypeAdapter<Film> {
       edited: fields[13] as String,
       url: fields[14] as String,
       isFavorite: fields[15] as bool,
-      image: fields[16] as String,
+      image: fields[16] as String?,
     );
   }
 

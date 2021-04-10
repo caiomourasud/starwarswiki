@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/components/navigation/custom_blur_appbar.dart';
 import 'package:starwarswiki/app/models/setting_list.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
@@ -16,6 +17,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  @override
+  void initState() {
+    _settingsController.scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() {
+    _settingsController.setScrollPosition(
+        _settingsController.scrollController.position.pixels);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -49,78 +61,161 @@ class _SettingsPageState extends State<SettingsPage> {
             return Row(
               children: [
                 Container(
-                  height: double.infinity,
-                  width: width > md ? 380.0 : dimens.maxWidth,
-                  child: NestedScrollView(
+                    height: double.infinity,
+                    width: width > md ? 380.0 : dimens.maxWidth,
+                    child: CustomScrollView(
                       controller: _settingsController.scrollController,
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
-                      body: Scrollbar(
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                                return ListTile(
-                                  selected: settings[index].id ==
-                                          _settingsController.settingSelected &&
-                                      width > md,
-                                  selectedTileColor:
-                                      Theme.of(context).focusColor,
-                                  title: Text(settings[index].title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6),
-                                  subtitle: Text(settings[index].subtitle,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2),
-                                  trailing: settings[index].trailing,
-                                  onTap: () {
-                                    if (width <= md) {
-                                      Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
+                      slivers: <Widget>[
+                        Observer(builder: (_) {
+                          return CustomBlurAppBar(
+                              title: 'Settings',
+                              position: _settingsController.scrollPosition);
+                          // return CupertinoSliverNavigationBar(
+                          //     automaticallyImplyLeading: false,
+                          //     automaticallyImplyTitle: true,
+                          //     middle: _settingsController.scrollPosition > 37.0
+                          //         ? Text('Settings',
+                          //             style: TextStyle(
+                          //                 color: Theme.of(context).brightness ==
+                          //                         Brightness.light
+                          //                     ? Colors.black87
+                          //                     : Colors.yellow[600]))
+                          //         : null,
+                          //     stretch: true,
+                          //     heroTag: 'Settings',
+                          //     backgroundColor: Theme.of(context)
+                          //         .scaffoldBackgroundColor
+                          //         .withAlpha(220),
+                          //     largeTitle: Text('Settings',
+                          //         style: TextStyle(
+                          //             fontSize: 34.0 +
+                          //                 (_settingsController.scrollPosition <
+                          //                         0.0
+                          //                     ? _settingsController
+                          //                                     .scrollPosition
+                          //                                     .abs() /
+                          //                                 60.0 >
+                          //                             4.0
+                          //                         ? 4.0
+                          //                         : _settingsController
+                          //                                 .scrollPosition
+                          //                                 .abs() /
+                          //                             60.0
+                          //                     : 0.0),
+                          //             color: Theme.of(context).brightness ==
+                          //                     Brightness.light
+                          //                 ? Colors.black87
+                          //                 : Colors.yellow[600])),
+                          //     border: Border.all(color: Colors.transparent));
+                        }),
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return ListTile(
+                              selected: settings[index].id ==
+                                      _settingsController.settingSelected &&
+                                  width > md,
+                              selectedTileColor: Theme.of(context).focusColor,
+                              title: Text(settings[index].title,
+                                  style: Theme.of(context).textTheme.headline6),
+                              subtitle: Text(settings[index].subtitle,
+                                  style: Theme.of(context).textTheme.bodyText2),
+                              trailing: settings[index].trailing,
+                              onTap: () {
+                                if (width <= md) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          title: settings[index].title,
+                                          builder: (context) {
+                                            return SettingDetailsPage(
                                               title: settings[index].title,
-                                              builder: (context) {
-                                                return SettingDetailsPage(
-                                                  title: settings[index].title,
-                                                );
-                                              }));
-                                    }
-                                    setState(() {
-                                      _settingsController.setSettingSelected(
-                                          settings[index].id);
-                                    });
-                                  },
-                                );
+                                            );
+                                          }));
+                                }
+                                setState(() {
+                                  _settingsController
+                                      .setSettingSelected(settings[index].id);
+                                });
                               },
-                              childCount: settings.length,
-                            ))
-                          ],
-                        ),
-                      ),
-                      headerSliverBuilder:
-                          (BuildContext context, bool innerBoxIsScrolled) {
-                        return <Widget>[
-                          CupertinoSliverNavigationBar(
-                            automaticallyImplyLeading: false,
-                            heroTag: 'settings',
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            largeTitle: Text('Settings',
-                                style: TextStyle(
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? Colors.black87
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary)),
-                            border: Border.all(color: Colors.transparent),
-                          )
-                        ];
-                      }),
-                ),
+                            );
+                          },
+                          childCount: settings.length,
+                        ))
+                      ],
+                    )
+                    // NestedScrollView(
+                    //     controller: _settingsController.scrollController,
+                    //     physics: const BouncingScrollPhysics(
+                    //         parent: AlwaysScrollableScrollPhysics()),
+                    //     body: Scrollbar(
+                    //       child: CustomScrollView(
+                    //         slivers: [
+                    //           SliverList(
+                    //               delegate: SliverChildBuilderDelegate(
+                    //             (BuildContext context, int index) {
+                    //               return ListTile(
+                    //                 selected: settings[index].id ==
+                    //                         _settingsController.settingSelected &&
+                    //                     width > md,
+                    //                 selectedTileColor:
+                    //                     Theme.of(context).focusColor,
+                    //                 title: Text(settings[index].title,
+                    //                     style: Theme.of(context)
+                    //                         .textTheme
+                    //                         .headline6),
+                    //                 subtitle: Text(settings[index].subtitle,
+                    //                     style: Theme.of(context)
+                    //                         .textTheme
+                    //                         .bodyText2),
+                    //                 trailing: settings[index].trailing,
+                    //                 onTap: () {
+                    //                   if (width <= md) {
+                    //                     Navigator.push(
+                    //                         context,
+                    //                         CupertinoPageRoute(
+                    //                             title: settings[index].title,
+                    //                             builder: (context) {
+                    //                               return SettingDetailsPage(
+                    //                                 title: settings[index].title,
+                    //                               );
+                    //                             }));
+                    //                   }
+                    //                   setState(() {
+                    //                     _settingsController.setSettingSelected(
+                    //                         settings[index].id);
+                    //                   });
+                    //                 },
+                    //               );
+                    //             },
+                    //             childCount: settings.length,
+                    //           ))
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     headerSliverBuilder:
+                    //         (BuildContext context, bool innerBoxIsScrolled) {
+                    //       return <Widget>[
+                    //         CupertinoSliverNavigationBar(
+                    //           automaticallyImplyLeading: false,
+                    //           heroTag: 'settings',
+                    //           backgroundColor:
+                    //               Theme.of(context).scaffoldBackgroundColor,
+                    //           largeTitle: Text('Settings',
+                    //               style: TextStyle(
+                    //                   color: Theme.of(context).brightness ==
+                    //                           Brightness.light
+                    //                       ? Colors.black87
+                    //                       : Theme.of(context)
+                    //                           .colorScheme
+                    //                           .onPrimary)),
+                    //           border: Border.all(color: Colors.transparent),
+                    //         )
+                    //       ];
+                    //     }),
+                    ),
                 if (width > md)
                   VerticalDivider(
                     width: 0.1,

@@ -38,7 +38,7 @@ class Film extends HiveObject {
   @HiveField(15)
   bool isFavorite = false;
   @HiveField(16)
-  String image = '';
+  String? image = '';
 
   Film(
       {required this.id,
@@ -57,7 +57,7 @@ class Film extends HiveObject {
       required this.edited,
       required this.url,
       this.isFavorite = false,
-      required this.image});
+      this.image});
 
   Film.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'films');

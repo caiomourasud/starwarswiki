@@ -42,7 +42,7 @@ class Vehicle extends HiveObject {
   @HiveField(17)
   bool isFavorite = false;
   @HiveField(18)
-  String image = '';
+  String? image = '';
 
   Vehicle(
       {required this.id,
@@ -63,7 +63,7 @@ class Vehicle extends HiveObject {
       required this.edited,
       required this.url,
       this.isFavorite = false,
-      required this.image});
+      this.image = ''});
 
   Vehicle.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'vehicles');

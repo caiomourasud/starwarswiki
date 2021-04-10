@@ -40,7 +40,7 @@ class Specie extends HiveObject {
   @HiveField(16)
   bool isFavorite = false;
   @HiveField(17)
-  String image = '';
+  String? image = '';
 
   Specie(
       {required this.id,
@@ -60,7 +60,7 @@ class Specie extends HiveObject {
       required this.edited,
       required this.url,
       this.isFavorite = false,
-      required this.image});
+      this.image});
 
   Specie.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'species');

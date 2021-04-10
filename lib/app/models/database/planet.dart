@@ -38,7 +38,7 @@ class Planet extends HiveObject {
   @HiveField(15)
   bool isFavorite = false;
   @HiveField(16)
-  String image = '';
+  String? image = '';
 
   Planet(
       {required this.id,
@@ -57,7 +57,7 @@ class Planet extends HiveObject {
       required this.edited,
       required this.url,
       this.isFavorite = false,
-      required this.image});
+      this.image});
 
   Planet.fromJson(Map<String, dynamic> json) {
     id = IdGenerator.generateId(url: json['url'], type: 'planets');

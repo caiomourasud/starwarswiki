@@ -35,7 +35,7 @@ class PeopleAdapter extends TypeAdapter<People> {
       edited: fields[15] as String,
       url: fields[16] as String,
       isFavorite: fields[17] as bool,
-      image: fields[18] as String,
+      image: fields[18] as String?,
     );
   }
 

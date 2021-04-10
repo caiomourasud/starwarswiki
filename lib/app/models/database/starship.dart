@@ -46,7 +46,7 @@ class Starship extends HiveObject {
   @HiveField(19)
   bool isFavorite = false;
   @HiveField(20)
-  String image = '';
+  String? image = '';
 
   Starship(
       {required this.id,

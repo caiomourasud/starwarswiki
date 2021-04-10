@@ -34,7 +34,7 @@ class SpecieAdapter extends TypeAdapter<Specie> {
       edited: fields[14] as String,
       url: fields[15] as String,
       isFavorite: fields[16] as bool,
-      image: fields[17] as String,
+      image: fields[17] as String?,
     );
   }
 

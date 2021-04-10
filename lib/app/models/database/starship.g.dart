@@ -37,7 +37,7 @@ class StarshipAdapter extends TypeAdapter<Starship> {
       edited: fields[17] as String,
       url: fields[18] as String,
       isFavorite: fields[19] as bool,
-      image: fields[20] as String,
+      image: fields[20] as String?,
     );
   }
 
