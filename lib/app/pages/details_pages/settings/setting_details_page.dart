@@ -2,14 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-var heroTag = 'settings';
-
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments(this.title, this.message);
-}
+import 'content/appearance_content.dart';
 
 class SettingDetailsPage extends StatefulWidget {
   final String title;
@@ -43,7 +36,7 @@ class _SettingDetailsPageState extends State<SettingDetailsPage> {
           ),
           trailing: SizedBox(width: 30.0),
           border: Border.all(color: Colors.transparent)),
-      body: Container(),
+      body: AppearanceContent(),
     );
   }
 }

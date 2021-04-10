@@ -152,44 +152,44 @@ mixin _$PlanetsController on _PlanetsControllerBase, Store {
       ActionController(name: '_PlanetsControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setPlanetSelected(int newValue) {
+  dynamic setPlanetSelected(int value) {
     final _$actionInfo = _$_PlanetsControllerBaseActionController.startAction(
         name: '_PlanetsControllerBase.setPlanetSelected');
     try {
-      return super.setPlanetSelected(newValue);
+      return super.setPlanetSelected(value);
     } finally {
       _$_PlanetsControllerBaseActionController.endAction(_$actionInfo);
     }

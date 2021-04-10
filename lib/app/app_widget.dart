@@ -10,8 +10,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'controllers/app_controller.dart';
 import 'utils/connectivity_status.dart';
+import 'utils/preferences.dart';
 
 final _appController = Modular.get<AppController>();
+
+StorageUtil prefs = StorageUtil();
 
 late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
@@ -25,6 +28,12 @@ class AppWidget extends StatefulWidget {
 class _AppWidgetState extends State<AppWidget> {
   @override
   void initState() {
+    prefs.getBool('auto_theme').then((auto) {
+      _appController.setAutoTheme(auto);
+    });
+    prefs.getBool('is_dark_theme').then((tema) {
+      _appController.setDarkTheme(tema);
+    });
     ConnectivityStatus().initConnectivity(mounted);
     connectivitySubscription = _connectivity.onConnectivityChanged
         .listen(ConnectivityStatus().updateConnectionStatus);
@@ -62,7 +71,11 @@ class _AppWidgetState extends State<AppWidget> {
             scaffoldBackgroundColor: CupertinoColors.black,
             cupertinoOverrideTheme:
                 CupertinoThemeData(primaryColor: Colors.red[700])),
-        themeMode: _appController.appThemeMode,
+        themeMode: _appController.autoTheme
+            ? ThemeMode.system
+            : _appController.isDarkTheme
+                ? ThemeMode.dark
+                : ThemeMode.light,
         initialRoute: '/',
       ).modular();
     });

@@ -182,44 +182,44 @@ mixin _$CharactersController on _CharactersControllerBase, Store {
       ActionController(name: '_CharactersControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setPersonSelected(int newValue) {
+  dynamic setPersonSelected(int value) {
     final _$actionInfo = _$_CharactersControllerBaseActionController
         .startAction(name: '_CharactersControllerBase.setPersonSelected');
     try {
-      return super.setPersonSelected(newValue);
+      return super.setPersonSelected(value);
     } finally {
       _$_CharactersControllerBaseActionController.endAction(_$actionInfo);
     }

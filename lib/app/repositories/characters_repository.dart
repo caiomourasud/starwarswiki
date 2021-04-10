@@ -92,24 +92,4 @@ class CharactersRepositiry {
         action: 'Undo',
         onPressed: () => setFavorite(context: context, id: id));
   }
-
-  // Future<String> setImage({required int id}) async {
-  //   Dio dio = Dio();
-  //   dio.interceptors.add(LogInterceptor(error: false));
-
-  //   Response response = await dio.postUri(
-  //     Uri.parse(ImageGenerator.generateImage(id: id, type: 'characters')),
-  //     options: Options(
-  //         responseType: ResponseType.bytes,
-  //         followRedirects: false,
-  //         validateStatus: (status) {
-  //           return status! < 500;
-  //         }),
-  //   );
-  //   Uint8List fileBytes = await response.data;
-
-  //   return base64.encode(fileBytes);
-  // }
-
-  // getImage({required int id}) {}
 }

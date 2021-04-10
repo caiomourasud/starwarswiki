@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starwarswiki/app/controllers/app_controller.dart';
 import 'package:starwarswiki/app/models/destination.dart';
 import 'package:starwarswiki/app/pages/home_page.dart';
@@ -42,6 +41,6 @@ List<Destination> allDestinations = <Destination>[
         page: SettingsPage(),
       ),
       navigatorKey: _appController.settingsNavigatorKey,
-      icon: FontAwesomeIcons.jediOrder,
+      icon: CupertinoIcons.person_alt_circle_fill,
       tooltip: 'Settings'),
 ];

@@ -14,7 +14,7 @@ late ScrollController _scrollController;
 double _scrollPosition = 0.0;
 
 double searchSize = 0.0;
-setSearchSize(newValue) => searchSize = newValue;
+setSearchSize(value) => searchSize = value;
 
 bool selectable = false;
 

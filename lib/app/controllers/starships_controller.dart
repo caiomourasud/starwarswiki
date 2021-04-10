@@ -43,23 +43,23 @@ abstract class _StarshipsControllerBase with Store {
   bool res = true;
 
   @action
-  setRes(newValue) => res = newValue;
+  setRes(value) => res = value;
 
   @observable
   String searchText = '';
 
   @action
-  setSearchText(newValue) => searchText = newValue;
+  setSearchText(value) => searchText = value;
 
   @observable
   bool showFavorites = false;
 
   @action
-  setShowFavorites(newValue) {
-    if (newValue == null) {
+  setShowFavorites(value) {
+    if (value == null) {
       showFavorites = !showFavorites;
     } else {
-      showFavorites = newValue;
+      showFavorites = value;
     }
   }
 
@@ -67,8 +67,8 @@ abstract class _StarshipsControllerBase with Store {
   int starshipSelected = 0;
 
   @action
-  setStarshipSelected(int newValue) {
-    starshipSelected = newValue;
+  setStarshipSelected(int value) {
+    starshipSelected = value;
   }
 
   @computed

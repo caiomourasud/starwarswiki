@@ -12,11 +12,11 @@ abstract class _SettingsControllerBase with Store {
   double scrollPosition = 0.0;
 
   @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
+  setScrollPosition(value) => scrollPosition = value;
 
   @observable
   int settingSelected = 0;
 
   @action
-  setSettingSelected(int newValue) => settingSelected = newValue;
+  setSettingSelected(int value) => settingSelected = value;
 }

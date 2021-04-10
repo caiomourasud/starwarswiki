@@ -17,18 +17,33 @@ mixin _$AppController on _AppControllerBase, Store {
               name: '_AppControllerBase.noInternet'))
           .value;
 
-  final _$appThemeModeAtom = Atom(name: '_AppControllerBase.appThemeMode');
+  final _$isDarkThemeAtom = Atom(name: '_AppControllerBase.isDarkTheme');
 
   @override
-  ThemeMode get appThemeMode {
-    _$appThemeModeAtom.reportRead();
-    return super.appThemeMode;
+  bool get isDarkTheme {
+    _$isDarkThemeAtom.reportRead();
+    return super.isDarkTheme;
   }
 
   @override
-  set appThemeMode(ThemeMode value) {
-    _$appThemeModeAtom.reportWrite(value, super.appThemeMode, () {
-      super.appThemeMode = value;
+  set isDarkTheme(bool value) {
+    _$isDarkThemeAtom.reportWrite(value, super.isDarkTheme, () {
+      super.isDarkTheme = value;
+    });
+  }
+
+  final _$autoThemeAtom = Atom(name: '_AppControllerBase.autoTheme');
+
+  @override
+  bool get autoTheme {
+    _$autoThemeAtom.reportRead();
+    return super.autoTheme;
+  }
+
+  @override
+  set autoTheme(bool value) {
+    _$autoThemeAtom.reportWrite(value, super.autoTheme, () {
+      super.autoTheme = value;
     });
   }
 
@@ -148,11 +163,22 @@ mixin _$AppController on _AppControllerBase, Store {
       ActionController(name: '_AppControllerBase');
 
   @override
-  dynamic setAppThemeMode(ThemeMode themeMode) {
+  dynamic setDarkTheme(bool value) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
-        name: '_AppControllerBase.setAppThemeMode');
+        name: '_AppControllerBase.setDarkTheme');
     try {
-      return super.setAppThemeMode(themeMode);
+      return super.setDarkTheme(value);
+    } finally {
+      _$_AppControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setAutoTheme(bool value) {
+    final _$actionInfo = _$_AppControllerBaseActionController.startAction(
+        name: '_AppControllerBase.setAutoTheme');
+    try {
+      return super.setAutoTheme(value);
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -170,11 +196,11 @@ mixin _$AppController on _AppControllerBase, Store {
   }
 
   @override
-  dynamic setConnectionStatus(String newValue) {
+  dynamic setConnectionStatus(String value) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
         name: '_AppControllerBase.setConnectionStatus');
     try {
-      return super.setConnectionStatus(newValue);
+      return super.setConnectionStatus(value);
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -183,7 +209,8 @@ mixin _$AppController on _AppControllerBase, Store {
   @override
   String toString() {
     return '''
-appThemeMode: ${appThemeMode},
+isDarkTheme: ${isDarkTheme},
+autoTheme: ${autoTheme},
 context: ${context},
 connectionStatus: ${connectionStatus},
 indexSelected: ${indexSelected},

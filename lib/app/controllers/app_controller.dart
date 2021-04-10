@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:starwarswiki/app/utils/preferences.dart';
 part 'app_controller.g.dart';
+
+StorageUtil prefs = StorageUtil();
 
 class AppController = _AppControllerBase with _$AppController;
 
-// enum AppTheme { system, light, dark }
-
 abstract class _AppControllerBase with Store {
   @observable
-  ThemeMode appThemeMode = ThemeMode.system;
+  bool isDarkTheme = true;
 
   @action
-  setAppThemeMode(ThemeMode themeMode) => appThemeMode = themeMode;
+  setDarkTheme(bool value) {
+    prefs.setBool('is_dark_theme', value);
+    isDarkTheme = value;
+  }
+
+  @observable
+  bool autoTheme = false;
+
+  @action
+  setAutoTheme(bool value) {
+    prefs.setBool('auto_theme', value);
+    autoTheme = value;
+  }
 
   @observable
   BuildContext? context;
@@ -23,9 +36,9 @@ abstract class _AppControllerBase with Store {
   String connectionStatus = 'Unknown';
 
   @action
-  setConnectionStatus(String newValue) {
-    print(newValue);
-    return connectionStatus = newValue;
+  setConnectionStatus(String value) {
+    print(value);
+    return connectionStatus = value;
   }
 
   @computed

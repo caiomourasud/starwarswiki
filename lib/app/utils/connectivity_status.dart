@@ -9,7 +9,6 @@ import 'package:starwarswiki/app/controllers/planets_controller.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
 import 'package:starwarswiki/app/controllers/starships_controller.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
-import 'package:starwarswiki/app/utils/preferences.dart';
 
 import '../controllers/app_controller.dart';
 
@@ -22,7 +21,6 @@ final _starshipsController = Modular.get<StarshipsController>();
 final _vehiclesController = Modular.get<VehiclesController>();
 
 final Connectivity _connectivity = Connectivity();
-StorageUtil prefs = StorageUtil();
 
 class ConnectivityStatus {
   Future<void> initConnectivity(bool mounted) async {

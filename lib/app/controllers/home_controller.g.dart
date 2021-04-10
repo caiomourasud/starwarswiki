@@ -44,11 +44,11 @@ mixin _$HomeController on _HomeControllerBase, Store {
       ActionController(name: '_HomeControllerBase');
 
   @override
-  dynamic setScrollPosition(dynamic newValue) {
+  dynamic setScrollPosition(dynamic value) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.setScrollPosition');
     try {
-      return super.setScrollPosition(newValue);
+      return super.setScrollPosition(value);
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }

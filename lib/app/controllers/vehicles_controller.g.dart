@@ -137,44 +137,44 @@ mixin _$VehiclesController on _VehiclesControllerBase, Store {
       ActionController(name: '_VehiclesControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setVehicleSelected(int newValue) {
+  dynamic setVehicleSelected(int value) {
     final _$actionInfo = _$_VehiclesControllerBaseActionController.startAction(
         name: '_VehiclesControllerBase.setVehicleSelected');
     try {
-      return super.setVehicleSelected(newValue);
+      return super.setVehicleSelected(value);
     } finally {
       _$_VehiclesControllerBaseActionController.endAction(_$actionInfo);
     }

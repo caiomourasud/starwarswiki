@@ -193,44 +193,44 @@ mixin _$FilmsController on _FilmsControllerBase, Store {
       ActionController(name: '_FilmsControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setFilmSelected(int newValue) {
+  dynamic setFilmSelected(int value) {
     final _$actionInfo = _$_FilmsControllerBaseActionController.startAction(
         name: '_FilmsControllerBase.setFilmSelected');
     try {
-      return super.setFilmSelected(newValue);
+      return super.setFilmSelected(value);
     } finally {
       _$_FilmsControllerBaseActionController.endAction(_$actionInfo);
     }

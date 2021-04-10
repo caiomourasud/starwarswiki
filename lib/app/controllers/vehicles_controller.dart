@@ -43,23 +43,23 @@ abstract class _VehiclesControllerBase with Store {
   bool res = true;
 
   @action
-  setRes(newValue) => res = newValue;
+  setRes(value) => res = value;
 
   @observable
   String searchText = '';
 
   @action
-  setSearchText(newValue) => searchText = newValue;
+  setSearchText(value) => searchText = value;
 
   @observable
   bool showFavorites = false;
 
   @action
-  setShowFavorites(newValue) {
-    if (newValue == null) {
+  setShowFavorites(value) {
+    if (value == null) {
       showFavorites = !showFavorites;
     } else {
-      showFavorites = newValue;
+      showFavorites = value;
     }
   }
 
@@ -67,8 +67,8 @@ abstract class _VehiclesControllerBase with Store {
   int vehicleSelected = 0;
 
   @action
-  setVehicleSelected(int newValue) {
-    vehicleSelected = newValue;
+  setVehicleSelected(int value) {
+    vehicleSelected = value;
   }
 
   @computed

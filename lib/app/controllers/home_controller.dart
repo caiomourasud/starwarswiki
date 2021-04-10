@@ -12,5 +12,5 @@ abstract class _HomeControllerBase with Store {
   double scrollPosition = 0.0;
 
   @action
-  setScrollPosition(newValue) => scrollPosition = newValue;
+  setScrollPosition(value) => scrollPosition = value;
 }

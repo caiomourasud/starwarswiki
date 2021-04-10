@@ -138,44 +138,44 @@ mixin _$StarshipsController on _StarshipsControllerBase, Store {
       ActionController(name: '_StarshipsControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setStarshipSelected(int newValue) {
+  dynamic setStarshipSelected(int value) {
     final _$actionInfo = _$_StarshipsControllerBaseActionController.startAction(
         name: '_StarshipsControllerBase.setStarshipSelected');
     try {
-      return super.setStarshipSelected(newValue);
+      return super.setStarshipSelected(value);
     } finally {
       _$_StarshipsControllerBaseActionController.endAction(_$actionInfo);
     }

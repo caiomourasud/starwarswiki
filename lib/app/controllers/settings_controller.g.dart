@@ -61,22 +61,22 @@ mixin _$SettingsController on _SettingsControllerBase, Store {
       ActionController(name: '_SettingsControllerBase');
 
   @override
-  dynamic setScrollPosition(dynamic newValue) {
+  dynamic setScrollPosition(dynamic value) {
     final _$actionInfo = _$_SettingsControllerBaseActionController.startAction(
         name: '_SettingsControllerBase.setScrollPosition');
     try {
-      return super.setScrollPosition(newValue);
+      return super.setScrollPosition(value);
     } finally {
       _$_SettingsControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSettingSelected(int newValue) {
+  dynamic setSettingSelected(int value) {
     final _$actionInfo = _$_SettingsControllerBaseActionController.startAction(
         name: '_SettingsControllerBase.setSettingSelected');
     try {
-      return super.setSettingSelected(newValue);
+      return super.setSettingSelected(value);
     } finally {
       _$_SettingsControllerBaseActionController.endAction(_$actionInfo);
     }

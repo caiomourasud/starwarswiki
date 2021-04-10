@@ -152,44 +152,44 @@ mixin _$SpeciesController on _SpeciesControllerBase, Store {
       ActionController(name: '_SpeciesControllerBase');
 
   @override
-  dynamic setRes(dynamic newValue) {
+  dynamic setRes(dynamic value) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setRes');
     try {
-      return super.setRes(newValue);
+      return super.setRes(value);
     } finally {
       _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSearchText(dynamic newValue) {
+  dynamic setSearchText(dynamic value) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSearchText');
     try {
-      return super.setSearchText(newValue);
+      return super.setSearchText(value);
     } finally {
       _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setShowFavorites(dynamic newValue) {
+  dynamic setShowFavorites(dynamic value) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setShowFavorites');
     try {
-      return super.setShowFavorites(newValue);
+      return super.setShowFavorites(value);
     } finally {
       _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic setSpecieSelected(int newValue) {
+  dynamic setSpecieSelected(int value) {
     final _$actionInfo = _$_SpeciesControllerBaseActionController.startAction(
         name: '_SpeciesControllerBase.setSpecieSelected');
     try {
-      return super.setSpecieSelected(newValue);
+      return super.setSpecieSelected(value);
     } finally {
       _$_SpeciesControllerBaseActionController.endAction(_$actionInfo);
     }

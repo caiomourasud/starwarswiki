@@ -378,7 +378,7 @@ class ImageGenerator {
         case '34':
           return 'https://static.wikia.nocookie.net/starwars/images/7/75/SanHillPledge-AOTC.png/revision/latest/scale-to-width-down/340?cb=20200730025513';
         case '35':
-          return 'https://starwarsst.com/wp-content/uploads/2021/02/5-Star-Wars-Clone-Wars-Togruta-Governor-.jpg.webp';
+          return 'https://static.wikia.nocookie.net/disney/images/c/c4/Togruta_species.jpg/revision/latest/scale-to-width-down/516?cb=20201005001638';
         case '36':
           return 'https://pm1.narvii.com/6269/c338dba831596b438e625c41c0026b8ac109c493_hq.jpg';
         case '37':
