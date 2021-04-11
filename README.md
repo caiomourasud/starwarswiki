@@ -22,8 +22,8 @@
 # Choose your side(theme)
 <p>You can choose your favorite theme to enjoy the App</p>
 <p>
-  <img src="screens/light_side.png" height="360" alt="Light side screenshot">
-  <img src="screens/dark_side.png" alt="Dark side screenshot">
+  <img src="screens/light_side.png" height="320" alt="Light side screenshot">
+  <img src="screens/dark_side.png" height="320" alt="Dark side screenshot">
 </p>
 
 
