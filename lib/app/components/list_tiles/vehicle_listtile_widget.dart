@@ -7,6 +7,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 import '../../utils/capitalize.dart';
+import '../favorite_button_widget.dart';
 
 Converters conversores = Converters();
 
@@ -72,20 +73,10 @@ class _VehicleListTileWidgetState extends State<VehicleListTileWidget> {
                     ],
                   ),
                 ),
-                tooltipButton:
-                    widget.vehicle.isFavorite ? 'Remove' : 'Make favorite',
-                button: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.vehicle.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () =>
-                      setState(() => widget.onFavoriteTap(widget.vehicle.id)),
-                ))),
+                button: FavoriteButtonWidget(
+                    isFavorite: widget.vehicle.isFavorite,
+                    onPressed: () => setState(
+                        () => widget.onFavoriteTap(widget.vehicle.id))))),
       ),
     );
   }

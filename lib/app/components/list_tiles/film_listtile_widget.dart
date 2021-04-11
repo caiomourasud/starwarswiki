@@ -6,6 +6,8 @@ import 'package:starwarswiki/app/models/database/film.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../favorite_button_widget.dart';
+
 Converters conversores = Converters();
 
 class FilmListTileWidget extends StatefulWidget {
@@ -77,20 +79,10 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
                   ),
                 ],
               ),
-              tooltipButton:
-                  widget.film.isFavorite ? 'Remove' : 'Make favorite',
-              button: CupertinoButton(
-                minSize: 30,
-                padding: EdgeInsets.zero,
-                borderRadius: BorderRadius.circular(50.0),
-                child: Icon(
-                    widget.film.isFavorite
-                        ? CupertinoIcons.heart_fill
-                        : CupertinoIcons.heart,
-                    size: 28),
-                onPressed: () =>
-                    setState(() => widget.onFavoriteTap(widget.film.id)),
-              )),
+              button: FavoriteButtonWidget(
+                  isFavorite: widget.film.isFavorite,
+                  onPressed: () =>
+                      setState(() => widget.onFavoriteTap(widget.film.id)))),
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
+import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
@@ -32,21 +33,13 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           title: widget.vehicle!.name,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          trailing: Tooltip(
-              message: widget.vehicle!.isFavorite ? 'Remover' : 'Favoritar',
-              child: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.vehicle!.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () => setState(
-                        () => _vehiclesRepository.setFavorite(
-                            context: context, id: widget.vehicle!.id),
-                      )))),
+          trailing: FavoriteButtonWidget(
+            isFavorite: widget.vehicle!.isFavorite,
+            onPressed: () => setState(
+              () => _vehiclesRepository.setFavorite(
+                  context: context, id: widget.vehicle!.id),
+            ),
+          )),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(

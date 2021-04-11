@@ -5,6 +5,7 @@ import 'package:starwarswiki/app/models/database/people.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../favorite_button_widget.dart';
 import '../line_content.dart';
 
 Converters conversores = Converters();
@@ -100,20 +101,10 @@ class _CharacterListTileWidgetState extends State<CharacterListTileWidget> {
                     ],
                   ),
                 ),
-                tooltipButton:
-                    widget.person.isFavorite ? 'Remove' : 'Make favorite',
-                button: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.person.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () =>
-                      setState(() => widget.onFavoriteTap(widget.person.id)),
-                ))),
+                button: FavoriteButtonWidget(
+                    isFavorite: widget.person.isFavorite,
+                    onPressed: () => setState(
+                        () => widget.onFavoriteTap(widget.person.id))))),
       ),
     );
   }

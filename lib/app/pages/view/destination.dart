@@ -41,6 +41,6 @@ List<Destination> allDestinations = <Destination>[
         page: SettingsPage(),
       ),
       navigatorKey: _appController.settingsNavigatorKey,
-      icon: CupertinoIcons.person_alt_circle_fill,
+      icon: CupertinoIcons.person_crop_circle_fill,
       tooltip: 'Settings'),
 ];

@@ -45,6 +45,8 @@ import '../pages/details_pages/home/film_details_page.dart';
 import 'custom_card_dialog.dart';
 
 import '../utils/capitalize.dart';
+import 'favorite_button_widget.dart';
+import 'list_favorite_widget.dart';
 
 final _filmsRepository = FilmsRepositiry();
 final _filmsController = Modular.get<FilmsController>();
@@ -151,7 +153,7 @@ class CustomCardList {
                   list: _filmsController.films,
                   filterList: _filmsController.filterFilms,
                   actions: [
-                    _listFavorites(
+                    ListFavoriteWidget(
                         paddingTop: 4.0,
                         paddingRight: 10.0,
                         isSelected: _filmsController.showFavorites,
@@ -266,15 +268,8 @@ class CustomCardList {
                     ],
                   ),
                 ),
-                button: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      characters[index].isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
+                button: FavoriteButtonWidget(
+                  isFavorite: characters[index].isFavorite,
                   onPressed: () => _charactersRepository.setFavorite(
                       context: context, id: characters[index].id),
                 ),
@@ -314,7 +309,7 @@ class CustomCardList {
                     list: _charactersController.people,
                     filterList: _charactersController.filterCharacters,
                     actions: [
-                      _listFavorites(
+                      ListFavoriteWidget(
                           paddingTop: 4.0,
                           paddingRight: 10.0,
                           isSelected: _charactersController.showFavorites,
@@ -412,7 +407,7 @@ class CustomCardList {
                     list: _planetsController.planets,
                     filterList: _planetsController.filterPlanets,
                     actions: [
-                      _listFavorites(
+                      ListFavoriteWidget(
                           paddingTop: 4.0,
                           paddingRight: 10.0,
                           isSelected: _planetsController.showFavorites,
@@ -509,7 +504,7 @@ class CustomCardList {
                     list: _speciesController.species,
                     filterList: _speciesController.filterSpecies,
                     actions: [
-                      _listFavorites(
+                      ListFavoriteWidget(
                           paddingTop: 4.0,
                           paddingRight: 10.0,
                           isSelected: _speciesController.showFavorites,
@@ -635,7 +630,7 @@ class CustomCardList {
                     list: _starshipsController.starships,
                     filterList: _starshipsController.filterStarships,
                     actions: [
-                      _listFavorites(
+                      ListFavoriteWidget(
                           paddingTop: 4.0,
                           paddingRight: 10.0,
                           isSelected: _starshipsController.showFavorites,
@@ -733,7 +728,7 @@ class CustomCardList {
                     list: _vehiclesController.vehicles,
                     filterList: _vehiclesController.filterVehicles,
                     actions: [
-                      _listFavorites(
+                      ListFavoriteWidget(
                           paddingTop: 4.0,
                           paddingRight: 10.0,
                           isSelected: _vehiclesController.showFavorites,
@@ -782,28 +777,4 @@ class CustomCardList {
         )
     ];
   }
-}
-
-_listFavorites(
-    {required double paddingTop,
-    required double paddingRight,
-    required bool isSelected,
-    required Function() onTap}) {
-  return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: Padding(
-        padding: EdgeInsets.only(top: paddingTop, right: paddingRight),
-        child: Tooltip(
-            message: isSelected ? 'List all' : 'List favorites',
-            child: CupertinoButton(
-                minSize: 34,
-                padding: EdgeInsets.zero,
-                borderRadius: BorderRadius.circular(50.0),
-                child: Icon(
-                    isSelected
-                        ? CupertinoIcons.square_favorites_alt_fill
-                        : CupertinoIcons.square_favorites_alt,
-                    size: 28),
-                onPressed: () => onTap())),
-      ));
 }

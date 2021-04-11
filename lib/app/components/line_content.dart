@@ -9,7 +9,6 @@ class LineContent extends StatelessWidget {
   final Widget? topText;
   final String title;
   final Widget? subtitle;
-  final String? tooltipButton;
   final Widget? button;
 
   const LineContent(
@@ -19,7 +18,6 @@ class LineContent extends StatelessWidget {
       this.topText,
       required this.title,
       this.subtitle,
-      this.tooltipButton,
       this.button})
       : super(key: key);
 
@@ -76,10 +74,7 @@ class LineContent extends StatelessWidget {
           ),
         ),
       ),
-      if (tooltipButton != null && button != null)
-        MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Tooltip(message: tooltipButton!, child: button)),
+      if (button != null) button!,
       SizedBox(width: 6.0)
     ]);
   }

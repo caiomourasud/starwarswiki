@@ -6,6 +6,8 @@ import 'package:starwarswiki/app/models/database/starship.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
+import '../favorite_button_widget.dart';
+
 Converters conversores = Converters();
 
 class StarshipListTileWidget extends StatefulWidget {
@@ -70,20 +72,10 @@ class _StarshipListTileWidgetState extends State<StarshipListTileWidget> {
                     ],
                   ),
                 ),
-                tooltipButton:
-                    widget.starship.isFavorite ? 'Remove' : 'Make favorite',
-                button: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.starship.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () =>
-                      setState(() => widget.onFavoriteTap(widget.starship.id)),
-                ))),
+                button: FavoriteButtonWidget(
+                    isFavorite: widget.starship.isFavorite,
+                    onPressed: () => setState(
+                        () => widget.onFavoriteTap(widget.starship.id))))),
       ),
     );
   }

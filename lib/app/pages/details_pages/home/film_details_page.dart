@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
@@ -37,21 +38,13 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
           title: widget.film!.title,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          trailing: Tooltip(
-              message: widget.film!.isFavorite ? 'Remover' : 'Favoritar',
-              child: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.film!.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () => setState(
-                        () => _filmsRepository.setFavorite(
-                            context: context, id: widget.film!.id),
-                      )))),
+          trailing: FavoriteButtonWidget(
+            isFavorite: widget.film!.isFavorite,
+            onPressed: () => setState(
+              () => _filmsRepository.setFavorite(
+                  context: context, id: widget.film!.id),
+            ),
+          )),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(

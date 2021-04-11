@@ -18,14 +18,22 @@ class CustomBlurAppBar extends StatelessWidget {
         automaticallyImplyLeading: false,
         automaticallyImplyTitle: true,
         middle: position > 37.0
-            ? Text(title,
-                style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black87
-                        : Colors.yellow[600]))
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black87
+                                  : title == 'StarWars'
+                                      ? Colors.yellow[600]
+                                      : Colors.white)),
+                ],
+              )
             : null,
         stretch: true,
-        heroTag: title,
+        // heroTag: title,
         backgroundColor:
             Theme.of(context).scaffoldBackgroundColor.withAlpha(220),
         largeTitle: Text(title,
@@ -38,7 +46,9 @@ class CustomBlurAppBar extends StatelessWidget {
                         : 0.0),
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.black87
-                    : Colors.yellow[600])),
+                    : title == 'StarWars'
+                        ? Colors.yellow[600]
+                        : Colors.white)),
         border: Border.all(color: Colors.transparent));
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
+import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
@@ -36,21 +37,13 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
           title: widget.planet!.name,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          trailing: Tooltip(
-              message: widget.planet!.isFavorite ? 'Remover' : 'Favoritar',
-              child: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.planet!.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () => setState(
-                        () => _planetsRepository.setFavorite(
-                            context: context, id: widget.planet!.id),
-                      )))),
+          trailing: FavoriteButtonWidget(
+            isFavorite: widget.planet!.isFavorite,
+            onPressed: () => setState(
+              () => _planetsRepository.setFavorite(
+                  context: context, id: widget.planet!.id),
+            ),
+          )),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(

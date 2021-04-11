@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
+import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
@@ -35,21 +36,13 @@ class _SpecieDetailsPageState extends State<SpecieDetailsPage> {
           title: widget.specie!.name,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          trailing: Tooltip(
-              message: widget.specie!.isFavorite ? 'Remover' : 'Favoritar',
-              child: CupertinoButton(
-                  minSize: 30,
-                  padding: EdgeInsets.zero,
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Icon(
-                      widget.specie!.isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 28),
-                  onPressed: () => setState(
-                        () => _speciesRepository.setFavorite(
-                            context: context, id: widget.specie!.id),
-                      )))),
+          trailing: FavoriteButtonWidget(
+            isFavorite: widget.specie!.isFavorite,
+            onPressed: () => setState(
+              () => _speciesRepository.setFavorite(
+                  context: context, id: widget.specie!.id),
+            ),
+          )),
       body: LayoutBuilder(builder: (context, dimens) {
         return Scrollbar(
           child: ListView(
