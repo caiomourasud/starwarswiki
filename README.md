@@ -19,6 +19,14 @@
 <p>It saves this data using the <a href="https://pub.dev/packages/hive" target="_blank">Hive</a>, it is a "NoSQL database fast, pleasant and secure", I chose this database because it is "Cross platform: mobile, desktop, browser".</p>
 </br>
 
+# Choose your side(theme)
+<p>You can choose your favorite theme to enjoy the App</p>
+<p>
+  <img src="screens/light_side.png" height="360" alt="Light side screenshot">
+  <img src="screens/dark_side.png" alt="Dark side screenshot">
+</p>
+
+
 # Images
 <p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within this application, because StarWars without photos is not the same.</p>
 </br>
@@ -27,7 +35,7 @@
 <p>This is the first part of the application running on an iOS Emulator and MacOS App</p>
 <p>
   <img src="screens/ios_presentation.gif" height="360" alt="iOS screenshot">
-  <img src="screens/mac_presentation.gif" alt="MacOS screenshot">
+  <img src="screens/mac_presentation.gif" height="360" alt="MacOS screenshot">
 </p>
 </br>
 
