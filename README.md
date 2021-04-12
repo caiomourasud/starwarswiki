@@ -1,5 +1,4 @@
 <h1 align=center> StarWars Wiki </h3>
-</br>
 
 <p align=center> 
   <img src="screens/starwars_wiki_rotato.gif" height="340" alt="Light side screenshot">
