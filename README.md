@@ -1,7 +1,11 @@
 <h1 align=center> StarWars Wiki </h3>
+</br>
+
+<p align=center> 
+  <img src="screens/starwars_wiki_rotato.gif" height="340" alt="Light side screenshot">
+</p>
 
 <p align=center>
-  <img src="screens/starwars_wiki_rotato.gif" height="340" alt="Light side screenshot">
   This application is being created for me <br>
   redeem myself from a <a href="https://flutter.dev/" target="_blank">Flutter</a> challenge that I did recently and did not do very well. 😅
 </p>
