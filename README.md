@@ -34,7 +34,7 @@
 # Screenshots
 <p>This is the first part of the application running on an iOS Emulator and MacOS App</p>
 <p>
-  <img src="screens/ios_presentation.gif" height="340" alt="iOS screenshot">
+  <img src="screens/ios_presentation.gif" height="360" alt="iOS screenshot">
   <img src="screens/mac_presentation.gif" alt="MacOS screenshot">
 </p>
 </br>
