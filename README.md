@@ -32,7 +32,8 @@
 
 
 # Images
-<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart">class</a> to link photos about everything within this application, because StarWars without photos is not the same.</p>
+<p>I created a <a href="https://github.com/CaioMouraSud/starwarswiki/blob/main/lib/app/utils/image_generator.dart" target="_blank">class</a> to link photos about everything within this application, because StarWars without photos is not the same.</p>
+<p>I'm using <a href="https://pub.dev/packages/extended_image" target="_blank">Extended Image</a> to cache the App's images and allow them to be viewed offline, too, after the first upload.</p>
 </br>
 
 # Screenshots
