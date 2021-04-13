@@ -32,7 +32,7 @@ class PlanetsRepositiry {
     if (nextPage != null) {
       _url = nextPage;
     } else {
-      _planets.clear();
+      _planetsBox.clear();
     }
 
     while (charge) {

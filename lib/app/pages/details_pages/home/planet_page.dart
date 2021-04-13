@@ -17,18 +17,17 @@ final _planetsController = Modular.get<PlanetsController>();
 final _charactersController = Modular.get<CharactersController>();
 final _planetsRepository = PlanetsRepositiry();
 
-class PlanetDetailsPage extends StatefulWidget {
+class PlanetPage extends StatefulWidget {
   final Planet? planet;
   final int backButton;
 
-  const PlanetDetailsPage(
-      {Key? key, required this.planet, required this.backButton})
+  const PlanetPage({Key? key, required this.planet, required this.backButton})
       : super(key: key);
   @override
-  _PlanetDetailsPageState createState() => _PlanetDetailsPageState();
+  _PlanetPageState createState() => _PlanetPageState();
 }
 
-class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
+class _PlanetPageState extends State<PlanetPage> {
   @override
   Widget build(BuildContext context) {
     _planetsController.setList(widget);

@@ -1,43 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/custom_details.dart';
 import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
-import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
-import 'package:starwarswiki/app/models/database/vehicle.dart';
-import 'package:starwarswiki/app/repositories/vehicles_repository.dart';
+import 'package:starwarswiki/app/controllers/characters_controller.dart';
+import 'package:starwarswiki/app/controllers/species_controller.dart';
+import 'package:starwarswiki/app/models/database/specie.dart';
+import 'package:starwarswiki/app/repositories/species_repository.dart';
 
-final _vehiclesController = Modular.get<VehiclesController>();
-final _vehiclesRepository = VehiclesRepositiry();
+final _speciesController = Modular.get<SpeciesController>();
+final _charactersController = Modular.get<CharactersController>();
+final _speciesRepository = SpeciesRepositiry();
 
-class VehicleDetailsPage extends StatefulWidget {
-  final Vehicle? vehicle;
+class SpeciePage extends StatefulWidget {
+  final Specie? specie;
   final int backButton;
 
-  const VehicleDetailsPage(
-      {Key? key, required this.vehicle, required this.backButton})
+  const SpeciePage({Key? key, required this.specie, required this.backButton})
       : super(key: key);
   @override
-  _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
+  _SpeciePageState createState() => _SpeciePageState();
 }
 
-class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
+class _SpeciePageState extends State<SpeciePage> {
   @override
   Widget build(BuildContext context) {
-    _vehiclesController.setList(widget);
+    _speciesController.setList(widget);
     return Scaffold(
       appBar: CustomAppBar(
-          title: widget.vehicle!.name,
+          title: widget.specie!.name,
           backButton: widget.backButton,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           trailing: FavoriteButtonWidget(
-            isFavorite: widget.vehicle!.isFavorite,
+            isFavorite: widget.specie!.isFavorite,
             onPressed: () => setState(
-              () => _vehiclesRepository.setFavorite(
-                  context: context, id: widget.vehicle!.id),
+              () => _speciesRepository.setFavorite(
+                  context: context, id: widget.specie!.id),
             ),
           )),
       body: LayoutBuilder(builder: (context, dimens) {
@@ -46,23 +48,28 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
             padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 22.0),
             children: [
               CustomDetails(
-                id: widget.vehicle!.id,
-                type: 'vehicles',
-                name: widget.vehicle!.name,
-                firstDetailText: 'Class',
-                firstDetailValue: widget.vehicle!.vehicleClass,
-                secondDetailText: 'Model',
-                secondDetailValue: widget.vehicle!.model,
+                id: widget.specie!.id,
+                type: 'species',
+                name: widget.specie!.name,
+                firstDetailText: 'Classification',
+                firstDetailValue: widget.specie!.classification,
+                secondDetailText: 'Language',
+                secondDetailValue: widget.specie!.language,
               ),
               SizedBox(height: 24.0),
-              if (_vehiclesController.films.isNotEmpty)
-                Column(
+              Observer(builder: (_) {
+                _charactersController.people.where(
+                    (character) => widget.specie!.people[0] == character.url);
+                return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: CustomCardList()
                         .cardList(
                             context: context,
-                            films: _vehiclesController.films.isNotEmpty
-                                ? _vehiclesController.films
+                            characters: _speciesController.characters.isNotEmpty
+                                ? _speciesController.characters
+                                : null,
+                            films: _speciesController.films.isNotEmpty
+                                ? _speciesController.films
                                 : null)
                         .map((item) => CustomHorizontalList().list(
                             context: context,
@@ -77,7 +84,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                             card: (index) => item.card(context, dimens, index),
                             seeAll: false,
                             onTap: () => item.onSeeAllTap(context)))
-                        .toList()),
+                        .toList());
+              }),
             ],
           ),
         );

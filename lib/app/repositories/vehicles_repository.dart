@@ -32,7 +32,7 @@ class VehiclesRepositiry {
     if (nextPage != null) {
       _url = nextPage;
     } else {
-      _vehicles.clear();
+      _vehiclesBox.clear();
     }
 
     while (charge) {

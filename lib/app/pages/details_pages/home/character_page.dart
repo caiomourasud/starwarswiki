@@ -11,7 +11,7 @@ import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/models/characteristics_list.dart';
 import 'package:starwarswiki/app/models/database/people.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/planet_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/planet_page.dart';
 import 'package:starwarswiki/app/repositories/characters_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
@@ -21,18 +21,17 @@ import '../../../utils/capitalize.dart';
 final _charactersController = Modular.get<CharactersController>();
 final _charactersRepository = CharactersRepositiry();
 
-class CharacterDetailsPage extends StatefulWidget {
+class CharacterPage extends StatefulWidget {
   final People? character;
   final int backButton;
 
-  const CharacterDetailsPage(
-      {Key? key, this.character, required this.backButton})
+  const CharacterPage({Key? key, this.character, required this.backButton})
       : super(key: key);
   @override
-  _CharacterDetailsPageState createState() => _CharacterDetailsPageState();
+  _CharacterPageState createState() => _CharacterPageState();
 }
 
-class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
+class _CharacterPageState extends State<CharacterPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -151,7 +150,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                 child: GestureDetector(
                                   onTap: () => Navigator.push(context,
                                       CupertinoPageRoute(builder: (context) {
-                                    return PlanetDetailsPage(
+                                    return PlanetPage(
                                         planet: _charactersController.planet,
                                         backButton: width > md ? 2 : 1);
                                   })),
@@ -183,7 +182,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                 SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Divider(height: 0.0),
+                  child: Divider(height: 1.0),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(

@@ -1,4 +1,5 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 
@@ -18,7 +19,7 @@ class CachedImageWidget extends StatelessWidget {
         printError: false, loadStateChanged: (ExtendedImageState state) {
       switch (state.extendedImageLoadState) {
         case LoadState.loading:
-          return CircularProgressIndicator.adaptive();
+          return Center(child: CircularProgressIndicator.adaptive());
         case LoadState.completed:
           return ExtendedRawImage(
             image: state.extendedImageInfo?.image,
@@ -29,11 +30,7 @@ class CachedImageWidget extends StatelessWidget {
             child: Center(
               child: Opacity(
                 opacity: 0.4,
-                child: Text(
-                  "Load image failed, click to reload",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.overline,
-                ),
+                child: Icon(CupertinoIcons.arrow_clockwise),
               ),
             ),
             onTap: () {

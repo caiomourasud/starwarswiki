@@ -32,7 +32,7 @@ class StarshipsRepositiry {
     if (nextPage != null) {
       _url = nextPage;
     } else {
-      _starships.clear();
+      _starshipsBox.clear();
     }
 
     while (charge) {

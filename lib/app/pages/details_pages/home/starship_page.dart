@@ -13,18 +13,18 @@ import 'package:starwarswiki/app/repositories/starships_repository.dart';
 final _starshipsController = Modular.get<StarshipsController>();
 final _starshipsRepository = StarshipsRepositiry();
 
-class StarshipDetailsPage extends StatefulWidget {
+class StarshipPage extends StatefulWidget {
   final Starship? starship;
   final int backButton;
 
-  const StarshipDetailsPage(
+  const StarshipPage(
       {Key? key, required this.starship, required this.backButton})
       : super(key: key);
   @override
-  _StarshipDetailsPageState createState() => _StarshipDetailsPageState();
+  _StarshipPageState createState() => _StarshipPageState();
 }
 
-class _StarshipDetailsPageState extends State<StarshipDetailsPage> {
+class _StarshipPageState extends State<StarshipPage> {
   @override
   Widget build(BuildContext context) {
     _starshipsController.setList(widget);

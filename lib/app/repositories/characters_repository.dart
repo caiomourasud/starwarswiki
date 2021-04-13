@@ -50,11 +50,8 @@ class CharactersRepositiry {
       _characters = _peopleBox.values.toList();
 
       for (var json in list) {
-        // ignore: await_only_futures
-        final character = await People.fromJson(json);
+        final character = People.fromJson(json);
         character.name = character.name.replaceAll('Ã©', 'é');
-        // await setImage(id: character.id)
-        //     .then((value) => character.image = value);
         _characters.add(character);
         _peopleBox.add(character);
       }

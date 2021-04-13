@@ -4,10 +4,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:starwarswiki/app/components/navigation/custom_blur_appbar.dart';
 import 'package:starwarswiki/app/models/setting_list.dart';
+import 'package:starwarswiki/app/pages/details_pages/settings/github_page.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import 'details_pages/settings/appearance_details_page.dart';
+import 'details_pages/settings/appearance_page.dart';
 import '../controllers/settings_controller.dart';
+import 'details_pages/settings/feedback_page.dart';
 import 'details_pages/settings/profile_page.dart';
 
 final _settingsController = Modular.get<SettingsController>();
@@ -66,8 +68,28 @@ class _SettingsPageState extends State<SettingsPage> {
                       Theme.of(context).colorScheme.onSurface.withAlpha(100)),
             ],
           ),
-          page: AppearanceDetailsPage()),
-      // SettingList(id: 3, title: '', subtitle: '', trailing: SizedBox()),
+          page: AppearancePage()),
+      SettingList(
+          id: 3,
+          title: 'GitHub',
+          subtitle: 'caiomourasud/starwarswiki',
+          trailing: Icon(CupertinoIcons.chevron_forward,
+              size: 18,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(100)),
+          page: GithubPage()),
+      SettingList(id: 99, title: '', page: Container(), trailing: SizedBox()),
+      SettingList(
+          id: 4,
+          title: 'Feedback',
+          trailing: Icon(CupertinoIcons.chevron_forward,
+              size: 18,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(100)),
+          page: FeedbackPage()),
+      SettingList(
+          id: 98,
+          title: 'Version 1.0.0',
+          trailing: SizedBox(),
+          page: Scaffold()),
     ];
 
     return GestureDetector(
@@ -93,40 +115,109 @@ class _SettingsPageState extends State<SettingsPage> {
                         SliverList(
                             delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            return Observer(builder: (_) {
-                              return ListTile(
-                                selected: settings[index].id ==
-                                        _settingsController.settingSelected &&
-                                    width > md,
-                                selectedTileColor: Theme.of(context).focusColor,
-                                title: Text(settings[index].title,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface)),
-                                subtitle: Text(settings[index].subtitle,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface)),
-                                trailing: settings[index].trailing,
-                                onTap: () {
-                                  if (width <= md) {
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            title: settings[index].title,
-                                            builder: (context) {
-                                              return settings[index].page;
-                                            }));
-                                  }
-                                  setState(() {
-                                    _settingsController
-                                        .setSettingSelected(settings[index].id);
-                                  });
-                                },
-                              );
-                            });
+                            return settings[index].id == 99
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: Divider(height: 1.0),
+                                  )
+                                : settings[index].id == 98
+                                    ? ListTile(
+                                        title: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Opacity(
+                                              opacity: 0.6,
+                                              child: Text('Version 1.0.0',
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurface)),
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                    : Observer(builder: (_) {
+                                        return ListTile(
+                                          selected: settings[index].id ==
+                                                  _settingsController
+                                                      .settingSelected &&
+                                              width > md,
+                                          selectedTileColor:
+                                              Theme.of(context).focusColor,
+                                          title: Row(
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                    settings[index].title,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 17,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onSurface)),
+                                              ),
+                                            ],
+                                          ),
+                                          subtitle: settings[index].subtitle ==
+                                                  null
+                                              ? null
+                                              : Opacity(
+                                                  opacity: 0.6,
+                                                  child: Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 1.0),
+                                                          child: Text(
+                                                              settings[index]
+                                                                  .subtitle!,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          dense: true,
+                                          trailing: settings[index].trailing,
+                                          onTap: () {
+                                            if (width <= md) {
+                                              Navigator.push(
+                                                  context,
+                                                  CupertinoPageRoute(
+                                                      title:
+                                                          settings[index].title,
+                                                      builder: (context) {
+                                                        return settings[index]
+                                                            .page;
+                                                      }));
+                                            }
+                                            setState(() {
+                                              _settingsController
+                                                  .setSettingSelected(
+                                                      settings[index].id);
+                                            });
+                                          },
+                                        );
+                                      });
                           },
                           childCount: settings.length,
                         ))

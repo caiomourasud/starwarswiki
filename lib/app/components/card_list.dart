@@ -13,23 +13,23 @@ import 'package:starwarswiki/app/models/database/planet.dart';
 import 'package:starwarswiki/app/models/database/specie.dart';
 import 'package:starwarswiki/app/models/database/starship.dart';
 import 'package:starwarswiki/app/models/database/vehicle.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/character_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/character_page.dart';
 import 'package:starwarswiki/app/controllers/characters_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/character_listtile_widget.dart';
 import 'package:starwarswiki/app/pages/default_list_page.dart';
 import 'package:starwarswiki/app/components/list_tiles/film_listtile_widget.dart';
 import 'package:starwarswiki/app/controllers/films_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/planet_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/planet_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/planet_page.dart';
 import 'package:starwarswiki/app/controllers/planets_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/specie_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/specie_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/specie_page.dart';
 import 'package:starwarswiki/app/controllers/species_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/starship_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/starship_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/starship_page.dart';
 import 'package:starwarswiki/app/controllers/starships_controller.dart';
 import 'package:starwarswiki/app/components/list_tiles/vehicle_listtile_widget.dart';
-import 'package:starwarswiki/app/pages/details_pages/home/vehicle_details_page.dart';
+import 'package:starwarswiki/app/pages/details_pages/home/vehicle_page.dart';
 import 'package:starwarswiki/app/controllers/vehicles_controller.dart';
 import 'package:starwarswiki/app/repositories/characters_repository.dart';
 import 'package:starwarswiki/app/repositories/films_repository.dart';
@@ -41,7 +41,7 @@ import 'package:starwarswiki/app/utils/converters.dart';
 import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import '../pages/details_pages/home/film_details_page.dart';
+import '../pages/details_pages/home/film_page.dart';
 import 'custom_card_dialog.dart';
 
 import '../utils/capitalize.dart';
@@ -125,12 +125,12 @@ class CustomCardList {
                 onTap: () => width > md && filmsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: FilmDetailsPage(
+                        item: FilmPage(
                             film: films[index], backButton: filmsBackButton),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return FilmDetailsPage(
+                        return FilmPage(
                             film: films[index], backButton: width > md ? 2 : 1);
                       })));
           },
@@ -170,7 +170,7 @@ class CustomCardList {
                           if (width <= md) {
                             Navigator.push(context,
                                 CupertinoPageRoute(builder: (context) {
-                              return FilmDetailsPage(
+                              return FilmPage(
                                   film: item,
                                   backButton: filmsBackButton == 1
                                       ? width > md
@@ -188,7 +188,7 @@ class CustomCardList {
                               context: context, id: index);
                         });
                   }, childCount: _filmsController.filterFilms.length)),
-                  detailsPage: FilmDetailsPage(
+                  detailsPage: FilmPage(
                     backButton: 0,
                     film:
                         _filmsRepository.getById(_filmsController.filmSelected),
@@ -278,12 +278,12 @@ class CustomCardList {
                 onTap: () => width > md && charactersBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: CharacterDetailsPage(
+                        item: CharacterPage(
                             character: characters[index], backButton: 2),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return CharacterDetailsPage(
+                        return CharacterPage(
                             character: characters[index],
                             backButton: width > md ? 2 : 1);
                       })));
@@ -327,7 +327,7 @@ class CustomCardList {
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return CharacterDetailsPage(
+                                return CharacterPage(
                                     character: item,
                                     backButton: charactersBackButton == 1
                                         ? width > md
@@ -348,7 +348,7 @@ class CustomCardList {
                     },
                             childCount:
                                 _charactersController.filterCharacters.length)),
-                    detailsPage: CharacterDetailsPage(
+                    detailsPage: CharacterPage(
                       backButton: 0,
                       character: _charactersRepository
                           .getById(_charactersController.personSelected),
@@ -377,12 +377,11 @@ class CustomCardList {
                 onTap: () => width > md && planetsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: PlanetDetailsPage(
-                            planet: planets[index], backButton: 2),
+                        item: PlanetPage(planet: planets[index], backButton: 2),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return PlanetDetailsPage(
+                        return PlanetPage(
                             planet: planets[index],
                             backButton: width > md ? 2 : 1);
                       })));
@@ -425,7 +424,7 @@ class CustomCardList {
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return PlanetDetailsPage(
+                                return PlanetPage(
                                     planet: item,
                                     backButton: planetsBackButton == 1
                                         ? width > md
@@ -443,7 +442,7 @@ class CustomCardList {
                                 context: context, id: index);
                           });
                     }, childCount: _planetsController.filterPlanets.length)),
-                    detailsPage: PlanetDetailsPage(
+                    detailsPage: PlanetPage(
                       backButton: 0,
                       planet: _planetsRepository
                           .getById(_planetsController.planetSelected),
@@ -474,12 +473,11 @@ class CustomCardList {
                 onTap: () => width > md && speciesBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: SpecieDetailsPage(
-                            specie: species[index], backButton: 2),
+                        item: SpeciePage(specie: species[index], backButton: 2),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return SpecieDetailsPage(
+                        return SpeciePage(
                             specie: species[index],
                             backButton: width > md ? 2 : 1);
                       })));
@@ -522,7 +520,7 @@ class CustomCardList {
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return SpecieDetailsPage(
+                                return SpeciePage(
                                     specie: item,
                                     backButton: filmsBackButton == 1
                                         ? width > md
@@ -540,7 +538,7 @@ class CustomCardList {
                                 context: context, id: index);
                           });
                     }, childCount: _speciesController.filterSpecies.length)),
-                    detailsPage: SpecieDetailsPage(
+                    detailsPage: SpeciePage(
                         backButton: 0,
                         specie: _speciesRepository
                             .getById(_speciesController.specieSelected)),
@@ -600,12 +598,12 @@ class CustomCardList {
                 onTap: () => width > md && starshipsBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: StarshipDetailsPage(
+                        item: StarshipPage(
                             starship: starships[index], backButton: 2),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return StarshipDetailsPage(
+                        return StarshipPage(
                             starship: starships[index],
                             backButton: width > md ? 2 : 1);
                       })));
@@ -648,7 +646,7 @@ class CustomCardList {
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return StarshipDetailsPage(
+                                return StarshipPage(
                                     starship: item,
                                     backButton: starshipsBackButton == 1
                                         ? width > md
@@ -669,7 +667,7 @@ class CustomCardList {
                     },
                             childCount:
                                 _starshipsController.filterStarships.length)),
-                    detailsPage: StarshipDetailsPage(
+                    detailsPage: StarshipPage(
                       backButton: 0,
                       starship: _starshipsRepository
                           .getById(_starshipsController.starshipSelected),
@@ -698,12 +696,12 @@ class CustomCardList {
                 onTap: () => width > md && vehiclesBackButton == 2
                     ? CustomCardDialog().open(
                         context: context,
-                        item: VehicleDetailsPage(
+                        item: VehiclePage(
                             vehicle: vehicles[index], backButton: 2),
                       )
                     : Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                        return VehicleDetailsPage(
+                        return VehiclePage(
                             vehicle: vehicles[index],
                             backButton: width > md ? 2 : 1);
                       })));
@@ -746,7 +744,7 @@ class CustomCardList {
                             if (width <= md) {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return VehicleDetailsPage(
+                                return VehiclePage(
                                     vehicle: item,
                                     backButton: vehiclesBackButton == 1
                                         ? width > md
@@ -764,7 +762,7 @@ class CustomCardList {
                                 context: context, id: index);
                           });
                     }, childCount: _vehiclesController.filterVehicles.length)),
-                    detailsPage: VehicleDetailsPage(
+                    detailsPage: VehiclePage(
                       backButton: 0,
                       vehicle: _vehiclesRepository
                           .getById(_vehiclesController.vehicleSelected),

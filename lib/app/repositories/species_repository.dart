@@ -32,7 +32,7 @@ class SpeciesRepositiry {
     if (nextPage != null) {
       _url = nextPage;
     } else {
-      _species.clear();
+      _speciesBox.clear();
     }
 
     while (charge) {

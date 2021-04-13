@@ -19,17 +19,17 @@ final _filmsController = Modular.get<FilmsController>();
 final _charactersController = Modular.get<CharactersController>();
 final _filmsRepository = FilmsRepositiry();
 
-class FilmDetailsPage extends StatefulWidget {
+class FilmPage extends StatefulWidget {
   final Film? film;
   final int backButton;
 
-  const FilmDetailsPage({Key? key, this.film, required this.backButton})
+  const FilmPage({Key? key, this.film, required this.backButton})
       : super(key: key);
   @override
-  _FilmDetailsPageState createState() => _FilmDetailsPageState();
+  _FilmPageState createState() => _FilmPageState();
 }
 
-class _FilmDetailsPageState extends State<FilmDetailsPage> {
+class _FilmPageState extends State<FilmPage> {
   @override
   Widget build(BuildContext context) {
     _filmsController.setList(widget);
