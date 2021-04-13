@@ -5,10 +5,12 @@ class SettingList {
   final String title;
   final String subtitle;
   final Widget trailing;
+  final Widget page;
 
   SettingList(
       {required this.id,
       required this.title,
       required this.subtitle,
-      required this.trailing});
+      required this.trailing,
+      required this.page});
 }

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../cached_image_widget.dart';
+
 class SmallLineWidget extends StatelessWidget {
   final Widget? topText;
   final String title;
@@ -40,13 +42,7 @@ class SmallLineWidget extends StatelessWidget {
               child: Container(
                   height: height,
                   width: height,
-                  decoration: BoxDecoration(
-                      color: Colors.black87,
-                      image: DecorationImage(
-                        image: NetworkImage(image),
-                        alignment: Alignment.topCenter,
-                        fit: BoxFit.cover,
-                      ))),
+                  child: CachedImageWidget(url: image)),
             ),
             SizedBox(width: 12.0),
             Flexible(

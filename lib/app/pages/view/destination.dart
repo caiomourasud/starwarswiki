@@ -22,7 +22,7 @@ List<Destination> allDestinations = <Destination>[
   Destination(
       pagina: DefaultView(
         navigatorKey: _appController.searchNavigatorKey,
-        page: Container(),
+        page: Scaffold(),
       ),
       navigatorKey: _appController.searchNavigatorKey,
       icon: CupertinoIcons.search,

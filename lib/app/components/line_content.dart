@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:starwarswiki/app/utils/image_generator.dart';
+
+import 'cached_image_widget.dart';
 
 class LineContent extends StatelessWidget {
   final int? id;
@@ -35,16 +36,7 @@ class LineContent extends StatelessWidget {
           child: Container(
               height: height,
               width: width,
-              decoration: type == 'planets' && (id == 28 || id == 46)
-                  ? null
-                  : BoxDecoration(
-                      color: Colors.black87,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            ImageGenerator.generateImage(id: id!, type: type!)),
-                        alignment: Alignment.topCenter,
-                        fit: BoxFit.cover,
-                      ))),
+              child: CachedImageWidget(id: id!, type: type!)),
         ),
       SizedBox(width: 12.0),
       Flexible(

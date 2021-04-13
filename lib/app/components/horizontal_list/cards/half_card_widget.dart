@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 import '../../../utils/capitalize.dart';
+import '../../cached_image_widget.dart';
 
 class HalfCardWidget extends StatelessWidget {
   final String title;
@@ -43,17 +44,11 @@ class HalfCardWidget extends StatelessWidget {
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Container(
-                        height: widthPage <= sm
-                            ? widthPage * viewportFractionHeight!
-                            : height,
-                        width: widthPage <= sm ? widthPage * 0.45 : width,
-                        decoration: BoxDecoration(
-                            color: CupertinoColors.darkBackgroundGray,
-                            image: DecorationImage(
-                                image: NetworkImage(image),
-                                alignment: Alignment.center,
-                                fit: BoxFit.cover)),
-                      )),
+                          height: widthPage <= sm
+                              ? widthPage * viewportFractionHeight!
+                              : height,
+                          width: widthPage <= sm ? widthPage * 0.45 : width,
+                          child: CachedImageWidget(url: image))),
                 if (image == '')
                   Container(
                     height: widthPage <= sm

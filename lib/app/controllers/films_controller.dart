@@ -88,8 +88,10 @@ abstract class _FilmsControllerBase with Store {
     if (showFavorites) {
       var favorites = films.where((film) => film.isFavorite).toList();
       if (searchText == '') {
+        favorites.sort((a, b) => a.episodeId.compareTo(b.episodeId));
         return favorites;
       } else {
+        favorites.sort((a, b) => a.episodeId.compareTo(b.episodeId));
         return favorites
             .where((film) => Converters()
                 .simplifyString(film.title)
@@ -98,8 +100,10 @@ abstract class _FilmsControllerBase with Store {
       }
     } else {
       if (searchText == '') {
+        films.sort((a, b) => a.episodeId.compareTo(b.episodeId));
         return films;
       } else {
+        films.sort((a, b) => a.episodeId.compareTo(b.episodeId));
         return films
             .where((film) => Converters()
                 .simplifyString(film.title)

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:starwarswiki/app/utils/image_generator.dart';
 
 import '../utils/capitalize.dart';
+import 'cached_image_widget.dart';
 
 class CustomDetails extends StatelessWidget {
   final int id;
@@ -36,16 +36,9 @@ class CustomDetails extends StatelessWidget {
             semanticContainer: true,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Container(
-              height: 144.0,
-              width: 138.0,
-              decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          ImageGenerator.generateImage(id: id, type: type)),
-                      alignment: Alignment.topCenter,
-                      fit: BoxFit.cover)),
-            ),
+                height: 144.0,
+                width: 138.0,
+                child: CachedImageWidget(id: id, type: type)),
           ),
           SizedBox(
             width: 8.0,

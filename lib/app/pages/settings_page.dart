@@ -6,8 +6,9 @@ import 'package:starwarswiki/app/components/navigation/custom_blur_appbar.dart';
 import 'package:starwarswiki/app/models/setting_list.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
-import 'details_pages/settings/setting_details_page.dart';
+import 'details_pages/settings/appearance_details_page.dart';
 import '../controllers/settings_controller.dart';
+import 'details_pages/settings/profile_page.dart';
 
 final _settingsController = Modular.get<SettingsController>();
 
@@ -35,10 +36,11 @@ class _SettingsPageState extends State<SettingsPage> {
       SettingList(
           id: 1,
           title: 'Caio Moura',
-          subtitle: 'Flutter Developer',
+          subtitle: 'Flutter App Developer',
           trailing: Icon(CupertinoIcons.chevron_forward,
               size: 18,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(100))),
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(100)),
+          page: ProfilePage()),
       SettingList(
           id: 2,
           title: 'Appearance',
@@ -63,7 +65,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   color:
                       Theme.of(context).colorScheme.onSurface.withAlpha(100)),
             ],
-          )),
+          ),
+          page: AppearanceDetailsPage()),
       // SettingList(id: 3, title: '', subtitle: '', trailing: SizedBox()),
     ];
 
@@ -114,9 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         CupertinoPageRoute(
                                             title: settings[index].title,
                                             builder: (context) {
-                                              return SettingDetailsPage(
-                                                title: settings[index].title,
-                                              );
+                                              return settings[index].page;
                                             }));
                                   }
                                   setState(() {
@@ -149,11 +150,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     return _settingsController.settingSelected > 0 && width > md
                         ? Expanded(
                             child: ClipRect(
-                              child: SettingDetailsPage(
-                                title: settings[
-                                        _settingsController.settingSelected - 1]
-                                    .title,
-                              ),
+                              child: settings[
+                                      _settingsController.settingSelected - 1]
+                                  .page,
                             ),
                           )
                         : Expanded(

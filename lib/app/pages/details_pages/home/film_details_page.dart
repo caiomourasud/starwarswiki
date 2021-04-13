@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:starwarswiki/app/components/cached_image_widget.dart';
 import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
 import 'package:starwarswiki/app/components/navigation/custom_appbar.dart';
@@ -13,7 +14,6 @@ import 'package:starwarswiki/app/models/database/film.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/repositories/films_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
-import 'package:starwarswiki/app/utils/image_generator.dart';
 
 final _filmsController = Modular.get<FilmsController>();
 final _charactersController = Modular.get<CharactersController>();
@@ -59,19 +59,10 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Container(
-                        height: 280.0,
-                        width: 170.0,
-                        decoration: BoxDecoration(
-                            color: CupertinoColors.darkBackgroundGray,
-                            image: DecorationImage(
-                              image: NetworkImage(ImageGenerator.generateImage(
-                                  id: widget.film!.id, type: 'films')),
-                              alignment: Alignment.topCenter,
-                              fit: BoxFit.cover,
-                              colorFilter: new ColorFilter.mode(
-                                  Colors.black.withOpacity(0.1), BlendMode.xor),
-                            )),
-                      ),
+                          height: 280.0,
+                          width: 170.0,
+                          child: CachedImageWidget(
+                              id: widget.film!.id, type: 'films')),
                     ),
                     SizedBox(
                       width: 8.0,

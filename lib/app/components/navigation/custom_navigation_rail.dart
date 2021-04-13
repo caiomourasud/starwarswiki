@@ -26,8 +26,8 @@ class CustomNavigationRail extends StatelessWidget {
           child: IntrinsicHeight(
             child: Material(
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.black38
-                  : Colors.white38,
+                  ? Theme.of(context).hoverColor
+                  : CupertinoColors.white,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 28.0),
                 child: Column(

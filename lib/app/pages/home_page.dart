@@ -66,6 +66,8 @@ class _HomePageState extends State<HomePage> {
                         }),
                         SliverToBoxAdapter(
                           child: Observer(builder: (_) {
+                            _filmsController.films.sort(
+                                (a, b) => a.episodeId.compareTo(b.episodeId));
                             return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: CustomCardList()

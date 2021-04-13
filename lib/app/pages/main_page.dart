@@ -38,7 +38,10 @@ class _MainPageState extends State<MainPage> {
             bottomNavigationBar: dimens.maxWidth <= dimens.maxHeight ||
                     MediaQuery.of(context).size.width <= md
                 ? CupertinoTabBar(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context).hoverColor
+                            : CupertinoColors.white,
                     currentIndex: _appController.indexSelected,
                     onTap: (index) {
                       FocusScope.of(context).unfocus();
@@ -46,7 +49,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     items: allDestinations.asMap().entries.map((destination) {
                       return BottomNavigationBarItem(
-                        icon: Icon(destination.value.icon, size: 24),
+                        icon: Icon(destination.value.icon, size: 26),
                         tooltip: destination.value.tooltip,
                       );
                     }).toList(),

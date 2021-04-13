@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:starwarswiki/app/components/cached_image_widget.dart';
 import 'package:starwarswiki/app/components/card_list.dart';
 import 'package:starwarswiki/app/components/favorite_button_widget.dart';
 import 'package:starwarswiki/app/components/horizontal_list/custom_horizontal_list.dart';
@@ -13,7 +14,6 @@ import 'package:starwarswiki/app/models/database/people.dart';
 import 'package:starwarswiki/app/pages/details_pages/home/planet_details_page.dart';
 import 'package:starwarswiki/app/repositories/characters_repository.dart';
 import 'package:starwarswiki/app/utils/converters.dart';
-import 'package:starwarswiki/app/utils/image_generator.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 import '../../../utils/capitalize.dart';
@@ -96,19 +96,10 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                         semanticContainer: true,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         child: Container(
-                          height: 136.0,
-                          width: 130.0,
-                          decoration: BoxDecoration(
-                              color: CupertinoColors.darkBackgroundGray,
-                              // ignore: unnecessary_null_comparison
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      ImageGenerator.generateImage(
-                                          id: widget.character!.id,
-                                          type: 'characters')),
-                                  alignment: Alignment.topCenter,
-                                  fit: BoxFit.cover)),
-                        ),
+                            height: 136.0,
+                            width: 130.0,
+                            child: CachedImageWidget(
+                                id: widget.character!.id, type: 'characters')),
                       ),
                       SizedBox(
                         width: 8.0,

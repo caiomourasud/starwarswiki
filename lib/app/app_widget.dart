@@ -9,6 +9,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'controllers/app_controller.dart';
+import 'themes/custom_themes.dart';
 import 'utils/connectivity_status.dart';
 import 'utils/preferences.dart';
 
@@ -57,20 +58,8 @@ class _AppWidgetState extends State<AppWidget> {
       return MaterialApp(
         title: 'StarWars',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            brightness: Brightness.light,
-            accentColor: Colors.blue[700],
-            splashColor: Colors.transparent,
-            scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
-            cupertinoOverrideTheme:
-                CupertinoThemeData(primaryColor: Colors.blue[700])),
-        darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            accentColor: Colors.red[700],
-            splashColor: Colors.transparent,
-            scaffoldBackgroundColor: CupertinoColors.black,
-            cupertinoOverrideTheme:
-                CupertinoThemeData(primaryColor: Colors.red[700])),
+        theme: CustomThemes().light,
+        darkTheme: CustomThemes().dark,
         themeMode: _appController.autoTheme
             ? ThemeMode.system
             : _appController.isDarkTheme

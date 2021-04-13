@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:starwarswiki/code/breakpoints.dart';
 
 import '../../../utils/capitalize.dart';
+import '../../cached_image_widget.dart';
 
 class ThirdCardWidget extends StatelessWidget {
   final String title;
@@ -40,20 +41,15 @@ class ThirdCardWidget extends StatelessWidget {
               children: [
                 if (image != '')
                   Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Container(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Container(
                         height: widthPage <= sm
                             ? widthPage * viewportFractionHeight!
                             : height,
                         width: widthPage <= sm ? widthPage * 0.30 : width,
-                        decoration: BoxDecoration(
-                            color: CupertinoColors.darkBackgroundGray,
-                            image: DecorationImage(
-                                image: NetworkImage(image),
-                                alignment: Alignment.center,
-                                fit: BoxFit.cover)),
-                      )),
+                        child: CachedImageWidget(url: image)),
+                  ),
                 if (image == '')
                   Container(
                     height: widthPage <= sm
