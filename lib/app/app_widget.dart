@@ -30,7 +30,7 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   void initState() {
     prefs.getBool('auto_theme').then((auto) {
-      _appController.setAutoTheme(auto);
+      if (auto) _appController.setAutoTheme(auto);
     });
     prefs.getBool('is_dark_theme').then((tema) {
       _appController.setDarkTheme(tema);

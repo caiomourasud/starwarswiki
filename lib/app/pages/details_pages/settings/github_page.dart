@@ -48,7 +48,10 @@ class _GithubPageState extends State<GithubPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   'This application is being created for me redeem myself from a Flutter challenge that I did recently and did not do very well.',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(fontSize: 17),
                 ),
               ),
               SizedBox(height: 22.0),

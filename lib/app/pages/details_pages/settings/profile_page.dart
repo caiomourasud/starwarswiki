@@ -101,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
-                            ?.copyWith(fontSize: 18),
+                            ?.copyWith(fontSize: 17),
                         children: <TextSpan>[
                           TextSpan(
                             text: """I'm a""",

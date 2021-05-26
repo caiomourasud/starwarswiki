@@ -18,7 +18,7 @@ abstract class _AppControllerBase with Store {
   }
 
   @observable
-  bool autoTheme = false;
+  bool autoTheme = true;
 
   @action
   setAutoTheme(bool value) {

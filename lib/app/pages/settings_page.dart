@@ -71,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
           page: AppearancePage()),
       SettingList(
           id: 3,
-          title: 'GitHub',
+          title: 'Repository',
           subtitle: 'caiomourasud/starwarswiki',
           trailing: Icon(CupertinoIcons.chevron_forward,
               size: 18,
