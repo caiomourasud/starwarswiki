@@ -26,8 +26,8 @@
 # Choose your side(theme)
 <p>You can choose your favorite theme to enjoy the App</p>
 <p>
-  <img src="screens/light_side.png" height="320" alt="Light side screenshot">
-  <img src="screens/dark_side.png" height="320" alt="Dark side screenshot">
+  <img src="screens/light_side.png" height="520" alt="Light side screenshot">
+  <img src="screens/dark_side.png" height="520" alt="Dark side screenshot">
 </p>
 
 
@@ -39,8 +39,8 @@
 # Screenshots
 <p>This is the first part of the application running on an iOS Emulator and MacOS App</p>
 <p>
-  <img src="screens/ios_presentation.gif" height="360" alt="iOS screenshot">
-  <img src="screens/mac_presentation.gif" alt="MacOS screenshot">
+  <img src="screens/ios_presentation.gif" height="560" width="280" alt="iOS screenshot">
+  <img src="screens/mac_presentation.gif" height="380 width="620" alt="MacOS screenshot">
 </p>
 </br>
 
